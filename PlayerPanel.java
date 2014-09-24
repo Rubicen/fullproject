@@ -90,7 +90,6 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		JLabel label_1 = new JLabel("LOUD");
 		label_1.setBounds(365, 376, 39, 15);
 		add(label_1);
-		
 		setVisible(true);
 	}
 
