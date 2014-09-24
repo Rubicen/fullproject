@@ -65,27 +65,28 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			outname = vam.getOutName();
 			called = option;
 			audioname = audio;
+			System.out.print(outname);
 		}
 		
 		@Override
 		protected Void doInBackground() throws Exception {
 			outname = _main.getOutName();
-			
+			System.out.print(outname);
 			
 			if(called.equals("1")){
-				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+_outname+".mp4");
+				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+outname+".mp4");
 			}
 			
 			if(called.equals("21")){
-				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+_outname+".mp4");
+				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+outname+".mp4");
 				if(exitValue == 0){
-					exitValue = bashCommand("avconv -y -i "+_file+" -f mp3 -ab 192000 -vn "+_outname+"_audio.mp3");
+					exitValue = bashCommand("avconv -y -i "+_file+" -f mp3 -ab 192000 -vn "+outname+"_audio.mp3");
 				}
 				
 			}
 			
 			if(called.equals("22")){
-				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+_outname+".mp4");
+				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+outname+".mp4");
 				
 			}
 				
@@ -128,7 +129,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		}
 		
 		if(a.getSource().equals(_replace)){
-			if(!(_audioFile.getText().equals(null))){
+			if(!(_audioFile.getText().equals(""))){
 				File f = new File(_main.getOutName()+".mp4");
 				
 				if(!(_main.getOutName().equals("") || f.exists())){
@@ -188,7 +189,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		}
 		
 		if(a.getSource().equals(_overlay)){
-			if(!(_audioFile.getText().equals(null))){
+			if(!(_audioFile.getText().equals(""))){
 				File f = new File(_main.getOutName()+".mp4");
 				
 				if(!(_main.getOutName().equals("") || f.exists())){
@@ -224,7 +225,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		_strip.setEnabled(false);
 		_overlay.setEnabled(false);
 		
-		MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
+		MagicPaper job = new MagicPaper(vam,option,audio);
 		job.execute();
 	}
 	
