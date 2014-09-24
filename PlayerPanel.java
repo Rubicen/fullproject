@@ -30,14 +30,21 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private EmbeddedMediaPlayerComponent player = new EmbeddedMediaPlayerComponent();
 	private JPanel playerPanel = new JPanel();
 	File playicon = new File("PlayButton.png");
+	File pauseicon = new File("PauseButton.png");
 	private JButton playPause = new JButton(new ImageIcon(playicon.getAbsolutePath()));
 	//private JButton playPause = new JButton("Play");
-	private JButton backwards = new JButton("Back");
-	private JButton stop = new JButton("Stop");
-	private JButton fastForward = new JButton("FastForward");
+	File forwardicon = new File("ForwardButton.png");
+	private JButton fastForward = new JButton(new ImageIcon(forwardicon.getAbsolutePath()));
+	File stopicon = new File("StopIcon.png");
+	private JButton stop = new JButton(new ImageIcon(stopicon.getAbsolutePath()));
+	File backicon = new File("BackButton.png");
+	private JButton backwards = new JButton(new ImageIcon(backicon.getAbsolutePath()));
+	
 	File _file;
 	
-	private JButton mute = new JButton("Mute");
+	File unmuteicon = new File("UnmuteIcon.png");
+	File muteicon = new File("MuteButton.png");
+	private JButton mute = new JButton(new ImageIcon(muteicon.getAbsolutePath()));
 	private JSlider volume = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
 	private Timer timer = new Timer(10, this);
 	private JSlider _timeOfVideo = new JSlider();
@@ -60,38 +67,38 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		playerPanel.setVisible(true);
 		setLayout(null);
 		add(playerPanel);
-		backwards.setBounds(12, 349, 67, 25);
+		backwards.setBounds(12, 349, 32, 32);
 		
 		add(backwards);
 		
 		
 		backwards.addActionListener(this);
-		playPause.setBounds(91, 349, 80, 25);
+		playPause.setBounds(54, 349, 32, 32);
 		playPause.setMargin(new Insets(0, 0, 0, 0));
 		add(playPause);	
 		playPause.addActionListener(this);
-		fastForward.setBounds(187, 349, 124, 25);
+		fastForward.setBounds(98, 349, 32, 32);
 
 		add(fastForward);
 		fastForward.addActionListener(this);
-		mute.setBounds(12, 381, 70, 25);
+		mute.setBounds(186, 349, 32, 32);
 				
 		add(mute);
 		mute.addActionListener(this);
-		stop.setBounds(323, 349, 67, 25);
+		stop.setBounds(142, 349, 32, 32);
 		
 		add(stop);
 		stop.addActionListener(this);
 		
 		JLabel label = new JLabel("Lower");
-		label.setBounds(90, 391, 44, 15);
+		label.setBounds(236, 366, 44, 15);
 		add(label);
 		volume.setBackground(Color.LIGHT_GRAY);
-		volume.setBounds(152, 386, 200, 16);
+		volume.setBounds(230, 349, 182, 16);
 		add(volume);
 		volume.addChangeListener(this);
 		JLabel label_1 = new JLabel("LOUD");
-		label_1.setBounds(355, 391, 39, 15);
+		label_1.setBounds(373, 366, 39, 15);
 		add(label_1);
 		
 		_timeOfVideo.setBounds(12, 321, 400, 16);
@@ -134,15 +141,15 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			if(!player.getMediaPlayer().isPlaying()){
 				//Play button pressed
 				player.getMediaPlayer().play();
-				playPause.setText("Pause");
+				playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
 			}else if(player.getMediaPlayer().getRate() != 1){
 				//Set the play rate back to standard
 				player.getMediaPlayer().setRate(1);
-				playPause.setText("Pause");
+				playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
 			}else{
 				//Pause button pressed
 				player.getMediaPlayer().pause();
-				playPause.setText("Play");
+				playPause.setIcon(new ImageIcon(playicon.getAbsolutePath()));
 			}
 			
 		}else if(a.getSource().equals(backwards)){
@@ -151,7 +158,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			player.getMediaPlayer().pause();
 			
 			//Change play button back to default
-			playPause.setText("Play");
+			playPause.setIcon(new ImageIcon(playicon.getAbsolutePath()));
 			player.getMediaPlayer().setRate(1);
 			
 		}else if(a.getSource().equals(fastForward)){
@@ -160,21 +167,21 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			player.getMediaPlayer().setRate(4);
 			
 			//Change the play button back to play
-			playPause.setText("Play");
+			playPause.setIcon(new ImageIcon(playicon.getAbsolutePath()));
 			
 		}else if(a.getSource().equals(stop)){
 			player.getMediaPlayer().stop();
 			
 			//Change the play button back to play
-			playPause.setText("Play");
+			playPause.setIcon(new ImageIcon(playicon.getAbsolutePath()));
 			
 		}else if(a.getSource().equals(mute)){
 			if(!player.getMediaPlayer().isMute()){
 				player.getMediaPlayer().mute(true);
-				mute.setText("Unmute");
+				mute.setIcon(new ImageIcon(muteicon.getAbsolutePath()));
 			}else{
 				player.getMediaPlayer().mute(false);
-				mute.setText("Mute");
+				mute.setIcon(new ImageIcon(unmuteicon.getAbsolutePath()));
 			}
 		}else if(a.getSource().equals(timer)){
 			player.getMediaPlayer().skip(-100);
