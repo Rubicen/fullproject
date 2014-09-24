@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -11,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 
-public class TextPanel extends VamixPanel{
+public class TextPanel extends VamixPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -50,7 +52,7 @@ public class TextPanel extends VamixPanel{
 	private final JComboBox _creditSize = new JComboBox(_fontSizes);
 	private final JComboBox _creditColour = new JComboBox(_fontColours);
 	private final JButton btnLoadState = new JButton("Load State");
-	private final JButton btnNewButton_1 = new JButton("Add text");
+	private final JButton btnAddText = new JButton("Add text");
 
 	public TextPanel(VAMIX main){
 		setBackground(Color.LIGHT_GRAY);
@@ -111,9 +113,9 @@ public class TextPanel extends VamixPanel{
 		btnLoadState.setBounds(152, 154, 117, 25);
 		
 		add(btnLoadState);
-		btnNewButton_1.setBounds(644, 154, 117, 25);
+		btnAddText.setBounds(644, 154, 117, 25);
 		
-		add(btnNewButton_1);
+		add(btnAddText);
 		
 		JButton btnPreview = new JButton("Preview");
 		btnPreview.setBounds(515, 154, 117, 25);
@@ -140,11 +142,7 @@ public class TextPanel extends VamixPanel{
 		_file = file;
 	}
 	
-	/**
-	 * Adds input required to add text to the video (as specified) to the given command string
-	 * @param input Current command string
-	 * @return Command string with text part added
-	 */
+	
 	public String generate(String input){
 		//An example avconv that'll append text to the beginning and end
 		//avconv -i themagician.rmvb -vf "drawtext=
@@ -162,5 +160,18 @@ public class TextPanel extends VamixPanel{
 //		}
 		
 		return "Nonsense";
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource().equals(btnAddText)){
+			//Check if the given output name exists already
+			File output = new File(_main.getOutName());
+			if(output.exists()){
+				//Ask if we wish to overwrite the file
+				
+			}
+		}
 	}
 }
