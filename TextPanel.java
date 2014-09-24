@@ -135,14 +135,19 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		});	
 	}
 	
-	class TextWorker extends SwingWorker<Void, Integer>{
+	class TextWorker extends SwingWorker<Integer, Void>{
 
 		//Fields required by the worker
 		String cmd = "";
+		
+		public TextWorker(String inp){
+			cmd = inp;
+		}
+		
 		@Override
-		protected Void doInBackground() throws Exception {
-			// TODO Auto-generated method stub
-			return null;
+		protected Integer doInBackground() throws Exception {
+			int result = bashCommand(cmd);
+			return result;
 		}
 		
 	}
