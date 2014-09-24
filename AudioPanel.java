@@ -134,8 +134,11 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		if(a.getSource().equals(_replace)){
 			if(!(_audioFile.getText().equals(null))){
 				File f = new File(_main.getOutName()+".mp4");
-				
-				if(!(_main.getOutName().equals("") && !f.exists())){
+				if(f.exists()){
+					System.out.println("FUK");
+				}
+				if(!(_main.getOutName().equals("") || f.exists())){
+					System.out.println("FUCK");
 					MagicPaper job = new MagicPaper(_main,"1",_audioFile.getText());
 					job.execute();
 					
@@ -160,7 +163,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			File f = new File(_main.getOutName()+"_audio.mp3");
 			File f2 = new File(_main.getOutName()+".mp4");
 			
-			if(!(_main.getOutName().equals("") && !f.exists()) && !f2.exists()){
+			if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
 				Object[] options = {"Yes","No"};
 				int optionPicked = JOptionPane.showOptionDialog(this,
 			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
@@ -199,7 +202,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			if(!(_audioFile.getText().equals(null))){
 				File f = new File(_main.getOutName()+".mp4");
 				
-				if(!(_main.getOutName().equals("") && !f.exists())){
+				if(!(_main.getOutName().equals("") || f.exists())){
 					MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
 					job.execute();
 					

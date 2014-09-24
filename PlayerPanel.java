@@ -49,9 +49,9 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		playerPanel.setBackground(Color.LIGHT_GRAY);
 		
 		playerPanel.setPreferredSize(new Dimension(400,320));
+		playerPanel.add(player);
 		
 		playerPanel.add(canvas);
-		playerPanel.add(player);
 		playerPanel.setVisible(true);
 		setLayout(null);
 		add(playerPanel);
