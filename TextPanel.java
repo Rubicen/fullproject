@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -24,9 +26,9 @@ public class TextPanel extends VamixPanel{
 	private JLabel _openLabel = new JLabel("Opening Text");
 	private JTextArea _openText = new JTextArea("Enter Text Here");
 	
-	private JComboBox _openFont = new JComboBox(_fonts);
-	private JComboBox _openSize = new JComboBox(_fontSizes);
-	private JComboBox _openColour = new JComboBox(_fontColours);
+//	private JComboBox<String> _openFont = new JComboBox<String>(_fonts);
+//	private JComboBox<Integer> _openSize = new JComboBox<Integer>(_fontSizes);
+//	private JComboBox<String> _openColour = new JComboBox<String>(_fontColours);
 	
 	private JLabel _openScene = new JLabel("Create Opening Screen?");
 	private JCheckBox _openSceneCheck = new JCheckBox();
@@ -34,21 +36,24 @@ public class TextPanel extends VamixPanel{
 	private JLabel _creditLabel = new JLabel("Closing Text");
 	private JTextArea _creditText = new JTextArea("Enter Text Here");
 	
-	private JComboBox<String> _creditFont = new JComboBox<String>(_fonts);
-	private JComboBox<Integer> _creditSize = new JComboBox<Integer>(_fontSizes);
-	private JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
-	
-	private JLabel _creditScene = new JLabel("Create Closing Screen?");
-	private JCheckBox _creditSceneCheck = new JCheckBox();
+//	private JComboBox<String> _creditFont = new JComboBox<String>(_fonts);
+//	private JComboBox<Integer> _creditSize = new JComboBox<Integer>(_fontSizes);
+//	private JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
 	
 	private boolean _openClicked = false;
 	private boolean _creditClicked = false;
 
 	public TextPanel(VAMIX main){
+		setBackground(Color.LIGHT_GRAY);
 		//Set main
 		_main = main;
+		_openText.setBounds(12, 26, 229, 124);
 		
 		//Adding opening text options
+		_openText.setPreferredSize(new Dimension(600,19));
+		_openText.setLineWrap(true);
+		setLayout(null);
+		_openLabel.setBounds(12, 5, 94, 15);
 		add(_openLabel);
 		add(_openText);
 		//Logic that makes the enter text message vanish when clicked
@@ -61,13 +66,16 @@ public class TextPanel extends VamixPanel{
 				}
             }
 		});
-		add(_openFont);
-		add(_openSize);
-		add(_openColour);
-		add(_openScene);
-		add(_openSceneCheck);
+		
+//		add(_openFont);
+//		add(_openSize);
+//		add(_openColour);
+		_creditText.setBounds(387, 26, 268, 124);
 		
 		//Adding closing text options
+		_creditText.setPreferredSize(new Dimension(600,19));
+		_creditText.setLineWrap(true);
+		_creditLabel.setBounds(388, 5, 86, 15);
 		add(_creditLabel);
 		add(_creditText);
 		//Logic that makes the enter text message vanish when clicked
@@ -80,11 +88,11 @@ public class TextPanel extends VamixPanel{
 				}
             }
 		});
-		add(_creditFont);
-		add(_creditSize);
-		add(_creditColour);
-		add(_creditScene);
-		add(_creditSceneCheck);
+		
+//		add(_creditFont);
+//		add(_creditSize);
+//		add(_creditColour);
+		
 	}
 	
 	public void newInput(File file) {
@@ -109,11 +117,10 @@ public class TextPanel extends VamixPanel{
 		long length = _main.getLength();
 		
 		//Find the input font
-		switch((String)_openFont.getSelectedItem()){
+//		switch((String)_openFont.getSelectedItem()){
 		
-		}
+//		}
 		
 		return "Nonsense";
 	}
-
 }
