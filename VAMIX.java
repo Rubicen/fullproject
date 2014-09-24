@@ -72,7 +72,7 @@ public class VAMIX extends JFrame{
 	public void updateFile(File selectedFile) {
 		audioPanel.newInput(selectedFile);
 		playerPanel.newInput(selectedFile);
-		//text add here TODO
+		_textPanel.newInput(selectedFile);
 	}
 	
 	/**
