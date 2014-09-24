@@ -31,6 +31,9 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	
 	
 	public AudioPanel(VAMIX main){
+		_replace.setEnabled(false);
+		_strip.setEnabled(false);
+		_overlay.setEnabled(false);
 		_main = main;
 		_getAudio.setBounds(12, 5, 74, 25);
 		_getAudio.addActionListener(this);
@@ -212,11 +215,17 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	}
 
 	@Override
-	void newInput(File file) {
+	void newInput(File file,Boolean boo) {
 		_file = file;
-		_replace.setEnabled(true);
-		_strip.setEnabled(true);
-		_overlay.setEnabled(true);
+		if(boo){
+			_replace.setEnabled(true);
+			_strip.setEnabled(true);
+			_overlay.setEnabled(true);
+		}else{
+			_replace.setEnabled(false);
+			_strip.setEnabled(false);
+			_overlay.setEnabled(false);
+		}
 		
 	}
 	

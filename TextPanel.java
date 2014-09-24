@@ -54,8 +54,12 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private final JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
 	private final JButton btnLoadState = new JButton("Load State");
 	private final JButton btnAddText = new JButton("Add text");
+	private final JButton btnSaveButton = new JButton("Save State");
+	private final JButton btnPreview = new JButton("Preview");
 
 	public TextPanel(VAMIX main){
+		btnPreview.setEnabled(false);
+		btnAddText.setEnabled(false);
 		setBackground(Color.LIGHT_GRAY);
 		//Set main
 		_main = main;
@@ -108,9 +112,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		
 		add(_creditColour);
 		
-		JButton btnNewButton = new JButton("Save State");
-		btnNewButton.setBounds(12, 154, 117, 25);
-		add(btnNewButton);
+		
+		btnSaveButton.setBounds(12, 154, 117, 25);
+		add(btnSaveButton);
 		btnLoadState.setBounds(152, 154, 117, 25);
 		
 		add(btnLoadState);
@@ -119,7 +123,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		add(btnAddText);
 		btnAddText.addActionListener(this);
 		
-		JButton btnPreview = new JButton("Preview");
+		
 		btnPreview.setBounds(515, 154, 117, 25);
 		add(btnPreview);
 		//Logic that makes the enter text message vanish when clicked
@@ -139,8 +143,15 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		
 	}
 	
-	public void newInput(File file) {
+	public void newInput(File file,Boolean boo) {
 		//Set the current file to the _file field
+		if(boo){
+			btnPreview.setEnabled(true);
+			btnAddText.setEnabled(true);
+		}else{
+			btnPreview.setEnabled(false);
+			btnAddText.setEnabled(false);
+		}
 		_file = file;
 	}
 
