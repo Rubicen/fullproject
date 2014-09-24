@@ -8,6 +8,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
+import javax.swing.JButton;
 
 
 public class TextPanel extends VamixPanel{
@@ -42,12 +43,20 @@ public class TextPanel extends VamixPanel{
 	
 	private boolean _openClicked = false;
 	private boolean _creditClicked = false;
+	private final JComboBox _openFont = new JComboBox(_fonts);
+	private final JComboBox _openSize = new JComboBox(_fontSizes);
+	private final JComboBox _openColour = new JComboBox(_fontColours);
+	private final JComboBox _creditFont = new JComboBox(_fonts);
+	private final JComboBox _creditSize = new JComboBox(_fontSizes);
+	private final JComboBox _creditColour = new JComboBox(_fontColours);
+	private final JButton btnLoadState = new JButton("Load State");
+	private final JButton btnNewButton_1 = new JButton("Add text");
 
 	public TextPanel(VAMIX main){
 		setBackground(Color.LIGHT_GRAY);
 		//Set main
 		_main = main;
-		_openText.setBounds(12, 26, 229, 124);
+		_openText.setBounds(12, 26, 257, 124);
 		
 		//Adding opening text options
 		_openText.setPreferredSize(new Dimension(600,19));
@@ -78,6 +87,37 @@ public class TextPanel extends VamixPanel{
 		_creditLabel.setBounds(388, 5, 86, 15);
 		add(_creditLabel);
 		add(_creditText);
+		_openFont.setBounds(281, 26, 94, 24);
+		add(_openFont);
+		_openSize.setBounds(281, 64, 94, 24);
+		
+		add(_openSize);
+		_openColour.setBounds(281, 101, 94, 24);
+		
+		add(_openColour);
+		_creditFont.setBounds(667, 26, 94, 24);
+		
+		add(_creditFont);
+		_creditSize.setBounds(667, 64, 94, 24);
+		
+		add(_creditSize);
+		_creditColour.setBounds(667, 101, 94, 24);
+		
+		add(_creditColour);
+		
+		JButton btnNewButton = new JButton("Save State");
+		btnNewButton.setBounds(12, 154, 117, 25);
+		add(btnNewButton);
+		btnLoadState.setBounds(152, 154, 117, 25);
+		
+		add(btnLoadState);
+		btnNewButton_1.setBounds(644, 154, 117, 25);
+		
+		add(btnNewButton_1);
+		
+		JButton btnPreview = new JButton("Preview");
+		btnPreview.setBounds(515, 154, 117, 25);
+		add(btnPreview);
 		//Logic that makes the enter text message vanish when clicked
 		_creditText.addMouseListener(new MouseAdapter(){
 			@Override

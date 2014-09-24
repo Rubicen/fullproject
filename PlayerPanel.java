@@ -27,6 +27,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	
 	private EmbeddedMediaPlayerComponent player = new EmbeddedMediaPlayerComponent();
 	private JPanel playerPanel = new JPanel();
+	//private JButton playPause = new JButton(new ImageIcon("/home/logan/Documents/206/assignment3/assignment3/PlayButton.png"));
 	private JButton playPause = new JButton("Play");
 	private JButton backwards = new JButton("Back");
 	private JButton stop = new JButton("Stop");
@@ -58,6 +59,8 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		//newInput(null);
 		
 		add(backwards);
+		
+		
 		backwards.addActionListener(this);
 		playPause.setBounds(101, 334, 80, 25);
 		playPause.setMargin(new Insets(0, 0, 0, 0));
@@ -92,8 +95,8 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 
 	public void newInput(File file) {
 		//Set the currently playing file as given TODO
-		player.getMediaPlayer().playMedia(file.getAbsolutePath());
-		player.getMediaPlayer().pause();
+//		player.getMediaPlayer().playMedia(file.getAbsolutePath());
+//		player.getMediaPlayer().pause();
 	}
 
 	public void actionPerformed(ActionEvent a) {
@@ -132,6 +135,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			}
 		}else if(a.getSource().equals(timer)){
 			player.getMediaPlayer().skip(-10);
+			System.out.println("fuck");
 		}
 	}
 

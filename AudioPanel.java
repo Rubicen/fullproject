@@ -18,20 +18,19 @@ import javax.swing.SwingWorker;
 @SuppressWarnings("serial")
 public class AudioPanel extends VamixPanel implements ActionListener{
 	
-	File _file = new File("/home/logan/Documents/206/themagician.rmvb");
-	
-	
+	File _file;
+	VAMIX _main;
+	String _outname;
 	JButton _replace = new JButton("Replace");
 	JButton _strip = new JButton("Strip");
 	JButton _overlay = new JButton("Overlay");
 	JFileChooser _fileSelect = new JFileChooser();
-	JTextArea _stripname = new JTextArea();
 	JButton _getAudio = new JButton("Audio");
 	JTextField _audioFile = new JTextField();
-	JLabel _stripnamelabel = new JLabel("Name of the output file: ");
 	
 	
-	public AudioPanel(){
+	public AudioPanel(VAMIX main){
+		_main = main;
 		_getAudio.setBounds(12, 5, 74, 25);
 		_getAudio.addActionListener(this);
 		_replace.setBounds(116, 68, 90, 25);
@@ -49,11 +48,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		add(_replace);
 		add(_strip);
 		add(_overlay);
-		_stripname.setBounds(18, 152, 303, 19);
-		_stripname.setPreferredSize(new Dimension(100,19));
-		_stripnamelabel.setBounds(18, 117, 173, 15);
-		add(_stripnamelabel);
-		add(_stripname);
+		
 	}
 	
 	class MagicPaper extends SwingWorker<Void,Integer> {
@@ -65,32 +60,40 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		Process pro;
 		int exitValue;
 		
-		public MagicPaper(String out,String option,String audio){
-			outname = out;
+		public MagicPaper(VAMIX vam,String option,String audio){
+			outname = vam.getOutName();
 			called = option;
 			audioname = audio;
 		}
 		
 		@Override
 		protected Void doInBackground() throws Exception {
+
+			_outname = _main.getOutName();
 			_replace.setEnabled(false);
 			_strip.setEnabled(false);
 			_overlay.setEnabled(false);
 			
 			if(called.equals("1")){
-				exitValue = bashCommand("avconv -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+_stripname.getText()+".mkv");
+				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+_outname+".mp4");
+			}
+			
+			if(called.equals("21")){
+				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+_outname+".mp4");
+				if(exitValue == 0){
+					exitValue = bashCommand("avconv -y -i "+_file+" -f mp3 -ab 192000 -vn "+_outname+"_audio.mp3");
+				}
 				
 			}
 			
-			if(called.equals("2")){
-				exitValue = bashCommand("avconv -i "+_file+" -f mp3 -ab 192000 -vn "+_stripname.getText()+".mp3");
+			if(called.equals("22")){
+				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+_outname+".mp4");
 				
 			}
 				
 			if(called.equals("3")){
-				//FIX THIS SHIT PLZ THX K BYWE
-				exitValue = bashCommand("avconv -i "+_file+" -i "+audioname+" -filter_complex join=inputs=2 "+_stripname.getName());
-			
+				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -filter_complex amix=inputs=2:duration=longest:dropout_transition=3 -strict experimental "+_outname+".mp4");
+				
 			}
 			return null;
 		}
@@ -109,6 +112,9 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent a){
+		//TODO MAKE IT SO YOU CAN CHOOSE OVERWRITE WHEN THE DIALOG POPS UP
+		//TODO
+		//TODO
 		if(a.getSource().equals(_getAudio)){
 			_fileSelect.showOpenDialog(this);
 			File file = _fileSelect.getSelectedFile();
@@ -127,12 +133,23 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		
 		if(a.getSource().equals(_replace)){
 			if(!(_audioFile.getText().equals(null))){
-				File f = new File(_stripname.getText());
+				File f = new File(_main.getOutName()+".mp4");
 				
-				if(!(_stripname.getText().equals("") || f.exists())){
-					MagicPaper job = new MagicPaper(_stripname.getText(),"1",_audioFile.getText());
+				if(!(_main.getOutName().equals("") && !f.exists())){
+					MagicPaper job = new MagicPaper(_main,"1",_audioFile.getText());
 					job.execute();
 					
+				}else{
+					Object[] options = {"Overwrite","Don't overwrite"};
+					int optionPicked = JOptionPane.showOptionDialog(this,
+				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,null,options,null);
+					if(optionPicked == 0){
+						MagicPaper job = new MagicPaper(_main,"1",_audioFile.getText());
+						job.execute();
+					}else if(optionPicked == 1){
+						JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
+					}
 				}
 			}
 			
@@ -140,22 +157,63 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		}
 		
 		if(a.getSource().equals(_strip)){
-			File f = new File(_stripname.getText());
+			File f = new File(_main.getOutName()+"_audio.mp3");
+			File f2 = new File(_main.getOutName()+".mp4");
 			
-			if(!(_stripname.getText().equals("") || f.exists())){
-				MagicPaper job = new MagicPaper(_stripname.getText(),"2",null);
-				job.execute();
-				
+			if(!(_main.getOutName().equals("") && !f.exists()) && !f2.exists()){
+				Object[] options = {"Yes","No"};
+				int optionPicked = JOptionPane.showOptionDialog(this,
+			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,null,options,null);
+				if(optionPicked == 0){
+					MagicPaper job = new MagicPaper(_main,"21",null);
+					job.execute();
+				}else if(optionPicked==1){
+					MagicPaper job = new MagicPaper(_main,"22",null);
+					job.execute();
+				}
+			}else{
+				Object[] options = {"Overwrite","Don't overwrite"};
+				int optionPicked = JOptionPane.showOptionDialog(this,
+			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,null,options,null);
+				if(optionPicked == 0){
+					Object[] options2 = {"Yes","No"};
+					optionPicked = JOptionPane.showOptionDialog(this,
+				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,null,options2,null);
+					if(optionPicked == 0){
+						MagicPaper job = new MagicPaper(_main,"21",null);
+						job.execute();
+					}else if(optionPicked==1){
+						MagicPaper job = new MagicPaper(_main,"22",null);
+						job.execute();
+					}
+				}else if(optionPicked==1){
+					JOptionPane.showMessageDialog(this, "Please rename the outname");
+				}
 			}
 		}
 		
 		if(a.getSource().equals(_overlay)){
 			if(!(_audioFile.getText().equals(null))){
-				File f = new File(_stripname.getText());
+				File f = new File(_main.getOutName()+".mp4");
 				
-				if(!(_stripname.getText().equals("") || f.exists())){
-					MagicPaper job = new MagicPaper(_stripname.getText(),"3",_audioFile.getName());
+				if(!(_main.getOutName().equals("") && !f.exists())){
+					MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
 					job.execute();
+					
+				}else{
+					Object[] options = {"Overwrite","Don't overwrite"};
+					int optionPicked = JOptionPane.showOptionDialog(this,
+				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,null,options,null);
+					if(optionPicked == 0){
+						MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
+						job.execute();
+					}else if(optionPicked == 1){
+						JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
+					}
 					
 				}
 			}
