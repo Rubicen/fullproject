@@ -244,14 +244,10 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 		
 	}
 
-	void newInput(String file) {
+	void newInput(File file,Boolean boo) {
 		//Doesn't have to do anything when a file is selected
 	}
 
-	@Override
-	void newInput(File file) {
-		// TODO Auto-generated method stub
 		
-	}
 
 }

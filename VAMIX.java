@@ -76,10 +76,13 @@ public class VAMIX extends JFrame{
 	 * Update all components with the currently selected file
 	 * @param selectedFile the selected file
 	 */
-	public void updateFile(File selectedFile) {
-		audioPanel.newInput(selectedFile);
-		playerPanel.newInput(selectedFile);
-		_textPanel.newInput(selectedFile);
+	public void updateFile(File selectedFile,Boolean boo) {
+		
+		audioPanel.newInput(selectedFile,boo);
+		playerPanel.newInput(selectedFile,boo);
+		_textPanel.newInput(selectedFile,boo);
+		
+		
 	}
 	
 	/**

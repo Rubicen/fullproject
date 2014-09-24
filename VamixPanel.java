@@ -13,7 +13,7 @@ public abstract class VamixPanel extends JPanel{
 	 * Abstract method that will be used to tell panel what to do when a
 	 * file is opened in the OpenPanel
 	 */
-	abstract void newInput(File file);
+	abstract void newInput(File file,Boolean boo);
 	
 	/**
 	 * Helper method that starts the given command in bash

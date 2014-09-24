@@ -67,25 +67,34 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		playerPanel.setVisible(true);
 		setLayout(null);
 		add(playerPanel);
+		backwards.setBorderPainted(false);
+		backwards.setBackground(Color.LIGHT_GRAY);
 		backwards.setBounds(12, 349, 32, 32);
 		
 		add(backwards);
 		
 		
 		backwards.addActionListener(this);
-		playPause.setBounds(54, 349, 32, 32);
+		playPause.setBackground(Color.LIGHT_GRAY);
+		playPause.setBorderPainted(false);
+		playPause.setBounds(54, 349, 48, 48);
 		playPause.setMargin(new Insets(0, 0, 0, 0));
 		add(playPause);	
 		playPause.addActionListener(this);
-		fastForward.setBounds(98, 349, 32, 32);
+		fastForward.setBackground(Color.LIGHT_GRAY);
+		fastForward.setBounds(109, 349, 32, 32);
 
 		add(fastForward);
 		fastForward.addActionListener(this);
-		mute.setBounds(186, 349, 32, 32);
+		mute.setBackground(Color.LIGHT_GRAY);
+		mute.setBounds(199, 349, 32, 32);
+		mute.setBorderPainted(false);
 				
 		add(mute);
 		mute.addActionListener(this);
-		stop.setBounds(142, 349, 32, 32);
+		stop.setBackground(Color.LIGHT_GRAY);
+		stop.setBounds(153, 349, 32, 32);
+		stop.setBorderPainted(false);
 		
 		add(stop);
 		stop.addActionListener(this);
@@ -109,27 +118,13 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		setVisible(true);
 	}
 	
-	class MagicPaper extends SwingWorker<Void,Integer> {
-
-		@Override
-		protected Void doInBackground() throws Exception {
-			while(true){
-				publish(1);
-			}
-		}
-		
-		protected void process(Integer[] chunks){
-			setPosition();
-		}
 	
-	}
 	
-	public void newInput(File file) {
+	public void newInput(File file,Boolean boo) {
 		//Set the currently playing file as given TODO
 //		player.getMediaPlayer().playMedia(file.getAbsolutePath());
-//		playPause.setText("Pause");
-		MagicPaper job = new MagicPaper();
-		job.execute();
+//		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
+		
 	}
 	
 	public void actionPerformed(ActionEvent a) {

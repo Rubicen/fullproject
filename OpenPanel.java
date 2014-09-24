@@ -49,15 +49,21 @@ public class OpenPanel extends VamixPanel implements ActionListener{
 		int isValid = bashCommand(cmd);
 		
 		if(isValid == 0){
+			Boolean boo;
 			inputFile.setText(chosenFile);
 			//Have main frame update all panels with the new file
-			mainPanel.updateFile(fc.getSelectedFile());
+			if(bashCommand("file -ib " + chosenFile + " | grep -i \"video\\|octet-stream\"")==0){
+				boo = true;
+			}else{
+				boo=false;
+			}
+			mainPanel.updateFile(fc.getSelectedFile(),boo);
 		}else{
 			JOptionPane.showMessageDialog(this, chosenFile + " is not a valid file");
 		}
 	}
 
-	void newInput(File file) {
+	void newInput(File file,Boolean boo) {
 		//Not required by this class
 	}
 
