@@ -112,9 +112,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent a){
-		//TODO MAKE IT SO YOU CAN CHOOSE OVERWRITE WHEN THE DIALOG POPS UP
-		//TODO
-		//TODO
+		
 		if(a.getSource().equals(_getAudio)){
 			_fileSelect.showOpenDialog(this);
 			File file = _fileSelect.getSelectedFile();
@@ -162,6 +160,8 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		if(a.getSource().equals(_strip)){
 			File f = new File(_main.getOutName()+"_audio.mp3");
 			File f2 = new File(_main.getOutName()+".mp4");
+			
+			//TODO get it so it checks if the video has an audio stream to extract
 			
 			if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
 				Object[] options = {"Yes","No"};
