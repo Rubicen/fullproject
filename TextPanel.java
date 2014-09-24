@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 
@@ -22,7 +23,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private VAMIX _main;
 	
 	//Lists containing font options
-	private String[] _fonts = {"Mono", "Sans-Serif", "Serif"};
+	private String[] _fonts = {"Mono", "Sans", "Serif"};
 	private String[] _fontColours = {"White", "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Violet"};
 	private Integer[] _fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60};
 	
@@ -45,12 +46,12 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	
 	private boolean _openClicked = false;
 	private boolean _creditClicked = false;
-	private final JComboBox _openFont = new JComboBox(_fonts);
-	private final JComboBox _openSize = new JComboBox(_fontSizes);
-	private final JComboBox _openColour = new JComboBox(_fontColours);
-	private final JComboBox _creditFont = new JComboBox(_fonts);
-	private final JComboBox _creditSize = new JComboBox(_fontSizes);
-	private final JComboBox _creditColour = new JComboBox(_fontColours);
+	private final JComboBox<String> _openFont = new JComboBox<String>(_fonts);
+	private final JComboBox<Integer> _openSize = new JComboBox<Integer>(_fontSizes);
+	private final JComboBox<String> _openColour = new JComboBox<String>(_fontColours);
+	private final JComboBox<String> _creditFont = new JComboBox<String>(_fonts);
+	private final JComboBox<Integer> _creditSize = new JComboBox<Integer>(_fontSizes);
+	private final JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
 	private final JButton btnLoadState = new JButton("Load State");
 	private final JButton btnAddText = new JButton("Add text");
 
@@ -116,6 +117,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		btnAddText.setBounds(644, 154, 117, 25);
 		
 		add(btnAddText);
+		btnAddText.addActionListener(this);
 		
 		JButton btnPreview = new JButton("Preview");
 		btnPreview.setBounds(515, 154, 117, 25);
@@ -141,26 +143,6 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		//Set the current file to the _file field
 		_file = file;
 	}
-	
-	
-	public String generate(String input){
-		//An example avconv that'll append text to the beginning and end
-		//avconv -i themagician.rmvb -vf "drawtext=
-		//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':
-		//fontsize=24:fontcolor=white:draw='lt(t,10)', drawtext=
-		//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':fontsize=24:
-		//fontcolor=white:draw='gt(t,41)'" output3.avi
-		
-		//Find the length of the video
-		long length = _main.getLength();
-		
-		//Find the input font
-//		switch((String)_openFont.getSelectedItem()){
-		
-//		}
-		
-		return "Nonsense";
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -168,8 +150,92 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		if(e.getSource().equals(btnAddText)){
 			//Check if the given output name exists already
 			File output = new File(_main.getOutName());
+			
+			int optionPicked = 0;
 			if(output.exists()){
 				//Ask if we wish to overwrite the file
+				Object[] options = {"Overwrite","Don't overwrite"};
+				optionPicked = JOptionPane.showOptionDialog(this,
+			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE,null,options,null);
+			}
+			
+			if(optionPicked != 1){
+				//Carry out command
+				
+				//An example avconv that'll append text to the beginning and end
+				//avconv -i themagician.rmvb -vf "drawtext=
+				//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':
+				//fontsize=24:fontcolor=white:draw='lt(t,10)', drawtext=
+				//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':fontsize=24:
+				//fontcolor=white:draw='gt(t,41)'" output3.avi
+				
+				//Check if the user has entered text in each field
+				boolean startText = false;
+				boolean endText = false;
+				if(!_openText.getText().equals("") && _openClicked){
+					startText = true;
+				}
+				if(!_creditText.getText().equals("") && _creditClicked){
+					endText = true;
+				}
+				
+				//Check that any input was given
+				if(startText || endText){
+					
+					String cmd = "avconv -i " + _file + " -vf \"";
+					String oFilter = "";
+					String eFilter = "";
+					
+					//Get the input variables if required
+					if(startText){
+						//Get selected font
+						String oFont = (String) _openFont.getSelectedItem();
+						oFont = "/usr/share/fonts/truetype/freefont" + oFont + ".tff"; //I know this is cheap but it works
+						
+						//Get font size
+						int oSize = (int) _openSize.getSelectedItem();
+						
+						//Get font colour
+						String oColour = (String) _openColour.getSelectedItem();
+						oColour = oColour.toLowerCase();
+						
+						//Set up the command
+						oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
+								"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,10)'";
+					}
+					if(endText){
+						//Get selected font
+						String eFont = (String) _creditFont.getSelectedItem();
+						eFont = "/usr/share/fonts/truetype/freefont" + eFont + ".tff"; //I know this is cheap but it works
+						
+						//Get font size
+						int eSize = (int) _creditSize.getSelectedItem();
+						
+						//Get font colour
+						String eColour = (String) _creditColour.getSelectedItem();
+						eColour = eColour.toLowerCase();
+						
+						//Set up the command
+						eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
+								"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t," +
+								(_main.getLength()-10) + ")'";
+					}
+					
+					if(startText && endText){
+						//Both start and end text
+						cmd = cmd + oFilter + ", " + eFilter + "\" " + _main.getOutName() + ".mp4";
+					}else{
+						//Only one text
+						cmd = cmd + oFilter + eFilter + "\" " + _main.getOutName() + ".mp4";
+					}
+					
+					//Send the command to bash
+					System.out.println(cmd);
+				}else{
+					//Tell the user that no input was given
+					JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		}
