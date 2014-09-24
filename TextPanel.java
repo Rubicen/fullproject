@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.SwingWorker;
 
 
 public class TextPanel extends VamixPanel implements ActionListener{
@@ -78,10 +79,6 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				}
             }
 		});
-		
-//		add(_openFont);
-//		add(_openSize);
-//		add(_openColour);
 		_creditText.setBounds(387, 26, 268, 124);
 		
 		//Adding closing text options
@@ -131,11 +128,18 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					_creditClicked = true;
 				}
             }
-		});
-		
-//		add(_creditFont);
-//		add(_creditSize);
-//		add(_creditColour);
+		});	
+	}
+	
+	class TextWorker extends SwingWorker<Void, Integer>{
+
+		//Fields required by the worker
+		String cmd = "";
+		@Override
+		protected Void doInBackground() throws Exception {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		
 	}
 	
@@ -163,7 +167,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			if(optionPicked != 1){
 				//Carry out command
 				
-				//An example avconv that'll append text to the beginning and end
+				//An example avconv that'll append text to the beginning and end from 
+				//http://stackoverflow.com/questions/6195872/applying-multiple-filters-at-once-with-ffmpeg
 				//avconv -i themagician.rmvb -vf "drawtext=
 				//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':
 				//fontsize=24:fontcolor=white:draw='lt(t,10)', drawtext=
