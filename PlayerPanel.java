@@ -49,6 +49,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		playerPanel.setBackground(Color.LIGHT_GRAY);
 		
 		playerPanel.setPreferredSize(new Dimension(400,320));
+		player.setPreferredSize(new Dimension(400,320));
 		playerPanel.add(player);
 		
 		playerPanel.add(canvas);
@@ -94,9 +95,9 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	}
 
 	public void newInput(File file) {
-		//Set the currently playing file as given TODO
+		//Set the currently playing file as given
 		player.getMediaPlayer().playMedia(file.getAbsolutePath());
-		player.getMediaPlayer().pause();
+		playPause.setText("Pause");
 	}
 
 	public void actionPerformed(ActionEvent a) {
@@ -110,20 +111,38 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 				//Play button pressed
 				player.getMediaPlayer().play();
 				playPause.setText("Pause");
+			}else if(player.getMediaPlayer().getRate() != 1){
+				//Set the play rate back to standard
+				player.getMediaPlayer().setRate(1);
+				playPause.setText("Pause");
 			}else{
 				//Pause button pressed
 				player.getMediaPlayer().pause();
 				playPause.setText("Play");
 			}
+			
 		}else if(a.getSource().equals(backwards)){
-			//Begin the timer that will trigger backwards jumps
+			//Begin the timer that will trigger backwards jumps and pause the video
 			timer.start();
+			player.getMediaPlayer().pause();
+			
+			//Change play button back to default
+			playPause.setText("Play");
+			player.getMediaPlayer().setRate(1);
 			
 		}else if(a.getSource().equals(fastForward)){
-			player.getMediaPlayer().setRate((float) 2.0);
+			//Set rate to fast forward and start playing if it isn't
+			player.getMediaPlayer().play();
+			player.getMediaPlayer().setRate(4);
+			
+			//Change the play button back to play
+			playPause.setText("Play");
 			
 		}else if(a.getSource().equals(stop)){
 			player.getMediaPlayer().stop();
+			
+			//Change the play button back to play
+			playPause.setText("Play");
 			
 		}else if(a.getSource().equals(mute)){
 			if(!player.getMediaPlayer().isMute()){
@@ -134,8 +153,8 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 				mute.setText("Mute");
 			}
 		}else if(a.getSource().equals(timer)){
-			player.getMediaPlayer().skip(-10);
-			System.out.println("fuck");
+			player.getMediaPlayer().skip(-100);
+			timer.start();
 		}
 	}
 
