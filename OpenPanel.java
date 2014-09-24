@@ -44,8 +44,8 @@ public class OpenPanel extends VamixPanel implements ActionListener{
 		fc.showOpenDialog(this);
 		
 		//Check if the selected file is an audio or video file
-		String chosenFile = fc.getSelectedFile().toString();
-		String cmd = "file -b --mime-type " + chosenFile + " | egrep -i \"audio/mpeg/|video\"";
+		String chosenFile = fc.getSelectedFile().getPath();
+		String cmd = "file -ib " + chosenFile + " | grep -i \"video\\|mpeg\\|octet-stream\\|audio\"";
 		int isValid = bashCommand(cmd);
 		
 		if(isValid == 0){
