@@ -37,7 +37,7 @@ public class VAMIX extends JFrame{
 		openPanel.setBackground(Color.LIGHT_GRAY);
 		openPanel.setBounds(444, 0, 350, 84);
 		getContentPane().add(openPanel);
-		_textPanel.setBounds(10, 408, 784, 152);
+		_textPanel.setBounds(5, 408, 784, 160);
 		getContentPane().add(_textPanel);
 	}
 	
