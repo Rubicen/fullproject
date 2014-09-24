@@ -12,6 +12,8 @@ import com.sun.jna.NativeLibrary;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 @SuppressWarnings("serial")
@@ -30,7 +32,12 @@ public class VAMIX extends JFrame{
 		setSize(800,620);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
-		
+		this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                playerPanel.destroy();
+            }
+		});
 		
 		_outName.setBounds(452, 385, 336, 19);
 		getContentPane().add(_outName);
@@ -85,5 +92,9 @@ public class VAMIX extends JFrame{
 	
 	public String getOutName(){
 		return _outName.getText();
+	}
+	
+	public void setEnabled(){
+		
 	}
 }

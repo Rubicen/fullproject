@@ -27,6 +27,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	JFileChooser _fileSelect = new JFileChooser();
 	JButton _getAudio = new JButton("Audio");
 	JTextField _audioFile = new JTextField();
+	//TODO maybe add loading bar (fake) for this
 	
 	
 	public AudioPanel(VAMIX main){
@@ -68,11 +69,8 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		
 		@Override
 		protected Void doInBackground() throws Exception {
-
-			_outname = _main.getOutName();
-			_replace.setEnabled(false);
-			_strip.setEnabled(false);
-			_overlay.setEnabled(false);
+			outname = _main.getOutName();
+			
 			
 			if(called.equals("1")){
 				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+_outname+".mp4");
@@ -132,13 +130,9 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		if(a.getSource().equals(_replace)){
 			if(!(_audioFile.getText().equals(null))){
 				File f = new File(_main.getOutName()+".mp4");
-				if(f.exists()){
-					System.out.println("FUK");
-				}
+				
 				if(!(_main.getOutName().equals("") || f.exists())){
-					System.out.println("FUCK");
-					MagicPaper job = new MagicPaper(_main,"1",_audioFile.getText());
-					job.execute();
+					swingMaker(_main,"1",_audioFile.getText());
 					
 				}else{
 					Object[] options = {"Overwrite","Don't overwrite"};
@@ -146,8 +140,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options,null);
 					if(optionPicked == 0){
-						MagicPaper job = new MagicPaper(_main,"1",_audioFile.getText());
-						job.execute();
+						swingMaker(_main,"1",_audioFile.getText());
 					}else if(optionPicked == 1){
 						JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
 					}
@@ -169,11 +162,9 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
 			    JOptionPane.QUESTION_MESSAGE,null,options,null);
 				if(optionPicked == 0){
-					MagicPaper job = new MagicPaper(_main,"21",null);
-					job.execute();
+					swingMaker(_main,"21",null);
 				}else if(optionPicked==1){
-					MagicPaper job = new MagicPaper(_main,"22",null);
-					job.execute();
+					swingMaker(_main,"22",null);
 				}
 			}else{
 				Object[] options = {"Overwrite","Don't overwrite"};
@@ -186,11 +177,9 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options2,null);
 					if(optionPicked == 0){
-						MagicPaper job = new MagicPaper(_main,"21",null);
-						job.execute();
+						swingMaker(_main,"21",null);
 					}else if(optionPicked==1){
-						MagicPaper job = new MagicPaper(_main,"22",null);
-						job.execute();
+						swingMaker(_main,"22",null);
 					}
 				}else if(optionPicked==1){
 					JOptionPane.showMessageDialog(this, "Please rename the outname");
@@ -203,8 +192,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 				File f = new File(_main.getOutName()+".mp4");
 				
 				if(!(_main.getOutName().equals("") || f.exists())){
-					MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
-					job.execute();
+					swingMaker(_main,"3",_audioFile.getText());
 					
 				}else{
 					Object[] options = {"Overwrite","Don't overwrite"};
@@ -212,8 +200,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options,null);
 					if(optionPicked == 0){
-						MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
-						job.execute();
+						swingMaker(_main,"3",_audioFile.getText());
 					}else if(optionPicked == 1){
 						JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
 					}
@@ -231,4 +218,14 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		_overlay.setEnabled(true);
 		
 	}
+	
+	public void swingMaker(VAMIX vam,String option,String audio){
+		_replace.setEnabled(false);
+		_strip.setEnabled(false);
+		_overlay.setEnabled(false);
+		
+		MagicPaper job = new MagicPaper(_main,"3",_audioFile.getText());
+		job.execute();
+	}
+	
 }

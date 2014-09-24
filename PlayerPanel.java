@@ -14,11 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import javax.swing.JProgressBar;
 
 
 public class PlayerPanel extends VamixPanel implements ActionListener, ChangeListener{
@@ -27,8 +29,9 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	
 	private EmbeddedMediaPlayerComponent player = new EmbeddedMediaPlayerComponent();
 	private JPanel playerPanel = new JPanel();
-	//private JButton playPause = new JButton(new ImageIcon("/home/logan/Documents/206/assignment3/assignment3/PlayButton.png"));
-	private JButton playPause = new JButton("Play");
+	File playicon = new File("PlayButton.png");
+	private JButton playPause = new JButton(new ImageIcon(playicon.getAbsolutePath()));
+	//private JButton playPause = new JButton("Play");
 	private JButton backwards = new JButton("Back");
 	private JButton stop = new JButton("Stop");
 	private JButton fastForward = new JButton("FastForward");
@@ -37,6 +40,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private JButton mute = new JButton("Mute");
 	private JSlider volume = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
 	private Timer timer = new Timer(10, this);
+	private JSlider _timeOfVideo = new JSlider();
 	
 	public PlayerPanel(){
 		setBackground(Color.LIGHT_GRAY);
@@ -56,53 +60,74 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		playerPanel.setVisible(true);
 		setLayout(null);
 		add(playerPanel);
-		backwards.setBounds(22, 334, 67, 25);
-		//newInput(null);
+		backwards.setBounds(12, 349, 67, 25);
 		
 		add(backwards);
 		
 		
 		backwards.addActionListener(this);
-		playPause.setBounds(101, 334, 80, 25);
+		playPause.setBounds(91, 349, 80, 25);
 		playPause.setMargin(new Insets(0, 0, 0, 0));
 		add(playPause);	
 		playPause.addActionListener(this);
-		fastForward.setBounds(197, 334, 124, 25);
+		fastForward.setBounds(187, 349, 124, 25);
 
 		add(fastForward);
 		fastForward.addActionListener(this);
-		mute.setBounds(22, 366, 70, 25);
+		mute.setBounds(12, 381, 70, 25);
 				
 		add(mute);
 		mute.addActionListener(this);
-		stop.setBounds(333, 334, 67, 25);
+		stop.setBounds(323, 349, 67, 25);
 		
 		add(stop);
 		stop.addActionListener(this);
 		
 		JLabel label = new JLabel("Lower");
-		label.setBounds(100, 376, 44, 15);
+		label.setBounds(90, 391, 44, 15);
 		add(label);
 		volume.setBackground(Color.LIGHT_GRAY);
-		volume.setBounds(162, 371, 200, 16);
+		volume.setBounds(152, 386, 200, 16);
 		add(volume);
 		volume.addChangeListener(this);
 		JLabel label_1 = new JLabel("LOUD");
-		label_1.setBounds(365, 376, 39, 15);
+		label_1.setBounds(355, 391, 39, 15);
 		add(label_1);
+		
+		_timeOfVideo.setBounds(12, 321, 400, 16);
+		_timeOfVideo.setMaximum(100);
+		_timeOfVideo.setValue(0);
+		_timeOfVideo.setEnabled(false);
+		add(_timeOfVideo);
 		setVisible(true);
 	}
+	
+	class MagicPaper extends SwingWorker<Void,Integer> {
 
+		@Override
+		protected Void doInBackground() throws Exception {
+			while(true){
+				publish(1);
+			}
+		}
+		
+		protected void process(Integer[] chunks){
+			setPosition();
+		}
+	
+	}
+	
 	public void newInput(File file) {
-		//Set the currently playing file as given
+		//Set the currently playing file as given TODO
 		player.getMediaPlayer().playMedia(file.getAbsolutePath());
 		playPause.setText("Pause");
+		MagicPaper job = new MagicPaper();
+		job.execute();
 	}
-
+	
 	public void actionPerformed(ActionEvent a) {
 		//Disable the backwards timer as another event has taken place
 		timer.stop();
-		
 		//Check which button was pressed
 		if(a.getSource().equals(playPause)){
 			//Check if the pause or play button was pressed
@@ -169,5 +194,18 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 */
 	public long getLength(){
 		return player.getMediaPlayer().getLength();
+	}
+	
+	public void destroy(){
+		player.getMediaPlayer().stop();
+		player.getMediaPlayer().release();
+	}
+	
+	public float getPosition(){
+		return player.getMediaPlayer().getPosition();
+	}
+	
+	public void setPosition(){
+		_timeOfVideo.setValue((int) (getPosition()/getLength()));
 	}
 }
