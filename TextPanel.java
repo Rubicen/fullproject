@@ -203,6 +203,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		
 		protected void done(){
+			//Enable the button again
+			_btnPreview.setEnabled(true);
+			
 			//Display the preview video on a new frame
 			JFrame previewFrame = new JFrame();
 			EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
@@ -432,6 +435,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		
 		else if(e.getSource().equals(_btnPreview)){
+			//Disable preview button
+			_btnPreview.setEnabled(false);
+			
 			//Check if the user has entered text in each field
 			boolean startText = false;
 			boolean endText = false;
