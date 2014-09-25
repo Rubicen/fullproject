@@ -10,12 +10,14 @@ public class JTextFieldLimit extends PlainDocument {
   
 	private static final long serialVersionUID = 1L;
 	private int _limit;
-
+	
+	//sets the text limit
 	JTextFieldLimit(int limit) {
 		super();
 		this._limit = limit;
 	}
-
+	
+	//inserts a string to the plaindocument
 	public void insertString( int offset, String  str, javax.swing.text.AttributeSet attr ) throws BadLocationException {
 		if (str == null) return;
 

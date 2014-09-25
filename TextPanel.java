@@ -39,20 +39,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	
 	private JLabel _openLabel = new JLabel("Opening Text");
 	private JTextArea _openText = new JTextArea("Enter Text Here");
-	
-//	private JComboBox<String> _openFont = new JComboBox<String>(_fonts);
-//	private JComboBox<Integer> _openSize = new JComboBox<Integer>(_fontSizes);
-//	private JComboBox<String> _openColour = new JComboBox<String>(_fontColours);
-	
+		
 	private JLabel _openScene = new JLabel("Create Opening Screen?");
 	private JCheckBox _openSceneCheck = new JCheckBox();
 	
 	private JLabel _creditLabel = new JLabel("Closing Text");
 	private JTextArea _creditText = new JTextArea("Enter Text Here");
 	
-//	private JComboBox<String> _creditFont = new JComboBox<String>(_fonts);
-//	private JComboBox<Integer> _creditSize = new JComboBox<Integer>(_fontSizes);
-//	private JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
 	
 	private boolean _openClicked = false;
 	private boolean _creditClicked = false;
@@ -163,7 +156,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			cmd = inp;
 		}
 		
-		@Override
+		//returns the textpanels needed cmd information
 		protected Integer doInBackground() throws Exception {
 			int result = bashCommand(cmd);
 			return result;

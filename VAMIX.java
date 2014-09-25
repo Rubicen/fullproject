@@ -87,12 +87,14 @@ public class VAMIX extends JFrame{
 	
 	/**
 	 * Get the length of the current video
-	 * @return
 	 */
 	public long getLength(){
 		return _playerPanel.getLength();
 	}
 	
+	/**
+	 * gets the outname of the text for the other boxes that require it for outputting files
+	 */
 	public String getOutName(){
 		return _outName.getText();
 	}

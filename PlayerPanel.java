@@ -47,6 +47,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private Timer _timerforupdateplay = new Timer(500,this);
 	private JSlider _timeOfVideo = new JSlider();
 	
+	//Starting and setting of all parameters for the swing parts
 	public PlayerPanel(){
 		setBackground(Color.LIGHT_GRAY);
 		_timerforupdateplay.start();
@@ -119,14 +120,17 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	}
 	
 	
-	
+	/**
+	 * sets the player to the file input, and a boolean which is not used here
+	 */
 	public void newInput(File file,Boolean boo) {
 		_player.getMediaPlayer().mute(false);
-		_player.getMediaPlayer().playMedia(file.getAbsolutePath());
+//		_player.getMediaPlayer().playMedia(file.getAbsolutePath());
 		_playPause.setIcon(new ImageIcon(_pauseicon.getAbsolutePath()));
 		_player.getMediaPlayer().mute(false);
 	}
 	
+	//Basic actionperformed check
 	public void actionPerformed(ActionEvent a) {
 		//Disable the backwards timer as another event has taken place
 		_timer.stop();
@@ -178,9 +182,11 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 				_player.getMediaPlayer().mute(false);
 				_mute.setIcon(new ImageIcon(_muteicon.getAbsolutePath()));
 			}
+			//allows the rewinding
 		}else if(a.getSource().equals(_timer)){
 			_player.getMediaPlayer().skip(-100);
 			_timer.start();
+			//Updates the playbar under the play window to the current position of the video
 		}else if(a.getSource().equals(_timerforupdateplay)){
 			Float f = _player.getMediaPlayer().getPosition()*100;
 			
@@ -203,6 +209,9 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		return _player.getMediaPlayer().getLength()/1000;
 	}
 	
+	/**
+	 * destroys all active non-automatically closing parts of playerpanel
+	 */
 	public void destroy(){
 		_player.getMediaPlayer().stop();
 		_player.getMediaPlayer().release();
