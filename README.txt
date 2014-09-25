@@ -1,4 +1,4 @@
-#This readme is to comilation of help for lhor612 and sbut*******
+#This readme is to comilation of help for lhor612 and sbut576
 #and is a general help guide
 
 --------------------------------------------------------------------
@@ -15,8 +15,7 @@ Contents
 1.STARTUP
 --------------------------------------------------------------------
 
-Upon getting VAMIX, you must run it using the console. Navigate to
-the directory of the VAMIX using cd [directory] and cd .. to get around. Once in the directory, use the command below to allow running of the .jar file.
+Upon getting VAMIX, you must run it using the console. Navigate to the directory of the VAMIX using cd [directory] and cd .. to get around. Once in the directory, use the command below to allow running of the .jar file.
 
 >java -jar VAMIX.jar *****************************
 
@@ -26,8 +25,7 @@ Once running, it may take a short time to begin on slower machines.
 2.Opening files
 --------------------------------------------------------------------
 
-Once the VAMIX is running, you can select files from directories on
-your system utilising the OPEN button, and then navigating through directories using the panel. Once a file is selected, there are 2 options. ACCEPTING or DECLINING:
+Once the VAMIX is running, you can select files from directories on your system utilising the OPEN button, and then navigating through directories using the panel. Once a file is selected, there are 2 options. ACCEPTING or DECLINING:
 
 ACCEPTING:
 This is where the file has been accepted, meaning that it is a video (simple only) type file, which is always accepted by VAMIX. This may or may not allow video editing depending on audio channels *(see Editing the audio section for help)*.

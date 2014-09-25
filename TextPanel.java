@@ -13,7 +13,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -37,13 +36,11 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private String[] _fontColours = {"White", "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Violet"};
 	private Integer[] _fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60};
 	
-	private JLabel _openLabel = new JLabel("Opening Text");
+	private JLabel _openLabel = new JLabel("Opening Text - Max 60 characters");
 	private JTextArea _openText = new JTextArea("Enter Text Here");
-		
-	private JLabel _openScene = new JLabel("Create Opening Screen?");
-	private JCheckBox _openSceneCheck = new JCheckBox();
 	
-	private JLabel _creditLabel = new JLabel("Closing Text");
+	
+	private JLabel _creditLabel = new JLabel("Closing Text - Max 60 characters");
 	private JTextArea _creditText = new JTextArea("Enter Text Here");
 	
 	
@@ -77,7 +74,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		_openText.setPreferredSize(new Dimension(600,19));
 		_openText.setLineWrap(true);
 		setLayout(null);
-		_openLabel.setBounds(12, 5, 94, 15);
+		_openLabel.setBounds(12, 5, 250, 15);
 		add(_openLabel);
 		add(_openText);
 		//Logic that makes the enter text message vanish when clicked
@@ -97,7 +94,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		_creditText.setPreferredSize(new Dimension(600,19));
 		_creditText.setLineWrap(true);
 		_creditText.setDocument(new JTextFieldLimit(60));
-		_creditLabel.setBounds(388, 5, 86, 15);
+		_creditLabel.setBounds(388, 5, 250, 15);
 		add(_creditLabel);
 		add(_creditText);
 		
