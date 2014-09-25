@@ -15,12 +15,15 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.SwingWorker;
+
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 
 public class TextPanel extends VamixPanel implements ActionListener{
@@ -182,6 +185,34 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		
 	}
 	
+	class PreviewWorker extends SwingWorker<Integer, Void>{
+		
+		//Fields required by the worker
+		String cmd = "";
+				
+		public PreviewWorker(String inp){
+			cmd = inp;
+		}
+				
+		//returns the textpanels needed cmd information
+		protected Integer doInBackground() throws Exception {
+			
+			bashCommand("avconv -y -ss 00:00:00 -i " + _file + " -codec copy -t 00:00:10 .temp.mp4");
+			int result = bashCommand(cmd);
+			return result;
+		}
+		
+		protected void done(){
+			//Display the preview video on a new frame
+			JFrame previewFrame = new JFrame();
+			EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
+			previewFrame.add(mp);
+			previewFrame.setVisible(true);
+			
+			mp.getMediaPlayer().playMedia(".preview.mp4");
+		}
+	}
+	
 	public void newInput(File file,Boolean boo) {
 		//Set the current file to the _file field
 		if(boo){
@@ -338,7 +369,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				String line = br.readLine();
 				
 				while(line != null){
-						
+					
+					//Read the project file for the options
 					String option = line.substring(0, 5);
 					switch(option){
 					case("oText"):
@@ -400,7 +432,73 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		
 		else if(e.getSource().equals(_btnPreview)){
-			System.out.println(_main.getLength());
+			//Check if the user has entered text in each field
+			boolean startText = false;
+			boolean endText = false;
+			if(!_openText.getText().equals("") && _openClicked){
+				startText = true;
+			}
+			if(!_creditText.getText().equals("") && _creditClicked){
+				endText = true;
+			}
+			
+			//Check that any input was given
+			if(startText || endText){
+				
+				String cmd = "avconv -i .temp.mp4 -y -strict experimental -vf \"";
+				String oFilter = "";
+				String eFilter = "";
+				
+				//Get the input variables if required
+				if(startText){
+					//Get selected font
+					String oFont = (String) _openFont.getSelectedItem();
+					oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".ttf"; //I know this is cheap but it works
+					
+					//Get font size
+					int oSize = (int) _openSize.getSelectedItem();
+					
+					//Get font colour
+					String oColour = (String) _openColour.getSelectedItem();
+					oColour = oColour.toLowerCase();
+					
+					//Set up the command
+					oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
+							"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,5)'";
+				}
+				if(endText){
+					//Get selected font
+					String eFont = (String) _creditFont.getSelectedItem();
+					eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".ttf"; //I know this is cheap but it works
+					
+					//Get font size
+					int eSize = (int) _creditSize.getSelectedItem();
+					
+					//Get font colour
+					String eColour = (String) _creditColour.getSelectedItem();
+					eColour = eColour.toLowerCase();
+					
+					//Set up the command
+					eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
+							"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t,5)'";
+				}
+				
+				if(startText && endText){
+					//Both start and end text
+					cmd = cmd + oFilter + ", " + eFilter + "\" " + ".preview.mp4";
+				}else{
+					//Only one text
+					cmd = cmd + oFilter + eFilter + "\" " + ".preview.mp4";
+				}
+				
+				//Send the command to the PreviewWorker
+				PreviewWorker preview = new PreviewWorker(cmd);
+				preview.execute();
+				
+			}else{
+				//Tell the user that no input was given
+				JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 }
