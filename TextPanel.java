@@ -208,7 +208,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			
 			//Display the preview video on a new frame
 			JFrame previewFrame = new JFrame();
+			previewFrame.setBounds(100,100,420,300);
 			EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
+			mp.setBounds(0,0,420,300);
 			previewFrame.add(mp);
 			previewFrame.setVisible(true);
 			
