@@ -292,7 +292,14 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		else if(e.getSource().equals(btnSaveButton)){
 			//Save current state of VAMIX to a file
-			
+			String projName = JOptionPane.showInputDialog("Save file as?");
+			String state = "oText=" + _openText.getText() + "\n" + 
+			"oFont=" + _openFont.getSelectedItem() + "\n" + 
+			"oSize=" + _openSize.getSelectedItem() + "\n" +
+			"oColour=" + _openColour.getSelectedItem(); + "\n" +
+			"cText=" + _creditText.getText() + "\n" +
+			"cFont=" + _creditFont.getSelectedItem() + "\n" + 
+			"cSize=" + _credit
 		}
 	}
 }

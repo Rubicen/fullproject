@@ -165,7 +165,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			File f = new File(_main.getOutName()+"_audio.mp3");
 			File f2 = new File(_main.getOutName()+".mp4");
 			
-			if(_main.playerHasAudio()){
+			if(hasAudio()){
 				System.out.println("gottoaudio");
 				if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
 					Object[] options = {"Yes","No"};

@@ -210,16 +210,4 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	public void setPosition(){
 		_timeOfVideo.setValue((int) (getPosition()/getLength()));
 	}
-	
-	public Boolean hasAudio(){
-		System.out.println(player.getMediaPlayer().getAudioTrackCount());
-		
-		if(player.getMediaPlayer().getAudioTrackCount()>0){
-			System.out.println(player.getMediaPlayer().getAudioTrackCount());
-			System.out.println("here");
-			return true;
-		}else{
-			return false;
-		}
-	}
 }
