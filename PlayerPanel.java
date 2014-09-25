@@ -45,12 +45,14 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private JButton mute = new JButton(new ImageIcon(muteicon.getAbsolutePath()));
 	private JSlider volume = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
 	private Timer timer = new Timer(10, this);
+	private Timer timerforupdateplay = new Timer(500,this);
 	private JSlider _timeOfVideo = new JSlider();
 	
 	public PlayerPanel(){
 		setBackground(Color.LIGHT_GRAY);
+		timerforupdateplay.start();
 		
-			
+		timerforupdateplay.addActionListener(this);
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.black);
 		canvas.setPreferredSize(new Dimension(400,320));
@@ -111,7 +113,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		_timeOfVideo.setBounds(12, 321, 400, 16);
 		_timeOfVideo.setMaximum(100);
 		_timeOfVideo.setValue(0);
-		_timeOfVideo.setEnabled(false);
+		_timeOfVideo.setFocusable(false);
 		add(_timeOfVideo);
 		setVisible(true);
 	}
@@ -122,7 +124,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		player.getMediaPlayer().mute(false);
 		player.getMediaPlayer().playMedia(file.getAbsolutePath());
 		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
-		
+		player.getMediaPlayer().mute(false);
 	}
 	
 	public void actionPerformed(ActionEvent a) {
@@ -179,6 +181,11 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		}else if(a.getSource().equals(timer)){
 			player.getMediaPlayer().skip(-100);
 			timer.start();
+		}else if(a.getSource().equals(timerforupdateplay)){
+			Float f = player.getMediaPlayer().getPosition()*100;
+			
+			_timeOfVideo.setValue(f.intValue());
+			_timeOfVideo.repaint();
 		}
 	}
 
@@ -199,15 +206,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	public void destroy(){
 		player.getMediaPlayer().stop();
 		player.getMediaPlayer().release();
+		timerforupdateplay.stop();
 	}
 	
-	public float getPosition(){
-		System.out.println(player.getMediaPlayer().getPosition());
-		return player.getMediaPlayer().getPosition();
-		
-	}
-	
-	public void setPosition(){
-		_timeOfVideo.setValue((int) (getPosition()/getLength())*100);
-	}
 }

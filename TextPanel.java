@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
@@ -339,6 +340,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			//Check that the selected file is a .proj file
 			String chosenFile = fc.getSelectedFile().getName();
 			if(chosenFile.contains(".proj")){
+				try{
 				BufferedReader br = new BufferedReader(new FileReader(fc.getSelectedFile()));
 				String line = br.readLine();
 				
@@ -358,6 +360,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					case("oSize"):
 						_openSize.setSelectedIndex(line.charAt(6));
 					}
+				}
+				}catch(IOException ex){
+					ex.printStackTrace();
 				}
 			}else{
 				//Tell user they selected incorrect file

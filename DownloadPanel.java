@@ -162,9 +162,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 		buttonPanel.setBackground(Color.LIGHT_GRAY);
 		
 		add(buttonPanel);
-		button.setBackground(Color.GREEN);
 		buttonPanel.add(button);
-		cButton.setBackground(Color.RED);
 		buttonPanel.add(cButton);
 		button.addActionListener(this);
 		button.setEnabled(false);
@@ -205,37 +203,39 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 			//Download button pressed, check if file exists
 			String cmd = "[ -e $(basename " + mp3 + ") ]";
 			int fileExists = bashCommand(cmd);
+			if(!(mp3.equals("Please enter a URL")||mp3.equals(""))){
 			
-			if(fileExists == 0){
-				//File exists, ask what user wants to do
-				Object[] options = {"Overwrite",
-	                    "Continue",
-	                    "Cancel"};
-				n = JOptionPane.showOptionDialog(this,
-						"File already exists, do you wish to overwrite?",
-						"File Exists",
-						JOptionPane.YES_NO_CANCEL_OPTION,
-						JOptionPane.WARNING_MESSAGE,
-						null,
-						options,
-						null);
-			}
-			
-			//Carry out the download
-			if(n == 0){
-				//Overwrite, delete the file first
-				cmd = "rm $(basename " + mp3 + ")";
-				bashCommand(cmd);
-			}if(n != 2){
-				//Didn't choose to cancel, download
-				progress.setValue(0);
-				progress.setVisible(true);
-				dlWork = new DownloadWorker(mp3);
-				dlWork.execute();
-				button.setEnabled(false);
-				cButton.setEnabled(true);
+				if(fileExists == 0){
+					//File exists, ask what user wants to do
+					Object[] options = {"Overwrite",
+		                    "Continue",
+		                    "Cancel"};
+					n = JOptionPane.showOptionDialog(this,
+							"File already exists, do you wish to overwrite?",
+							"File Exists",
+							JOptionPane.YES_NO_CANCEL_OPTION,
+							JOptionPane.WARNING_MESSAGE,
+							null,
+							options,
+							null);
+				}
 				
-				canDownload = false;
+				//Carry out the download
+				if(n == 0){
+					//Overwrite, delete the file first
+					cmd = "rm $(basename " + mp3 + ")";
+					bashCommand(cmd);
+				}if(n != 2){
+					//Didn't choose to cancel, download
+					progress.setValue(0);
+					progress.setVisible(true);
+					dlWork = new DownloadWorker(mp3);
+					dlWork.execute();
+					button.setEnabled(false);
+					cButton.setEnabled(true);
+					
+					canDownload = false;
+				}
 			}
 		}else{
 			//Cancel button pressed, stop download
