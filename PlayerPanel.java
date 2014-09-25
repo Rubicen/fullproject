@@ -6,8 +6,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -121,7 +119,6 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	
 	
 	public void newInput(File file,Boolean boo) {
-		//Set the currently playing file as given TODO
 		player.getMediaPlayer().mute(false);
 		player.getMediaPlayer().playMedia(file.getAbsolutePath());
 		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
