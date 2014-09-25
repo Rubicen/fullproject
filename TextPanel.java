@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JCheckBox;
@@ -116,6 +119,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		
 		btnSaveButton.setBounds(12, 154, 117, 25);
 		add(btnSaveButton);
+		btnSaveButton.addActionListener(this);
 		btnLoadState.setBounds(152, 154, 117, 25);
 		
 		add(btnLoadState);
@@ -294,12 +298,26 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			//Save current state of VAMIX to a file
 			String projName = JOptionPane.showInputDialog("Save file as?");
 			String state = "oText=" + _openText.getText() + "\n" + 
-			"oFont=" + _openFont.getSelectedItem() + "\n" + 
-			"oSize=" + _openSize.getSelectedItem() + "\n" +
-			"oColour=" + _openColour.getSelectedItem(); + "\n" +
+			"oFont=" + _openFont.getSelectedIndex() + "\n" + 
+			"oSize=" + _openSize.getSelectedIndex() + "\n" +
+			"oColr=" + _openColour.getSelectedIndex() + "\n" +
 			"cText=" + _creditText.getText() + "\n" +
-			"cFont=" + _creditFont.getSelectedItem() + "\n" + 
-			"cSize=" + _credit
+			"cFont=" + _creditFont.getSelectedIndex() + "\n" + 
+			"cSize=" + _creditSize.getSelectedIndex() + "\n" +
+			"cColr=" + _creditColour.getSelectedIndex();
+			
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter(projName+".proj", "UTF-8");
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (UnsupportedEncodingException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			writer.println(state);
+			writer.close();
 		}
 	}
 }
