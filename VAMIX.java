@@ -38,7 +38,7 @@ public class VAMIX extends JFrame{
                 playerPanel.destroy();
             }
 		});
-		
+		this.setResizable(false);
 		_outName.setBounds(452, 385, 336, 19);
 		getContentPane().add(_outName);
 		_outName.setColumns(10);
