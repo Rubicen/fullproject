@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
@@ -339,25 +340,66 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			//Check that the selected file is a .proj file
 			String chosenFile = fc.getSelectedFile().getName();
 			if(chosenFile.contains(".proj")){
-				BufferedReader br = new BufferedReader(new FileReader(fc.getSelectedFile()));
-				String line = br.readLine();
-				
-				while(line != null){
-					switch(line.substring(0, 4)){
-					case("oText"):
-						if(line.length() < 7){
-							//Text field was empty
-							_openText.setText("");
-						}else{
-							_openText.setText(line.substring(6));
+				String line = null;
+				BufferedReader br;
+				try {
+					br = new BufferedReader(new FileReader(fc.getSelectedFile()));
+					line = br.readLine();
+					
+					while(line != null){
+						
+						String option = line.substring(0, 5);
+						switch(option){
+						case("oText"):
+							if(line.length() < 7){
+								//Text field was empty
+								_openText.setText("");
+							}else{
+								_openText.setText(line.substring(6));
+								_openClicked = true;
+							}
+						break;
+						
+						case("oFont"):
+							_openFont.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						break;
+						
+						case("oSize"):
+							_openSize.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						break;
+						
+						case("oColr"):
+							_openColour.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						break;
+						
+						case("cText"):
+							if(line.length() < 7){
+								//Text field was empty
+								_creditText.setText("");
+							}else{
+								_creditText.setText(line.substring(6));
+								_creditClicked = true;
+							}
+						break;
+						
+						case("cFont"):
+							_creditFont.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						break;
+						
+						case("cSize"):
+							_creditSize.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						break;
+						
+						case("cColr"):
+							_creditColour.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						break;
 						}
-					
-					case("oFont"):
-						_openFont.setSelectedIndex(line.charAt(6));
-					
-					case("oSize"):
-						_openSize.setSelectedIndex(line.charAt(6));
+						
+						line = br.readLine();
 					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}else{
 				//Tell user they selected incorrect file
