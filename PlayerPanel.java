@@ -212,6 +212,8 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	}
 	
 	public Boolean hasAudio(){
+		System.out.println(player.getMediaPlayer().getAudioTrackCount());
+		
 		if(player.getMediaPlayer().getAudioTrackCount()>0){
 			System.out.println(player.getMediaPlayer().getAudioTrackCount());
 			System.out.println("here");
