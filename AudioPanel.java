@@ -103,10 +103,10 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		//When the swingworker competes, it reneables everything, and tells a message depending on completion status
 		protected void done(){
 			if(exitValue!=0){
-				JOptionPane.showMessageDialog(null,"An error has occured");
+				JOptionPane.showMessageDialog(null,"An error had occured, refer to README.txt for information");
 				
 			}else{
-				JOptionPane.showMessageDialog(null,"Completion");
+				JOptionPane.showMessageDialog(null,"Completed successfully");
 			}
 			_replace.setEnabled(true);
 			_strip.setEnabled(true);
