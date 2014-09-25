@@ -20,7 +20,6 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	
 	File _file;
 	VAMIX _main;
-	String _outname;
 	JButton _replace = new JButton("Replace");
 	JButton _strip = new JButton("Strip");
 	JButton _overlay = new JButton("Overlay");
@@ -64,23 +63,18 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	class MagicPaper extends SwingWorker<Void,Integer> {
 		//General variables for use through the swingworker
 		String outname;
-		File filein;
 		String called;
 		String audioname;
-		Process pro;
 		int exitValue;
 		
 		public MagicPaper(VAMIX vam,String option,String audio){
 			outname = vam.getOutName();
 			called = option;
 			audioname = audio;
-			System.out.print(outname);
 		}
 		
 		@Override
 		protected Void doInBackground() throws Exception {
-			outname = _main.getOutName();
-			System.out.print(outname);
 			
 			if(called.equals("1")){
 				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+outname+".mp4");
@@ -100,7 +94,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			}
 				
 			if(called.equals("3")){
-				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -filter_complex amix=inputs=2:duration=longest:dropout_transition=3 -strict experimental "+_outname+".mp4");
+				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -filter_complex amix=inputs=2:duration=longest:dropout_transition=3 -strict experimental "+outname+".mp4");
 				
 			}
 			return null;
@@ -165,8 +159,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			File f = new File(_main.getOutName()+"_audio.mp3");
 			File f2 = new File(_main.getOutName()+".mp4");
 			
-			if(_main.playerHasAudio()){
-				System.out.println("gottoaudio");
+			if(hasAudio()){
 				if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
 					Object[] options = {"Yes","No"};
 					int optionPicked = JOptionPane.showOptionDialog(this,
@@ -196,6 +189,8 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 						JOptionPane.showMessageDialog(this, "Please rename the outname");
 					}
 				}
+			}else{
+				JOptionPane.showMessageDialog(this, "The file "+_file+" does not contain audio");
 			}
 		}
 		
@@ -246,6 +241,14 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		
 		MagicPaper job = new MagicPaper(vam,option,audio);
 		job.execute();
+	}
+	
+	public Boolean hasAudio(){
+		if(bashCommand("avprobe "+_file+" -show_streams | grep -i \"audio\"")==0){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 }
