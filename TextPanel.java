@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -150,6 +151,25 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			return result;
 		}
 		
+		protected void done(){
+			btnAddText.setEnabled(true);
+			try {
+				if(get() == 0){
+					//Executed successfully
+					JOptionPane.showMessageDialog(null, "Text addition successful.");
+				}else{
+					//Error occured
+					JOptionPane.showMessageDialog(null, "Error occured in text addition.");
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	public void newInput(File file,Boolean boo) {
@@ -212,7 +232,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					if(startText){
 						//Get selected font
 						String oFont = (String) _openFont.getSelectedItem();
-						oFont = "/usr/share/fonts/truetype/freefont" + oFont + ".tff"; //I know this is cheap but it works
+						oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".tff"; //I know this is cheap but it works
 						
 						//Get font size
 						int oSize = (int) _openSize.getSelectedItem();
@@ -228,7 +248,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					if(endText){
 						//Get selected font
 						String eFont = (String) _creditFont.getSelectedItem();
-						eFont = "/usr/share/fonts/truetype/freefont" + eFont + ".tff"; //I know this is cheap but it works
+						eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".tff"; //I know this is cheap but it works
 						
 						//Get font size
 						int eSize = (int) _creditSize.getSelectedItem();
@@ -252,6 +272,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					}
 					
 					//Send the command to bash
+					btnAddText.setEnabled(false);
+					TextWorker worker = new TextWorker(cmd);
+					worker.execute();
 					System.out.println(cmd);
 				}else{
 					//Tell the user that no input was given

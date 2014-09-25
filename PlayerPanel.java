@@ -195,7 +195,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 * @return
 	 */
 	public long getLength(){
-		return player.getMediaPlayer().getLength();
+		return player.getMediaPlayer().getLength()/1000;
 	}
 	
 	public void destroy(){
