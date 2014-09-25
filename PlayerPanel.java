@@ -122,8 +122,8 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	
 	public void newInput(File file,Boolean boo) {
 		//Set the currently playing file as given TODO
-//		player.getMediaPlayer().playMedia(file.getAbsolutePath());
-//		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
+		player.getMediaPlayer().playMedia(file.getAbsolutePath());
+		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
 		
 	}
 	

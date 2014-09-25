@@ -84,14 +84,17 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				}
             }
 		});
+		_openText.setDocument(new JTextFieldLimit(60));
 		_creditText.setBounds(387, 26, 268, 124);
 		
 		//Adding closing text options
 		_creditText.setPreferredSize(new Dimension(600,19));
 		_creditText.setLineWrap(true);
+		_creditText.setDocument(new JTextFieldLimit(60));
 		_creditLabel.setBounds(388, 5, 86, 15);
 		add(_creditLabel);
 		add(_creditText);
+		
 		_openFont.setBounds(281, 26, 94, 24);
 		add(_openFont);
 		_openSize.setBounds(281, 64, 94, 24);
@@ -286,6 +289,10 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				//No output name specified
 				JOptionPane.showMessageDialog(null, "Please specify an output name");
 			}
+		}
+		else if(e.getSource().equals(btnSaveButton)){
+			//Save current state of VAMIX to a file
+			
 		}
 	}
 }
