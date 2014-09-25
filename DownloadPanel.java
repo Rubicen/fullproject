@@ -37,7 +37,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 	
 	private JPanel _buttonPanel = new JPanel();
 	private JPanel _checkPanel = new JPanel();
-	private JButton _button = new JButton("Download");
+	private JButton _dButton = new JButton("Download");
 	private JButton _cButton = new JButton("Cancel");
 	private JCheckBox _openSource = new JCheckBox("I confirm the URL is open source.");
 	
@@ -120,7 +120,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 				}
 				
 				_openSource.setSelected(false);
-				_button.setEnabled(false);
+				_dButton.setEnabled(false);
 				_progress.setVisible(false);
 				_cButton.setEnabled(false);
 				_canDownload = true;
@@ -162,10 +162,10 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 		_buttonPanel.setBackground(Color.LIGHT_GRAY);
 		
 		add(_buttonPanel);
-		_buttonPanel.add(_button);
+		_buttonPanel.add(_dButton);
 		_buttonPanel.add(_cButton);
-		_button.addActionListener(this);
-		_button.setEnabled(false);
+		_dButton.addActionListener(this);
+		_dButton.setEnabled(false);
 		_cButton.addActionListener(this);
 		_cButton.setEnabled(false);
 		_progressPanel.setBackground(Color.LIGHT_GRAY);
@@ -191,13 +191,13 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 	public void actionPerformed(ActionEvent a) {
 		if(a.getSource().equals(_openSource) && _openSource.isSelected() && _canDownload){
 			//Checked open source, enable download button
-			_button.setEnabled(true);
+			_dButton.setEnabled(true);
 			
 		}else if(a.getSource().equals(_openSource)){
 			//Open source unchecked, disable download button
-			_button.setEnabled(false);
+			_dButton.setEnabled(false);
 			
-		}else if(a.getSource().equals(_button)){
+		}else if(a.getSource().equals(_dButton)){
 			String mp3 = _url.getText();
 			int n = 1;
 			//Download button pressed, check if file exists
@@ -231,7 +231,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 					_progress.setVisible(true);
 					_dlWork = new DownloadWorker(mp3);
 					_dlWork.execute();
-					_button.setEnabled(false);
+					_dButton.setEnabled(false);
 					_cButton.setEnabled(true);
 					
 					_canDownload = false;
