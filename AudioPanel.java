@@ -27,10 +27,16 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	JFileChooser _fileSelect = new JFileChooser();
 	JButton _getAudio = new JButton("Audio");
 	JTextField _audioFile = new JTextField();
+	JProgressBar _fakeProgress = new JProgressBar(0);
 	//TODO maybe add loading bar (fake) for this
 	
 	
 	public AudioPanel(VAMIX main){
+		_fakeProgress.setLocation(70, 104);
+		_fakeProgress.setSize(200, 19);
+		_fakeProgress.setVisible(false);
+		_fakeProgress.setIndeterminate(true);
+		add(_fakeProgress);
 		_replace.setEnabled(false);
 		_strip.setEnabled(false);
 		_overlay.setEnabled(false);
@@ -110,6 +116,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			_replace.setEnabled(true);
 			_strip.setEnabled(true);
 			_overlay.setEnabled(true);
+			_fakeProgress.setVisible(false);
 		}
 	}
 	
@@ -158,35 +165,36 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			File f = new File(_main.getOutName()+"_audio.mp3");
 			File f2 = new File(_main.getOutName()+".mp4");
 			
-			//TODO get it so it checks if the video has an audio stream to extract
-			
-			if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
-				Object[] options = {"Yes","No"};
-				int optionPicked = JOptionPane.showOptionDialog(this,
-			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
-			    JOptionPane.QUESTION_MESSAGE,null,options,null);
-				if(optionPicked == 0){
-					swingMaker(_main,"21",null);
-				}else if(optionPicked==1){
-					swingMaker(_main,"22",null);
-				}
-			}else{
-				Object[] options = {"Overwrite","Don't overwrite"};
-				int optionPicked = JOptionPane.showOptionDialog(this,
-			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
-			    JOptionPane.QUESTION_MESSAGE,null,options,null);
-				if(optionPicked == 0){
-					Object[] options2 = {"Yes","No"};
-					optionPicked = JOptionPane.showOptionDialog(this,
+			if(_main.playerHasAudio()){
+				System.out.println("gottoaudio");
+				if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
+					Object[] options = {"Yes","No"};
+					int optionPicked = JOptionPane.showOptionDialog(this,
 				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
-				    JOptionPane.QUESTION_MESSAGE,null,options2,null);
+				    JOptionPane.QUESTION_MESSAGE,null,options,null);
 					if(optionPicked == 0){
 						swingMaker(_main,"21",null);
 					}else if(optionPicked==1){
 						swingMaker(_main,"22",null);
 					}
-				}else if(optionPicked==1){
-					JOptionPane.showMessageDialog(this, "Please rename the outname");
+				}else{
+					Object[] options = {"Overwrite","Don't overwrite"};
+					int optionPicked = JOptionPane.showOptionDialog(this,
+				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,null,options,null);
+					if(optionPicked == 0){
+						Object[] options2 = {"Yes","No"};
+						optionPicked = JOptionPane.showOptionDialog(this,
+					    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+					    JOptionPane.QUESTION_MESSAGE,null,options2,null);
+						if(optionPicked == 0){
+							swingMaker(_main,"21",null);
+						}else if(optionPicked==1){
+							swingMaker(_main,"22",null);
+						}
+					}else if(optionPicked==1){
+						JOptionPane.showMessageDialog(this, "Please rename the outname");
+					}
 				}
 			}
 		}
@@ -233,6 +241,8 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		_replace.setEnabled(false);
 		_strip.setEnabled(false);
 		_overlay.setEnabled(false);
+		_fakeProgress.setValue(0);
+		_fakeProgress.setVisible(true);
 		
 		MagicPaper job = new MagicPaper(vam,option,audio);
 		job.execute();

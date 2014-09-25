@@ -97,7 +97,10 @@ public class VAMIX extends JFrame{
 		return _outName.getText();
 	}
 	
-	public void setEnabled(){
-		
+	public Boolean playerHasAudio(){
+		System.out.println("1");
+		Boolean b = playerPanel.hasAudio();
+		System.out.println("2");
+		return b;
 	}
 }
