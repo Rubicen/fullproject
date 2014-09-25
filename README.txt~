@@ -69,14 +69,6 @@ The replace command requires an audio input to be put into the panel, and will r
 OVERLAY:
 The overlay command allows you to overlay the current audio on the cideo with another audio. This requires the audio box to be entered using the file selector, and the video input in the input panel *(see above for information on the input panel)* which requires audio to be on it to occur. 
 
-Issues that may occur:
-If you enter a file that is not correct, you will get an error message telling you that you must select an audio file. The buttons each can reject input if the files are not correct, and are not enabled unless a video file has been added through input panel *(see above for input panel information)* which will allow the buttons to be used. The buttons also will let you know if the outname you have selected is one existing, asking you if you wish to overwrite the file or not, selecting no being to cancel the operation, yes being to overwrite and make the command operate. 
-
-The other option comes from the strip command where you may select an option between creating an audio file as well or not. This will not remove the audio from the origin file, but will create 2 new files (1 the muted video, one the audio of that video) which are placed in the same directory as that of the VAMIX.jar. 
-
---------------------------------------------------------------------
-Editing the text
---------------------------------------------------------------------
 
 
 
