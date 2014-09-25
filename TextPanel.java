@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -83,14 +84,17 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				}
             }
 		});
+		_openText.setDocument(new JTextFieldLimit(60));
 		_creditText.setBounds(387, 26, 268, 124);
 		
 		//Adding closing text options
 		_creditText.setPreferredSize(new Dimension(600,19));
 		_creditText.setLineWrap(true);
+		_creditText.setDocument(new JTextFieldLimit(60));
 		_creditLabel.setBounds(388, 5, 86, 15);
 		add(_creditLabel);
 		add(_creditText);
+		
 		_openFont.setBounds(281, 26, 94, 24);
 		add(_openFont);
 		_openSize.setBounds(281, 64, 94, 24);
@@ -150,6 +154,25 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			return result;
 		}
 		
+		protected void done(){
+			btnAddText.setEnabled(true);
+			try {
+				if(get() == 0){
+					//Executed successfully
+					JOptionPane.showMessageDialog(null, "Text addition successful.");
+				}else{
+					//Error occured
+					JOptionPane.showMessageDialog(null, "Error occured in text addition.");
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	public void newInput(File file,Boolean boo) {
@@ -168,97 +191,108 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(btnAddText)){
-			//Check if the given output name exists already
-			File output = new File(_main.getOutName());
-			
-			int optionPicked = 0;
-			if(output.exists()){
-				//Ask if we wish to overwrite the file
-				Object[] options = {"Overwrite","Don't overwrite"};
-				optionPicked = JOptionPane.showOptionDialog(this,
-			    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
-			    JOptionPane.QUESTION_MESSAGE,null,options,null);
-			}
-			
-			if(optionPicked != 1){
-				//Carry out command
+			if(!_main.getOutName().equals("")){
+				//Check if the given output name exists already
+				File output = new File(_main.getOutName() + ".mp4");
 				
-				//An example avconv that'll append text to the beginning and end from 
-				//http://stackoverflow.com/questions/6195872/applying-multiple-filters-at-once-with-ffmpeg
-				//avconv -i themagician.rmvb -vf "drawtext=
-				//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':
-				//fontsize=24:fontcolor=white:draw='lt(t,10)', drawtext=
-				//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':fontsize=24:
-				//fontcolor=white:draw='gt(t,41)'" output3.avi
-				
-				//Check if the user has entered text in each field
-				boolean startText = false;
-				boolean endText = false;
-				if(!_openText.getText().equals("") && _openClicked){
-					startText = true;
-				}
-				if(!_creditText.getText().equals("") && _creditClicked){
-					endText = true;
+				int optionPicked = 0;
+				if(output.exists()){
+					//Ask if we wish to overwrite the file
+					Object[] options = {"Overwrite","Don't overwrite"};
+					optionPicked = JOptionPane.showOptionDialog(this,
+				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,null,options,null);
 				}
 				
-				//Check that any input was given
-				if(startText || endText){
+				if(optionPicked != 1){
+					//Carry out command
 					
-					String cmd = "avconv -i " + _file + " -vf \"";
-					String oFilter = "";
-					String eFilter = "";
+					//An example avconv that'll append text to the beginning and end from 
+					//http://stackoverflow.com/questions/6195872/applying-multiple-filters-at-once-with-ffmpeg
+					//avconv -i themagician.rmvb -vf "drawtext=
+					//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':
+					//fontsize=24:fontcolor=white:draw='lt(t,10)', drawtext=
+					//fontfile='/usr/share/fonts/truetype/freefont/FreeMono.ttf':text='test text':fontsize=24:
+					//fontcolor=white:draw='gt(t,41)'" output3.avi
 					
-					//Get the input variables if required
-					if(startText){
-						//Get selected font
-						String oFont = (String) _openFont.getSelectedItem();
-						oFont = "/usr/share/fonts/truetype/freefont" + oFont + ".tff"; //I know this is cheap but it works
-						
-						//Get font size
-						int oSize = (int) _openSize.getSelectedItem();
-						
-						//Get font colour
-						String oColour = (String) _openColour.getSelectedItem();
-						oColour = oColour.toLowerCase();
-						
-						//Set up the command
-						oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
-								"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,10)'";
+					//Check if the user has entered text in each field
+					boolean startText = false;
+					boolean endText = false;
+					if(!_openText.getText().equals("") && _openClicked){
+						startText = true;
 					}
-					if(endText){
-						//Get selected font
-						String eFont = (String) _creditFont.getSelectedItem();
-						eFont = "/usr/share/fonts/truetype/freefont" + eFont + ".tff"; //I know this is cheap but it works
-						
-						//Get font size
-						int eSize = (int) _creditSize.getSelectedItem();
-						
-						//Get font colour
-						String eColour = (String) _creditColour.getSelectedItem();
-						eColour = eColour.toLowerCase();
-						
-						//Set up the command
-						eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
-								"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t," +
-								(_main.getLength()-10) + ")'";
+					if(!_creditText.getText().equals("") && _creditClicked){
+						endText = true;
 					}
 					
-					if(startText && endText){
-						//Both start and end text
-						cmd = cmd + oFilter + ", " + eFilter + "\" " + _main.getOutName() + ".mp4";
+					//Check that any input was given
+					if(startText || endText){
+						
+						String cmd = "avconv -i " + _file + " -y -strict experimental -vf \"";
+						String oFilter = "";
+						String eFilter = "";
+						
+						//Get the input variables if required
+						if(startText){
+							//Get selected font
+							String oFont = (String) _openFont.getSelectedItem();
+							oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".ttf"; //I know this is cheap but it works
+							
+							//Get font size
+							int oSize = (int) _openSize.getSelectedItem();
+							
+							//Get font colour
+							String oColour = (String) _openColour.getSelectedItem();
+							oColour = oColour.toLowerCase();
+							
+							//Set up the command
+							oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
+									"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,10)'";
+						}
+						if(endText){
+							//Get selected font
+							String eFont = (String) _creditFont.getSelectedItem();
+							eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".ttf"; //I know this is cheap but it works
+							
+							//Get font size
+							int eSize = (int) _creditSize.getSelectedItem();
+							
+							//Get font colour
+							String eColour = (String) _creditColour.getSelectedItem();
+							eColour = eColour.toLowerCase();
+							
+							//Set up the command
+							eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
+									"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t," +
+									(_main.getLength()-10) + ")'";
+						}
+						
+						if(startText && endText){
+							//Both start and end text
+							cmd = cmd + oFilter + ", " + eFilter + "\" " + _main.getOutName() + ".mp4";
+						}else{
+							//Only one text
+							cmd = cmd + oFilter + eFilter + "\" " + _main.getOutName() + ".mp4";
+						}
+						
+						//Send the command to bash
+						btnAddText.setEnabled(false);
+						TextWorker worker = new TextWorker(cmd);
+						worker.execute();
+						System.out.println(cmd);
 					}else{
-						//Only one text
-						cmd = cmd + oFilter + eFilter + "\" " + _main.getOutName() + ".mp4";
+						//Tell the user that no input was given
+						JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);
 					}
-					
-					//Send the command to bash
-					System.out.println(cmd);
-				}else{
-					//Tell the user that no input was given
-					JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
-				
+			}else{
+				//No output name specified
+				JOptionPane.showMessageDialog(null, "Please specify an output name");
 			}
+		}
+		else if(e.getSource().equals(btnSaveButton)){
+			//Save current state of VAMIX to a file
+			
 		}
 	}
 }

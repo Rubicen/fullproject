@@ -122,9 +122,9 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	
 	public void newInput(File file,Boolean boo) {
 		//Set the currently playing file as given TODO
-//		player.getMediaPlayer().playMedia(file.getAbsolutePath());
-//		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
-		_file = file;
+
+		player.getMediaPlayer().playMedia(file.getAbsolutePath());
+		playPause.setIcon(new ImageIcon(pauseicon.getAbsolutePath()));
 		
 	}
 	
@@ -196,7 +196,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 * @return
 	 */
 	public long getLength(){
-		return player.getMediaPlayer().getLength();
+		return player.getMediaPlayer().getLength()/1000;
 	}
 	
 	public void destroy(){
@@ -214,5 +214,5 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		_timeOfVideo.setValue((int) (getPosition()/getLength())*100);
 	}
 	
-	
+
 }
