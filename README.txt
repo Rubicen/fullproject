@@ -41,7 +41,7 @@ Once selection has occured, you can continue with other processes in the VAMIX a
 
 Downloading of file is done utilising the "wget" command from the LINUX family of commands. Thus, this downloading option will only occur on machines using linux or some other process that allows this command. This command can only be reached by accepting that the downloadable file is one that is OPEN-SOURCE. VAMIX holds no responsibility for copyright infringement due to usage of this to download from non-open-source content hosting websites.
 
-Once the command is begun, you may cancel the operation using the "CANCEL" button. This button will stop the process, but the file up to the point of canceling will still exist on your machine. If you do not want this file anymore, you will need to delete it by navigating to it using your own file browsing software. ***********************The command automatically continues downloads if you hit cancel and did not want it, by replacing the current one and redownloading it from scratch to stop any odd problems from occuring due to small sections of file not being downloaded correctly.
+Once the command is begun, you may cancel the operation using the "CANCEL" button. This button will stop the process, but the file up to the point of canceling will still exist on your machine. If you do not want this file anymore, you will need to delete it by navigating to it using your own file browsing software. If you choose to download the same file again with a partial download of the file in your system the download will continue from where it was cancelled.
 
 When the command completes, there are 2 outcomes, SUCCESS or FAILURE:
 
@@ -49,7 +49,7 @@ SUCCESS:
 This is where the file has been downloaded. Once this has occured, you need to navigate to the file downloaded using the opening panel *(see above for the open panel information)* to start the file in the VAMIX app. From there, you can continue with whatever operations (VAMIX BASED) you wish.
 
 FAILURE:
-If the VAMIX system fails, then either the URL that was entered is not correct, or your connection is not currently running/is having problems. Try again at a later time upon checking connection and check the URL as well to make sure that the problem does not lie there. If the problem persists, then please contact logan.horton@live.com for a bug report.
+If the VAMIX system fails, it will give a general message describing how the download failed. This information can be used to resolve the problem and try the download again.
 
 --------------------------------------------------------------------
 Editing the audio
@@ -76,7 +76,11 @@ The other option comes from the strip command where you may select an option bet
 Editing the text
 --------------------------------------------------------------------
 
+To add text to a video, you use the panel at the bottom of the application. To begin using this panel, open the video you wish to add text to using the open function and edit the options to fit your needs.
 
+There are two identical sections in the text editing panel, one for adding opening text and the other for adding closing text. Opening text will be overlayed for the first 10 seconds of video (as this is roughly the time required to read the text if the maximum amount is entered) and closing text will be overlayed for the last 10 seconds of video. Opening and closing text have the following options:
+
+TEXT: The text area where text can be entered. A maximum of 60 characters may be entered, as much more text on the largest font setting could be much too large for the screen.
 
 
 

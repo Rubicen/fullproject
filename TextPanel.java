@@ -35,9 +35,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private VAMIX _main;
 	
 	//Lists containing font options
-	private String[] _fonts = {"Mono", "Sans", "Serif"};
+	private String[] _fonts = {"Mono", "MonoBold", "Sans", "SansBold", "Serif", "SerifBold"};
 	private String[] _fontColours = {"White", "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Violet"};
-	private Integer[] _fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60};
+	private Integer[] _fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60, 66, 72};
 	
 	private JLabel _openLabel = new JLabel("Opening Text - Max 60 characters");
 	private JTextArea _openText = new JTextArea("Enter Text Here");
