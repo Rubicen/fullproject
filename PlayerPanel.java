@@ -213,6 +213,4 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	public void setPosition(){
 		_timeOfVideo.setValue((int) (getPosition()/getLength())*100);
 	}
-	
-
 }

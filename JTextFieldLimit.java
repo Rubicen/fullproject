@@ -1,6 +1,11 @@
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ * Class used to limit the number of characters allowed in the JTextAreas
+ * in TextPanel, from 
+ * http://stackoverflow.com/questions/3519151/how-to-limit-the-number-of-characters-in-jtextfield
+ */
 public class JTextFieldLimit extends PlainDocument {
   
 	private static final long serialVersionUID = 1L;
