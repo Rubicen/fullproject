@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.SwingWorker;
@@ -64,8 +65,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private final JButton btnAddText = new JButton("Add text");
 	private final JButton btnSaveButton = new JButton("Save State");
 	private final JButton btnPreview = new JButton("Preview");
+	private final JProgressBar progress = new JProgressBar();
 
 	public TextPanel(VAMIX main){
+		progress.setBounds(300,158,200,19);
+		progress.setIndeterminate(true);
+		progress.setVisible(false);
+		add(progress);
 		btnPreview.setEnabled(false);
 		btnAddText.setEnabled(false);
 		setBackground(Color.LIGHT_GRAY);
@@ -285,6 +291,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 						
 						//Send the command to bash
 						btnAddText.setEnabled(false);
+						progress.setVisible(true);
 						TextWorker worker = new TextWorker(cmd);
 						worker.execute();
 						System.out.println(cmd);
