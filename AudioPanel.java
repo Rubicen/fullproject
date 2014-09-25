@@ -196,23 +196,25 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		}
 		
 		if(a.getSource().equals(_overlay)){
-			if(!(_audioFile.getText().equals(""))){
-				File f = new File(_main.getOutName()+".mp4");
-				
-				if(!(_main.getOutName().equals("") || f.exists())){
-					swingMaker(_main,"3",_audioFile.getText());
+			if(hasAudio()){
+				if(!(_audioFile.getText().equals(""))){
+					File f = new File(_main.getOutName()+".mp4");
 					
-				}else{
-					Object[] options = {"Overwrite","Don't overwrite"};
-					int optionPicked = JOptionPane.showOptionDialog(this,
-				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
-				    JOptionPane.QUESTION_MESSAGE,null,options,null);
-					if(optionPicked == 0){
+					if(!(_main.getOutName().equals("") || f.exists())){
 						swingMaker(_main,"3",_audioFile.getText());
-					}else if(optionPicked == 1){
-						JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
+						
+					}else{
+						Object[] options = {"Overwrite","Don't overwrite"};
+						int optionPicked = JOptionPane.showOptionDialog(this,
+					    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+					    JOptionPane.QUESTION_MESSAGE,null,options,null);
+						if(optionPicked == 0){
+							swingMaker(_main,"3",_audioFile.getText());
+						}else if(optionPicked == 1){
+							JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
+						}
+						
 					}
-					
 				}
 			}
 		}
