@@ -29,22 +29,22 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	private boolean clickedOnce = false;
-	private boolean canDownload = true;
+	private boolean _clickedOnce = false;
+	private boolean _canDownload = true;
 	
-	private JPanel urlPanel = new JPanel();
-	private JTextField url = new JTextField("Please enter a URL");
+	private JPanel _urlPanel = new JPanel();
+	private JTextField _url = new JTextField("Please enter a URL");
 	
-	private JPanel buttonPanel = new JPanel();
-	private JPanel checkPanel = new JPanel();
-	private JButton button = new JButton("Download");
-	private JButton cButton = new JButton("Cancel");
-	private JCheckBox openSource = new JCheckBox("I confirm the URL is open source.");
+	private JPanel _buttonPanel = new JPanel();
+	private JPanel _checkPanel = new JPanel();
+	private JButton _button = new JButton("Download");
+	private JButton _cButton = new JButton("Cancel");
+	private JCheckBox _openSource = new JCheckBox("I confirm the URL is open source.");
 	
-	private JPanel progressPanel = new JPanel();
-	private JProgressBar progress = new JProgressBar(0, 100);
+	private JPanel _progressPanel = new JPanel();
+	private JProgressBar _progress = new JProgressBar(0, 100);
 	
-	private DownloadWorker dlWork;
+	private DownloadWorker _dlWork;
 	
 	/**
 	 * SwingWorker inner class for the download process
@@ -90,40 +90,40 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 				if(!isCancelled()){
 					switch(process.waitFor()){
 					case 0: //Download completed successfully
-						JOptionPane.showMessageDialog(buttonPanel, "Download Successful!");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Successful!");
 						break;
 					case 1: //Download failed - generic
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed.");
 						break;
 					case 2: //Failed - parse error
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - Parse Error.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - Parse Error.");
 						break;
 					case 3: //Failed - I/O error
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - File I/O Error.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - File I/O Error.");
 						break;
 					case 4: //Failed - Network failure
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - Network Failure.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - Network Failure.");
 						break;
 					case 5: //Failed - SSL Verification failure
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - SSL Verification Failure.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - SSL Verification Failure.");
 						break;
 					case 6: //Failed - Authentication failure
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - Authentication Failure.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - Authentication Failure.");
 						break;
 					case 7: //Failed - Protocol errors
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - Protocol Error.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - Protocol Error.");
 						break;
 					case 8: //Failed - Server issued error response
-						JOptionPane.showMessageDialog(buttonPanel, "Download Failed - Server Issued Error Response.");
+						JOptionPane.showMessageDialog(_buttonPanel, "Download Failed - Server Issued Error Response.");
 						break;
 					}
 				}
 				
-				openSource.setSelected(false);
-				button.setEnabled(false);
-				progress.setVisible(false);
-				cButton.setEnabled(false);
-				canDownload = true;
+				_openSource.setSelected(false);
+				_button.setEnabled(false);
+				_progress.setVisible(false);
+				_cButton.setEnabled(false);
+				_canDownload = true;
 				
 			} catch (HeadlessException e) {
 				e.printStackTrace();
@@ -134,7 +134,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 		
 		protected void process(List<Integer> chunks) {
 			for (int value : chunks) {
-				progress.setValue(value);
+				_progress.setValue(value);
 			}
 		}
 		
@@ -146,42 +146,42 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 	public DownloadPanel(){
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		urlPanel.setBackground(Color.LIGHT_GRAY);
+		_urlPanel.setBackground(Color.LIGHT_GRAY);
 		
-		add(urlPanel);
-		urlPanel.add(url);
-		urlPanel.setPreferredSize(new Dimension(20, 25));
-		url.setPreferredSize(new Dimension(300, 20));
-		checkPanel.setBackground(Color.LIGHT_GRAY);
+		add(_urlPanel);
+		_urlPanel.add(_url);
+		_urlPanel.setPreferredSize(new Dimension(20, 25));
+		_url.setPreferredSize(new Dimension(300, 20));
+		_checkPanel.setBackground(Color.LIGHT_GRAY);
 		
-		add(checkPanel);
-		openSource.setBackground(Color.LIGHT_GRAY);
-		checkPanel.add(openSource);
-		openSource.addActionListener(this);
-		openSource.setAlignmentX(JCheckBox.LEFT_ALIGNMENT);
-		buttonPanel.setBackground(Color.LIGHT_GRAY);
+		add(_checkPanel);
+		_openSource.setBackground(Color.LIGHT_GRAY);
+		_checkPanel.add(_openSource);
+		_openSource.addActionListener(this);
+		_openSource.setAlignmentX(JCheckBox.LEFT_ALIGNMENT);
+		_buttonPanel.setBackground(Color.LIGHT_GRAY);
 		
-		add(buttonPanel);
-		buttonPanel.add(button);
-		buttonPanel.add(cButton);
-		button.addActionListener(this);
-		button.setEnabled(false);
-		cButton.addActionListener(this);
-		cButton.setEnabled(false);
-		progressPanel.setBackground(Color.LIGHT_GRAY);
+		add(_buttonPanel);
+		_buttonPanel.add(_button);
+		_buttonPanel.add(_cButton);
+		_button.addActionListener(this);
+		_button.setEnabled(false);
+		_cButton.addActionListener(this);
+		_cButton.setEnabled(false);
+		_progressPanel.setBackground(Color.LIGHT_GRAY);
 		
-		add(progressPanel);
-		progress.setBackground(Color.WHITE);
-		progressPanel.add(progress);
-		progress.setVisible(false);
-		progress.setValue(0);
+		add(_progressPanel);
+		_progress.setBackground(Color.WHITE);
+		_progressPanel.add(_progress);
+		_progress.setVisible(false);
+		_progress.setValue(0);
 		
-		url.addMouseListener(new MouseAdapter(){
+		_url.addMouseListener(new MouseAdapter(){
 			@Override
             public void mouseClicked(MouseEvent e){
-				if(!clickedOnce){
-					url.setText("");
-					clickedOnce = true;
+				if(!_clickedOnce){
+					_url.setText("");
+					_clickedOnce = true;
 				}
             }
 		});
@@ -189,16 +189,16 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent a) {
-		if(a.getSource().equals(openSource) && openSource.isSelected() && canDownload){
+		if(a.getSource().equals(_openSource) && _openSource.isSelected() && _canDownload){
 			//Checked open source, enable download button
-			button.setEnabled(true);
+			_button.setEnabled(true);
 			
-		}else if(a.getSource().equals(openSource)){
+		}else if(a.getSource().equals(_openSource)){
 			//Open source unchecked, disable download button
-			button.setEnabled(false);
+			_button.setEnabled(false);
 			
-		}else if(a.getSource().equals(button)){
-			String mp3 = url.getText();
+		}else if(a.getSource().equals(_button)){
+			String mp3 = _url.getText();
 			int n = 1;
 			//Download button pressed, check if file exists
 			String cmd = "[ -e $(basename " + mp3 + ") ]";
@@ -227,19 +227,19 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 					bashCommand(cmd);
 				}if(n != 2){
 					//Didn't choose to cancel, download
-					progress.setValue(0);
-					progress.setVisible(true);
-					dlWork = new DownloadWorker(mp3);
-					dlWork.execute();
-					button.setEnabled(false);
-					cButton.setEnabled(true);
+					_progress.setValue(0);
+					_progress.setVisible(true);
+					_dlWork = new DownloadWorker(mp3);
+					_dlWork.execute();
+					_button.setEnabled(false);
+					_cButton.setEnabled(true);
 					
-					canDownload = false;
+					_canDownload = false;
 				}
 			}
 		}else{
 			//Cancel button pressed, stop download
-			dlWork.cancel(true);
+			_dlWork.cancel(true);
 		}
 		
 	}

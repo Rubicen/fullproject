@@ -19,10 +19,10 @@ import java.awt.event.WindowEvent;
 @SuppressWarnings("serial")
 public class VAMIX extends JFrame{
 	
-	AudioPanel audioPanel = new AudioPanel(this);
-	DownloadPanel downloadPanel = new DownloadPanel();
-	PlayerPanel playerPanel = new PlayerPanel();
-	OpenPanel openPanel = new OpenPanel(this);
+	AudioPanel _audioPanel = new AudioPanel(this);
+	DownloadPanel _downloadPanel = new DownloadPanel();
+	PlayerPanel _playerPanel = new PlayerPanel();
+	OpenPanel _openPanel = new OpenPanel(this);
 	TextPanel _textPanel = new TextPanel(this);
 	JTextField _outName = new JTextField();
 	JLabel _outNameLabel = new JLabel("Outname here: ");
@@ -35,7 +35,7 @@ public class VAMIX extends JFrame{
 		this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                playerPanel.destroy();
+                _playerPanel.destroy();
             }
 		});
 		this.setResizable(false);
@@ -46,18 +46,18 @@ public class VAMIX extends JFrame{
 		JLabel lblOutnameHere = new JLabel("Outname here: ");
 		lblOutnameHere.setBounds(458, 359, 133, 15);
 		getContentPane().add(lblOutnameHere);
-		audioPanel.setBackground(Color.LIGHT_GRAY);
-		audioPanel.setBounds(444, 229, 350, 180);
-		getContentPane().add(audioPanel);
-		downloadPanel.setBackground(Color.LIGHT_GRAY);
-		downloadPanel.setBounds(444, 85, 350, 141);
-		getContentPane().add(downloadPanel);
-		playerPanel.setBackground(Color.LIGHT_GRAY);
-		playerPanel.setBounds(5, 0, 435, 404);
-		getContentPane().add(playerPanel);
-		openPanel.setBackground(Color.LIGHT_GRAY);
-		openPanel.setBounds(444, 0, 350, 84);
-		getContentPane().add(openPanel);
+		_audioPanel.setBackground(Color.LIGHT_GRAY);
+		_audioPanel.setBounds(444, 229, 350, 180);
+		getContentPane().add(_audioPanel);
+		_downloadPanel.setBackground(Color.LIGHT_GRAY);
+		_downloadPanel.setBounds(444, 85, 350, 141);
+		getContentPane().add(_downloadPanel);
+		_playerPanel.setBackground(Color.LIGHT_GRAY);
+		_playerPanel.setBounds(5, 0, 435, 404);
+		getContentPane().add(_playerPanel);
+		_openPanel.setBackground(Color.LIGHT_GRAY);
+		_openPanel.setBounds(444, 0, 350, 84);
+		getContentPane().add(_openPanel);
 		_textPanel.setBounds(5, 408, 788, 200);
 		getContentPane().add(_textPanel);
 	}
@@ -78,8 +78,8 @@ public class VAMIX extends JFrame{
 	 */
 	public void updateFile(File selectedFile,Boolean boo) {
 		
-		audioPanel.newInput(selectedFile,boo);
-		playerPanel.newInput(selectedFile,boo);
+		_audioPanel.newInput(selectedFile,boo);
+		_playerPanel.newInput(selectedFile,boo);
 		_textPanel.newInput(selectedFile,boo);
 		
 		
@@ -90,7 +90,7 @@ public class VAMIX extends JFrame{
 	 * @return
 	 */
 	public long getLength(){
-		return playerPanel.getLength();
+		return _playerPanel.getLength();
 	}
 	
 	public String getOutName(){

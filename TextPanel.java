@@ -62,19 +62,19 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private final JComboBox<String> _creditFont = new JComboBox<String>(_fonts);
 	private final JComboBox<Integer> _creditSize = new JComboBox<Integer>(_fontSizes);
 	private final JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
-	private final JButton btnLoadState = new JButton("Load State");
-	private final JButton btnAddText = new JButton("Add text");
-	private final JButton btnSaveButton = new JButton("Save State");
-	private final JButton btnPreview = new JButton("Preview");
-	private final JProgressBar progress = new JProgressBar();
+	private final JButton _btnLoadState = new JButton("Load State");
+	private final JButton _btnAddText = new JButton("Add text");
+	private final JButton _btnSaveButton = new JButton("Save State");
+	private final JButton _btnPreview = new JButton("Preview");
+	private final JProgressBar _progress = new JProgressBar();
 
 	public TextPanel(VAMIX main){
-		progress.setBounds(300,158,200,19);
-		progress.setIndeterminate(true);
-		progress.setVisible(false);
-		add(progress);
-		btnPreview.setEnabled(false);
-		btnAddText.setEnabled(false);
+		_progress.setBounds(300,158,200,19);
+		_progress.setIndeterminate(true);
+		_progress.setVisible(false);
+		add(_progress);
+		_btnPreview.setEnabled(false);
+		_btnAddText.setEnabled(false);
 		setBackground(Color.LIGHT_GRAY);
 		//Set main
 		_main = main;
@@ -127,21 +127,21 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		add(_creditColour);
 		
 		
-		btnSaveButton.setBounds(12, 154, 117, 25);
-		add(btnSaveButton);
-		btnSaveButton.addActionListener(this);
-		btnLoadState.setBounds(152, 154, 117, 25);
+		_btnSaveButton.setBounds(12, 154, 117, 25);
+		add(_btnSaveButton);
+		_btnSaveButton.addActionListener(this);
+		_btnLoadState.setBounds(152, 154, 117, 25);
 		
-		add(btnLoadState);
-		btnLoadState.addActionListener(this);
-		btnAddText.setBounds(644, 154, 117, 25);
+		add(_btnLoadState);
+		_btnLoadState.addActionListener(this);
+		_btnAddText.setBounds(644, 154, 117, 25);
 		
-		add(btnAddText);
-		btnAddText.addActionListener(this);
+		add(_btnAddText);
+		_btnAddText.addActionListener(this);
 		
 		
-		btnPreview.setBounds(515, 154, 117, 25);
-		add(btnPreview);
+		_btnPreview.setBounds(515, 154, 117, 25);
+		add(_btnPreview);
 		//Logic that makes the enter text message vanish when clicked
 		_creditText.addMouseListener(new MouseAdapter(){
 			@Override
@@ -170,7 +170,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		
 		protected void done(){
-			btnAddText.setEnabled(true);
+			_btnAddText.setEnabled(true);
 			try {
 				if(get() == 0){
 					//Executed successfully
@@ -193,11 +193,11 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	public void newInput(File file,Boolean boo) {
 		//Set the current file to the _file field
 		if(boo){
-			btnPreview.setEnabled(true);
-			btnAddText.setEnabled(true);
+			_btnPreview.setEnabled(true);
+			_btnAddText.setEnabled(true);
 		}else{
-			btnPreview.setEnabled(false);
-			btnAddText.setEnabled(false);
+			_btnPreview.setEnabled(false);
+			_btnAddText.setEnabled(false);
 		}
 		_file = file;
 	}
@@ -205,7 +205,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource().equals(btnAddText)){
+		if(e.getSource().equals(_btnAddText)){
 			if(!_main.getOutName().equals("")){
 				//Check if the given output name exists already
 				File output = new File(_main.getOutName() + ".mp4");
@@ -291,8 +291,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 						}
 						
 						//Send the command to bash
-						btnAddText.setEnabled(false);
-						progress.setVisible(true);
+						_btnAddText.setEnabled(false);
+						_progress.setVisible(true);
 						TextWorker worker = new TextWorker(cmd);
 						worker.execute();
 						System.out.println(cmd);
@@ -306,7 +306,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				JOptionPane.showMessageDialog(null, "Please specify an output name");
 			}
 		}
-		else if(e.getSource().equals(btnSaveButton)){
+		else if(e.getSource().equals(_btnSaveButton)){
 			//Save current state of VAMIX to a file
 			String projName = JOptionPane.showInputDialog("Save file as?");
 			String state = "oText=" + _openText.getText() + "\n" + 
@@ -333,7 +333,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			writer.println(state);
 			writer.close();
 		}
-		else if(e.getSource().equals(btnLoadState)){
+		else if(e.getSource().equals(_btnLoadState)){
 			JFileChooser fc = new JFileChooser();
 			fc.showOpenDialog(this);
 			
