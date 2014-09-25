@@ -73,7 +73,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			audioname = audio;
 		}
 		
-		@Override
+		//Depending on input string, the swingworker completes the correct operation
 		protected Void doInBackground() throws Exception {
 			
 			if(called.equals("1")){
@@ -100,12 +100,13 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			return null;
 		}
 		
+		//When the swingworker competes, it reneables everything, and tells a message depending on completion status
 		protected void done(){
 			if(exitValue!=0){
-				JOptionPane.showMessageDialog(null,"OOPS");
+				JOptionPane.showMessageDialog(null,"An error has occured");
 				
 			}else{
-				JOptionPane.showMessageDialog(null,"DID IT");
+				JOptionPane.showMessageDialog(null,"Completion");
 			}
 			_replace.setEnabled(true);
 			_strip.setEnabled(true);
@@ -116,6 +117,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	
 	public void actionPerformed(ActionEvent a){
 		
+		//if is get audio button, enters here
 		if(a.getSource().equals(_getAudio)){
 			_fileSelect.showOpenDialog(this);
 			File file = _fileSelect.getSelectedFile();
@@ -132,10 +134,14 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			}
 		}
 		
+		//if replace button then enters here
 		if(a.getSource().equals(_replace)){
+			
+			//checks if the audiofile is null
 			if(!(_audioFile.getText().equals(""))){
 				File f = new File(_main.getOutName()+".mp4");
 				
+				//checks if the name is not viable or allowed
 				if(!(_main.getOutName().equals("") || f.exists())){
 					swingMaker(_main,"1",_audioFile.getText());
 					
@@ -155,12 +161,15 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 				
 		}
 		
+		//if is the strip button, enters here
 		if(a.getSource().equals(_strip)){
 			File f = new File(_main.getOutName()+"_audio.mp3");
 			File f2 = new File(_main.getOutName()+".mp4");
 			
+			//if the video has audio then enters here
 			if(hasAudio()){
 				
+				//if the outname is viable/allowed enters here
 				if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
 					Object[] options = {"Yes","No"};
 					int optionPicked = JOptionPane.showOptionDialog(this,
@@ -190,19 +199,27 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 						JOptionPane.showMessageDialog(this, "Please rename the outname");
 					}
 				}
+				
+			//if the file does not contain audio, enters here
 			}else{
 				JOptionPane.showMessageDialog(this, "The file "+_file+" does not contain audio");
 			}
 		}
 		
+		//if the overlay button, then enters here
 		if(a.getSource().equals(_overlay)){
+			
+			//if the video contains audio, enters here
 			if(hasAudio()){
+				
+				//if the audiofile selected isnt null, enters here
 				if(!(_audioFile.getText().equals(""))){
 					File f = new File(_main.getOutName()+".mp4");
 					
+					//if the main name is viable, enters here
 					if(!(_main.getOutName().equals("") || f.exists())){
 						swingMaker(_main,"3",_audioFile.getText());
-						
+						//otherwise enters here
 					}else{
 						Object[] options = {"Overwrite","Don't overwrite"};
 						int optionPicked = JOptionPane.showOptionDialog(this,
@@ -220,7 +237,7 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		}
 	}
 
-	@Override
+	//new input sets things enabled or not enabled depending on if the file is a video or audio
 	void newInput(File file,Boolean boo) {
 		_file = file;
 		if(boo){
