@@ -132,10 +132,11 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	
 	//Basic actionperformed check
 	public void actionPerformed(ActionEvent a) {
-		//Disable the backwards timer as another event has taken place
-		_timer.stop();
 		//Check which button was pressed
 		if(a.getSource().equals(_playPause)){
+			//Disable the backwards timer as another event has taken place
+			_timer.stop();
+			
 			//Check if the pause or play button was pressed
 			if(!_player.getMediaPlayer().isPlaying()){
 				//Play button pressed
@@ -161,6 +162,9 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			_player.getMediaPlayer().setRate(1);
 			
 		}else if(a.getSource().equals(_fastForward)){
+			//Disable the backwards timer as another event has taken place
+			_timer.stop();
+			
 			//Set rate to fast forward and start playing if it isn't
 			_player.getMediaPlayer().play();
 			_player.getMediaPlayer().setRate(4);
@@ -169,12 +173,18 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			_playPause.setIcon(new ImageIcon(_playicon.getAbsolutePath()));
 			
 		}else if(a.getSource().equals(_stop)){
+			//Disable the backwards timer as another event has taken place
+			_timer.stop();
+			
 			_player.getMediaPlayer().stop();
 			
 			//Change the play button back to play
 			_playPause.setIcon(new ImageIcon(_playicon.getAbsolutePath()));
 			
 		}else if(a.getSource().equals(_mute)){
+			//Disable the backwards timer as another event has taken place
+			_timer.stop();
+			
 			if(!_player.getMediaPlayer().isMute()){
 				_player.getMediaPlayer().mute(true);
 				_mute.setIcon(new ImageIcon(_unmuteicon.getAbsolutePath()));
@@ -182,10 +192,11 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 				_player.getMediaPlayer().mute(false);
 				_mute.setIcon(new ImageIcon(_muteicon.getAbsolutePath()));
 			}
+			
 			//allows the rewinding
 		}else if(a.getSource().equals(_timer)){
 			_player.getMediaPlayer().skip(-100);
-			_timer.start();
+			
 			//Updates the playbar under the play window to the current position of the video
 		}else if(a.getSource().equals(_timerforupdateplay)){
 			Float f = _player.getMediaPlayer().getPosition()*100;

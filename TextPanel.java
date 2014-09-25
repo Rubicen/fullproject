@@ -132,6 +132,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		
 		_btnPreview.setBounds(515, 154, 117, 25);
 		add(_btnPreview);
+		_btnPreview.addActionListener(this);
+		
 		//Logic that makes the enter text message vanish when clicked
 		_creditText.addMouseListener(new MouseAdapter(){
 			@Override
@@ -323,6 +325,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			writer.println(state);
 			writer.close();
 		}
+		
 		else if(e.getSource().equals(_btnLoadState)){
 			JFileChooser fc = new JFileChooser();
 			fc.showOpenDialog(this);
@@ -351,6 +354,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 						_openSize.setSelectedIndex(line.charAt(6));
 					}
 				}
+				br.close();
 				}catch(IOException ex){
 					ex.printStackTrace();
 				}
@@ -358,6 +362,10 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				//Tell user they selected incorrect file
 				JOptionPane.showMessageDialog(null, "Please select a .proj file");
 			}
+		}
+		
+		else if(e.getSource().equals(_btnPreview)){
+			System.out.println(_main.getLength());
 		}
 	}
 }
