@@ -4,14 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -123,6 +126,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		btnLoadState.setBounds(152, 154, 117, 25);
 		
 		add(btnLoadState);
+		btnLoadState.addActionListener(this);
 		btnAddText.setBounds(644, 154, 117, 25);
 		
 		add(btnAddText);
@@ -306,6 +310,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			"cSize=" + _creditSize.getSelectedIndex() + "\n" +
 			"cColr=" + _creditColour.getSelectedIndex();
 			
+			//Write the current state to a file, logic from 
+			//http://stackoverflow.com/questions/2885173/java-how-to-create-and-write-to-a-file
 			PrintWriter writer = null;
 			try {
 				writer = new PrintWriter(projName+".proj", "UTF-8");
@@ -318,6 +324,38 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			}
 			writer.println(state);
 			writer.close();
+		}
+		else if(e.getSource().equals(btnLoadState)){
+			JFileChooser fc = new JFileChooser();
+			fc.showOpenDialog(this);
+			
+			//Check that the selected file is a .proj file
+			String chosenFile = fc.getSelectedFile().getName();
+			if(chosenFile.contains(".proj")){
+				BufferedReader br = new BufferedReader(new FileReader(fc.getSelectedFile()));
+				String line = br.readLine();
+				
+				while(line != null){
+					switch(line.substring(0, 4)){
+					case("oText"):
+						if(line.length() < 7){
+							//Text field was empty
+							_openText.setText("");
+						}else{
+							_openText.setText(line.substring(6));
+						}
+					
+					case("oFont"):
+						_openFont.setSelectedIndex(line.charAt(6));
+					
+					case("oSize"):
+						_openSize.setSelectedIndex(line.charAt(6));
+					}
+				}
+			}else{
+				//Tell user they selected incorrect file
+				JOptionPane.showMessageDialog(null, "Please select a .proj file");
+			}
 		}
 	}
 }
