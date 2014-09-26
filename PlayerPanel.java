@@ -224,6 +224,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 * destroys all active non-automatically closing parts of playerpanel
 	 */
 	public void destroy(){
+		_player.getMediaPlayer().mute(false);
 		_player.getMediaPlayer().stop();
 		_player.getMediaPlayer().release();
 		_timerForUpdatePlay.stop();

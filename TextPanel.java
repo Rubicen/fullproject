@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,11 +41,11 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private String[] _fontColours = {"White", "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Violet"};
 	private Integer[] _fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60, 66, 72};
 	
-	private JLabel _openLabel = new JLabel("Opening Text - Max 60 characters");
+	private JLabel _openLabel = new JLabel("Opening Text - Max 80 characters");
 	private JTextArea _openText = new JTextArea("Enter Text Here");
 	
 	
-	private JLabel _creditLabel = new JLabel("Closing Text - Max 60 characters");
+	private JLabel _creditLabel = new JLabel("Closing Text - Max 80 characters");
 	private JTextArea _creditText = new JTextArea("Enter Text Here");
 	
 	
@@ -90,13 +92,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				}
             }
 		});
-		_openText.setDocument(new JTextFieldLimit(60));
+		_openText.setDocument(new JTextFieldLimit(80));
 		_creditText.setBounds(387, 26, 268, 124);
 		
 		//Adding closing text options
 		_creditText.setPreferredSize(new Dimension(600,19));
 		_creditText.setLineWrap(true);
-		_creditText.setDocument(new JTextFieldLimit(60));
+		_creditText.setDocument(new JTextFieldLimit(80));
 		_creditLabel.setBounds(388, 5, 250, 15);
 		add(_creditLabel);
 		add(_creditText);
@@ -197,7 +199,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		//returns the textpanels needed cmd information
 		protected Integer doInBackground() throws Exception {
 			
-			bashCommand("avconv -y -ss 00:00:00 -i " + _file + " -codec copy -t 00:00:10 .temp.mp4");
+			bashCommand("avconv -y -ss 00:00:00 -i " + _file + " -codec copy -t 00:00:06 .temp.mp4");
 			int result = bashCommand(cmd);
 			return result;
 		}
@@ -209,9 +211,16 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			//Display the preview video on a new frame
 			JFrame previewFrame = new JFrame();
 			previewFrame.setBounds(100,100,420,300);
-			EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
+			final EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
 			mp.setBounds(0,0,420,300);
 			previewFrame.add(mp);
+			previewFrame.addWindowListener(new WindowAdapter() {
+	            @Override
+	            public void windowClosed(WindowEvent e) {
+	                mp.getMediaPlayer().stop();
+	                mp.release();
+	            }
+			});
 			previewFrame.setVisible(true);
 			
 			mp.getMediaPlayer().playMedia(".preview.mp4");
@@ -472,7 +481,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					
 					//Set up the command
 					oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
-							"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,5)'";
+							"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,3)'";
 				}
 				if(endText){
 					//Get selected font
@@ -488,7 +497,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					
 					//Set up the command
 					eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
-							"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t,5)'";
+							"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t,3)'";
 				}
 				
 				if(startText && endText){

@@ -80,7 +80,19 @@ To add text to a video, you use the panel at the bottom of the application. To b
 
 There are two identical sections in the text editing panel, one for adding opening text and the other for adding closing text. Opening text will be overlayed for the first 10 seconds of video (as this is roughly the time required to read the text if the maximum amount is entered) and closing text will be overlayed for the last 10 seconds of video. Opening and closing text have the following options:
 
-TEXT: The text area where text can be entered. A maximum of 60 characters may be entered, as much more text on the largest font setting could be much too large for the screen.
+TEXT: The text area where text can be entered. A maximum of 80 characters may be entered, as much more text on the largest font setting could be much too large for the screen.
+
+FONT: The font of text that'll be overlayed.
+
+SIZE: The size of the font.
+
+COLOUR: The colour of the text.
+
+Once you're happy with your text options there are two buttons that can then be pressed:
+
+PREVIEW: Grabs the first 6 seconds of your video file then overlays the starting text on the first 3 seconds and the ending text on the last 3 seconds. Can take a little time to complete on slower machines but is much faster compared to rendering the whole video. Will create two hidden folders that are used for the preview. If you require to you can delete these files, otherwise no more files are created.
+
+ADD TEXT: Adds the opening text to the first 10 seconds and closing text to the last 10 seconds of the video. This can be a large task and may take a long time to complete.
 
 
 
