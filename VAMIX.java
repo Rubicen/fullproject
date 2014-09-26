@@ -2,16 +2,10 @@ import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import uk.co.caprica.vlcj.runtime.RuntimeUtil;
-
-import com.sun.jna.NativeLibrary;
-
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

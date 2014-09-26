@@ -1,47 +1,48 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import javax.imageio.ImageIO;
+import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import javax.swing.JProgressBar;
 
 
 public class PlayerPanel extends VamixPanel implements ActionListener, ChangeListener{
 
 	private static final long serialVersionUID = 1L;
 	
+	private URL _playIcon = Thread.currentThread().getContextClassLoader().getResource("PlayButton.png");
+	private URL _pauseIcon = Thread.currentThread().getContextClassLoader().getResource("PauseButton.png");
+	private URL _forwardIcon = Thread.currentThread().getContextClassLoader().getResource("ForwardButton.png");
+	private URL _stopIcon = Thread.currentThread().getContextClassLoader().getResource("StopIcon.png");
+	private URL _backIcon = Thread.currentThread().getContextClassLoader().getResource("BackButton.png");
+	private URL _unmuteIcon = Thread.currentThread().getContextClassLoader().getResource("Unmuteutton.png");
+	private URL _muteIcon = Thread.currentThread().getContextClassLoader().getResource("MuteButton.png");
+	
 	private EmbeddedMediaPlayerComponent _player = new EmbeddedMediaPlayerComponent();
 	private JPanel _playerPanel = new JPanel();
-	File _playIcon = new File("PlayButton.png");
-	File _pauseIcon = new File("PauseButton.png");
-	private JButton _playPause = new JButton(new ImageIcon(_playIcon.getAbsolutePath()));
-	File _forwardicon = new File("ForwardButton.png");
-	private JButton _fastForward = new JButton(new ImageIcon(_forwardicon.getAbsolutePath()));
-	File _stopIcon = new File("StopIcon.png");
-	private JButton _stop = new JButton(new ImageIcon(_stopIcon.getAbsolutePath()));
-	File _backIcon = new File("BackButton.png");
-	private JButton _backwards = new JButton(new ImageIcon(_backIcon.getAbsolutePath()));
+	
+	
+	private JButton _playPause = new JButton(new ImageIcon(_playIcon));
+	private JButton _fastForward = new JButton(new ImageIcon(_forwardIcon));
+	private JButton _stop = new JButton(new ImageIcon(_stopIcon));
+	private JButton _backwards = new JButton(new ImageIcon(_backIcon));
 	
 	File _file;
 	
-	File _unmuteIcon = new File("UnmuteIcon.png");
-	File _muteIcon = new File("MuteButton.png");
-	private JButton _mute = new JButton(new ImageIcon(_muteIcon.getAbsolutePath()));
+	private JButton _mute = new JButton(new ImageIcon(_muteIcon));
 	private JSlider _volume = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
 	private Timer _timer = new Timer(10, this);
 	private Timer _timerForUpdatePlay = new Timer(500,this);
@@ -126,7 +127,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	public void newInput(File file,Boolean boo) {
 		_player.getMediaPlayer().mute(false);
 		_player.getMediaPlayer().playMedia(file.getAbsolutePath());
-		_playPause.setIcon(new ImageIcon(_pauseIcon.getAbsolutePath()));
+		_playPause.setIcon(new ImageIcon(_pauseIcon));
 		_player.getMediaPlayer().mute(false);
 	}
 	
@@ -141,15 +142,15 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			if(!_player.getMediaPlayer().isPlaying()){
 				//Play button pressed
 				_player.getMediaPlayer().play();
-				_playPause.setIcon(new ImageIcon(_pauseIcon.getAbsolutePath()));
+				_playPause.setIcon(new ImageIcon(_pauseIcon));
 			}else if(_player.getMediaPlayer().getRate() != 1){
 				//Set the play rate back to standard
 				_player.getMediaPlayer().setRate(1);
-				_playPause.setIcon(new ImageIcon(_pauseIcon.getAbsolutePath()));
+				_playPause.setIcon(new ImageIcon(_pauseIcon));
 			}else{
 				//Pause button pressed
 				_player.getMediaPlayer().pause();
-				_playPause.setIcon(new ImageIcon(_playIcon.getAbsolutePath()));
+				_playPause.setIcon(new ImageIcon(_playIcon));
 			}
 			
 		}else if(a.getSource().equals(_backwards)){
@@ -158,7 +159,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			_player.getMediaPlayer().pause();
 			
 			//Change play button back to default
-			_playPause.setIcon(new ImageIcon(_playIcon.getAbsolutePath()));
+			_playPause.setIcon(new ImageIcon(_playIcon));
 			_player.getMediaPlayer().setRate(1);
 			
 		}else if(a.getSource().equals(_fastForward)){
@@ -170,7 +171,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			_player.getMediaPlayer().setRate(4);
 			
 			//Change the play button back to play
-			_playPause.setIcon(new ImageIcon(_playIcon.getAbsolutePath()));
+			_playPause.setIcon(new ImageIcon(_playIcon));
 			
 		}else if(a.getSource().equals(_stop)){
 			//Disable the backwards timer as another event has taken place
@@ -179,7 +180,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			_player.getMediaPlayer().stop();
 			
 			//Change the play button back to play
-			_playPause.setIcon(new ImageIcon(_playIcon.getAbsolutePath()));
+			_playPause.setIcon(new ImageIcon(_playIcon));
 			
 		}else if(a.getSource().equals(_mute)){
 			//Disable the backwards timer as another event has taken place
@@ -187,10 +188,10 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			
 			if(!_player.getMediaPlayer().isMute()){
 				_player.getMediaPlayer().mute(true);
-				_mute.setIcon(new ImageIcon(_unmuteIcon.getAbsolutePath()));
+				_mute.setIcon(new ImageIcon(_unmuteIcon));
 			}else{
 				_player.getMediaPlayer().mute(false);
-				_mute.setIcon(new ImageIcon(_muteIcon.getAbsolutePath()));
+				_mute.setIcon(new ImageIcon(_muteIcon));
 			}
 			
 			//allows the rewinding

@@ -167,6 +167,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		
 		protected void done(){
+			_progress.setVisible(false);
 			_btnAddText.setEnabled(true);
 			try {
 				if(get() == 0){
@@ -206,6 +207,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		
 		protected void done(){
 			//Enable the button again
+			_progress.setVisible(false);
 			_btnPreview.setEnabled(true);
 			
 			//Display the preview video on a new frame
@@ -243,6 +245,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(_btnAddText)){
+			_progress.setVisible(true);
 			if(!_main.getOutName().equals("")){
 				//Check if the given output name exists already
 				File output = new File(_main.getOutName() + ".mp4");
@@ -448,6 +451,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		else if(e.getSource().equals(_btnPreview)){
 			//Disable preview button
 			_btnPreview.setEnabled(false);
+			_progress.setVisible(true);
 			
 			//Check if the user has entered text in each field
 			boolean startText = false;

@@ -17,7 +17,7 @@ Contents
 
 Upon getting VAMIX, you must run it using the console. Navigate to the directory of the VAMIX using cd [directory] and cd .. to get around. Once in the directory, use the command below to allow running of the .jar file.
 
->java -jar VAMIX.jar *****************************
+>java -jar VAMIX.jar
 
 Once running, it may take a short time to begin on slower machines.
 
@@ -80,7 +80,7 @@ To add text to a video, you use the panel at the bottom of the application. To b
 
 There are two identical sections in the text editing panel, one for adding opening text and the other for adding closing text. Opening text will be overlayed for the first 10 seconds of video (as this is roughly the time required to read the text if the maximum amount is entered) and closing text will be overlayed for the last 10 seconds of video. Opening and closing text have the following options:
 
-TEXT: The text area where text can be entered. A maximum of 60 characters may be entered, as much more text on the largest font setting could be much too large for the screen.
+TEXT: The text area where text can be entered. A maximum of 80 characters may be entered, as much more text on the largest font setting could be much too large for the screen.
 
 FONT: The font of text that'll be overlayed.
 
