@@ -30,6 +30,7 @@ public class VAMIX extends JFrame{
             @Override
             public void windowClosed(WindowEvent e) {
                 _playerPanel.destroy();
+                _textPanel.destroy();
             }
 		});
 		this.setResizable(false);

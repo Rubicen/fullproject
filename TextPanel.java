@@ -62,6 +62,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private final JButton _btnSaveButton = new JButton("Save State");
 	private final JButton _btnPreview = new JButton("Preview");
 	private final JProgressBar _progress = new JProgressBar();
+	
+	JFrame _previewFrame = new JFrame();
 
 	public TextPanel(VAMIX main){
 		_progress.setBounds(300,158,200,19);
@@ -211,19 +213,18 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			_btnPreview.setEnabled(true);
 			
 			//Display the preview video on a new frame
-			JFrame previewFrame = new JFrame();
-			previewFrame.setBounds(100,100,420,300);
+			_previewFrame.setBounds(100,100,420,300);
 			final EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
 			mp.setBounds(0,0,420,300);
-			previewFrame.add(mp);
-			previewFrame.addWindowListener(new WindowAdapter() {
+			_previewFrame.add(mp);
+			_previewFrame.addWindowListener(new WindowAdapter() {
 	            @Override
 	            public void windowClosed(WindowEvent e) {
 	                mp.getMediaPlayer().stop();
 	                mp.release();
 	            }
 			});
-			previewFrame.setVisible(true);
+			_previewFrame.setVisible(true);
 			
 			mp.getMediaPlayer().playMedia(".preview.mp4");
 		}
@@ -239,6 +240,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			_btnAddText.setEnabled(false);
 		}
 		_file = file;
+	}
+	
+	/**
+	 * Closes the preview panel if it's open
+	 */
+	public void destroy(){
+		_previewFrame.dispose();
 	}
 
 	@Override
