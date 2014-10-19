@@ -57,6 +57,7 @@ public class OpenPanel extends VamixPanel implements ActionListener{
 				boo=false;
 			}
 			_mainPanel.updateFile(_fc.getSelectedFile(),boo);
+
 		}else{
 			JOptionPane.showMessageDialog(this, chosenFile + " is not a valid file");
 		}

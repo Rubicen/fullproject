@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
@@ -62,8 +63,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	private final JButton _btnSaveButton = new JButton("Save State");
 	private final JButton _btnPreview = new JButton("Preview");
 	private final JProgressBar _progress = new JProgressBar();
+	private final JTextField _outname = new JTextField();
 	
-	JFrame _previewFrame = new JFrame();
+	JFrame _previewFrame;
 
 	public TextPanel(VAMIX main){
 		_progress.setBounds(300,158,200,19);
@@ -141,6 +143,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		add(_btnPreview);
 		_btnPreview.addActionListener(this);
 		
+		JLabel outnamelabel = new JLabel("Outname: ");
+		outnamelabel.setBounds(430,182,180,20);
+		outnamelabel.setBackground(Color.LIGHT_GRAY);
+		add(outnamelabel);
+		_outname.setBounds(515,182,245,18);
+		add(_outname);
+		
 		//Logic that makes the enter text message vanish when clicked
 		_creditText.addMouseListener(new MouseAdapter(){
 			@Override
@@ -212,6 +221,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			_progress.setVisible(false);
 			_btnPreview.setEnabled(true);
 			
+			_previewFrame = new JFrame();
+			
 			//Display the preview video on a new frame
 			_previewFrame.setBounds(100,100,420,300);
 			final EmbeddedMediaPlayerComponent mp = new EmbeddedMediaPlayerComponent();
@@ -227,6 +238,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			_previewFrame.setVisible(true);
 			
 			mp.getMediaPlayer().playMedia(".preview.mp4");
+			
 		}
 	}
 	
@@ -246,7 +258,6 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	 * Closes the preview panel if it's open
 	 */
 	public void destroy(){
-		_previewFrame.dispose();
 	}
 
 	@Override
@@ -254,9 +265,9 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(_btnAddText)){
 			_progress.setVisible(true);
-			if(!_main.getOutName().equals("")){
+			if(!_outname.equals("")){
 				//Check if the given output name exists already
-				File output = new File(_main.getOutName() + ".mp4");
+				File output = new File(_outname + ".mp4");
 				
 				int optionPicked = 0;
 				if(output.exists()){
@@ -332,10 +343,10 @@ public class TextPanel extends VamixPanel implements ActionListener{
 						
 						if(startText && endText){
 							//Both start and end text
-							cmd = cmd + oFilter + ", " + eFilter + "\" " + _main.getOutName() + ".mp4";
+							cmd = cmd + oFilter + ", " + eFilter + "\" " + _outname + ".mp4";
 						}else{
 							//Only one text
-							cmd = cmd + oFilter + eFilter + "\" " + _main.getOutName() + ".mp4";
+							cmd = cmd + oFilter + eFilter + "\" " + _outname + ".mp4";
 						}
 						
 						//Send the command to bash

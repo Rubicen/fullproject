@@ -126,6 +126,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 */
 	public void newInput(File file,Boolean boo) {
 		_player.getMediaPlayer().mute(false);
+		_file = file;
 		_player.getMediaPlayer().playMedia(file.getAbsolutePath());
 		_playPause.setIcon(new ImageIcon(_pauseIcon));
 		_player.getMediaPlayer().mute(false);
@@ -229,6 +230,14 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		_player.getMediaPlayer().stop();
 		_player.getMediaPlayer().release();
 		_timerForUpdatePlay.stop();
+	}
+	
+	public void resetPlayer(){
+		_player.getMediaPlayer().playMedia(_file.getAbsolutePath());
+	}
+	
+	public File getFile(){
+		return _file;
 	}
 	
 }

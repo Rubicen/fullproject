@@ -17,7 +17,7 @@ Contents
 
 Upon getting VAMIX, you must run it using the console. Navigate to the directory of the VAMIX using cd [directory] and cd .. to get around. Once in the directory, use the command below to allow running of the .jar file.
 
->java -jar VAMIX.jar
+>java -jar VAMIX_lhor612_sbut576.jar
 
 Once running, it may take a short time to begin on slower machines.
 
