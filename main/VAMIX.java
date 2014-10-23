@@ -9,13 +9,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import panels.AudioPanel;
-import panels.DownloadPanel;
-import panels.OpenPanel;
-import panels.PlayerPanel;
-import panels.SubtitlePanel;
-import panels.TextPanel;
-import panels.VideoFilterPanel;
+import panels.audio.AudioPanel;
+import panels.basic.DownloadPanel;
+import panels.basic.OpenPanel;
+import panels.player.PlayerPanel;
+import panels.text.SubtitlePanel;
+import panels.text.TextPanel;
+import panels.video.VideoFilterPanel;
 
 
 import java.awt.Color;
@@ -24,9 +24,9 @@ import java.awt.Color;
 @SuppressWarnings("serial")
 public class VAMIX extends JFrame{
 	
-	AudioPanel _audioPanel = new AudioPanel(this);
 	DownloadPanel _downloadPanel = new DownloadPanel();
 	PlayerPanel _playerPanel = new PlayerPanel();
+	AudioPanel _audioPanel = new AudioPanel(this,_playerPanel);
 	
 	TextPanel _textPanel = new TextPanel(this);
 	JTextField _outName = new JTextField();
@@ -38,7 +38,7 @@ public class VAMIX extends JFrame{
 	
 	public VAMIX(){
 		super("VAMIX");
-		_tabs.setForeground(Color.GRAY);
+		_tabs.setForeground(Color.BLACK);
 		getContentPane().setBackground(Color.DARK_GRAY);
 		getContentPane().setForeground(Color.BLACK);
 		setBackground(Color.DARK_GRAY);
@@ -122,6 +122,11 @@ public class VAMIX extends JFrame{
 	 */
 	public String getOutName(){
 		return _outName.getText();
+	}
+	
+	public String getFileName(){
+		File file = _playerPanel.getFile();
+		return file.getName();
 	}
 	
 }
