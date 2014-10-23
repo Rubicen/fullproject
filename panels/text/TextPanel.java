@@ -240,13 +240,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	
 	public void newInput(File file,Boolean boo) {
 		//Set the current file to the _file field
-//		if(boo){
+		if(boo){
 			_btnPreview.setEnabled(true);
 			_btnAddText.setEnabled(true);
-//		}else{
-//			_btnPreview.setEnabled(false);
-//			_btnAddText.setEnabled(false);
-//		}
+		}else{
+			_btnPreview.setEnabled(false);
+			_btnAddText.setEnabled(false);
+		}
 		_file = file;
 	}
 	

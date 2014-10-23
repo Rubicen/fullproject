@@ -32,7 +32,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private URL _forwardIcon = Thread.currentThread().getContextClassLoader().getResource("ForwardButton.png");
 	private URL _stopIcon = Thread.currentThread().getContextClassLoader().getResource("StopIcon.png");
 	private URL _backIcon = Thread.currentThread().getContextClassLoader().getResource("BackButton.png");
-	private URL _unmuteIcon = Thread.currentThread().getContextClassLoader().getResource("Unmuteutton.png");
+	private URL _unmuteIcon = Thread.currentThread().getContextClassLoader().getResource("UnmuteIcon.png");
 	private URL _muteIcon = Thread.currentThread().getContextClassLoader().getResource("MuteButton.png");
 	
 	private EmbeddedMediaPlayerComponent _player = new EmbeddedMediaPlayerComponent();
@@ -120,7 +120,6 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		
 		_timeOfVideo.setBounds(12, 321, 400, 16);
 		_timeOfVideo.setMaximum(1000);
-		_timeOfVideo.setEnabled(false);
 		add(_timeOfVideo);
 		
 		_textTimeOfVideo = new JTextField();
@@ -148,16 +147,14 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		_player.getMediaPlayer().mute(false);
 		_file = file;
 		_player.getMediaPlayer().playMedia(file.getAbsolutePath());
-		_playPause.setIcon(new ImageIcon(_playIcon));
 		_player.getMediaPlayer().mute(false);
-		_playPause.doClick();
 		_playPause.setEnabled(true);
 		_backwards.setEnabled(true);
 		_fastForward.setEnabled(true);
 		_mute.setEnabled(true);
 		_stop.setEnabled(true);
 		_volume.setEnabled(true);
-		
+		_playPause.doClick();
 	}
 	
 	//Basic actionperformed check
@@ -280,6 +277,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 */
 	public void destroy(){
 		_player.getMediaPlayer().mute(false);
+		_playPause.doClick();
 		_player.getMediaPlayer().stop();
 		_player.getMediaPlayer().release();
 		_timerForUpdatePlay.stop();
