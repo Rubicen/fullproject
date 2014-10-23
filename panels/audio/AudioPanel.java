@@ -32,8 +32,6 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 	JTextField _audioFile = new JTextField();
 	JProgressBar _fakeProgress = new JProgressBar(0);
 	PlayerPanel _player = new PlayerPanel();
-	//TODO maybe add loading bar (fake) for this
-	
 	
 	public AudioPanel(VAMIX main,PlayerPanel player){
 		_player = player;
@@ -179,14 +177,14 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 			
 			//if the video has audio then enters here
 			if(hasAudio()){
-				
-				//if the outname is viable/allowed enters here
 				if(_player.getFile().getName().equals(_main.getOutName()+".mp4")){
 					Object[] options2 = {"Ok"};
 					JOptionPane.showOptionDialog(this,
 				    "The file you are entering is the file you are working on, please pick another.","Option",JOptionPane.OK_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options2,null);
-				}else if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
+				}else
+				//if the outname is viable/allowed enters here
+				if(!(_main.getOutName().equals("") || f.exists() || f2.exists())){
 					Object[] options = {"Yes","No"};
 					int optionPicked = JOptionPane.showOptionDialog(this,
 				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
@@ -237,8 +235,9 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 						JOptionPane.showOptionDialog(this,
 					    "The file you are entering is the file you are working on, please pick another.","Option",JOptionPane.OK_OPTION,
 					    JOptionPane.QUESTION_MESSAGE,null,options2,null);
-					}//if the main name is viable, enters here
-					else if(!(_main.getOutName().equals("") || f.exists())){
+					}else
+					//if the main name is viable, enters here
+					if(!(_main.getOutName().equals("") || f.exists())){
 						swingMaker(_main,"3",_audioFile.getText());
 						//otherwise enters here
 					}else{
