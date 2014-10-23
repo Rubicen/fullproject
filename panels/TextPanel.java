@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -240,13 +238,13 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	
 	public void newInput(File file,Boolean boo) {
 		//Set the current file to the _file field
-		if(boo){
+//		if(boo){
 			_btnPreview.setEnabled(true);
 			_btnAddText.setEnabled(true);
-		}else{
-			_btnPreview.setEnabled(false);
-			_btnAddText.setEnabled(false);
-		}
+//		}else{
+//			_btnPreview.setEnabled(false);
+//			_btnAddText.setEnabled(false);
+//		}
 		_file = file;
 	}
 	
@@ -262,102 +260,111 @@ public class TextPanel extends VamixPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource().equals(_btnAddText)){
-			_progress.setVisible(true);
-			if(!_outname.equals("")){
+			
+			if(!_outname.getText().equals("")){
+				_progress.setVisible(true);
 				//Check if the given output name exists already
-				File output = new File(_outname + ".mp4");
-				
+				File output = new File(_outname.getText() + ".mp3");
 				int optionPicked = 0;
-				if(output.exists()){
+				if(output.getName().equals(_file.getName())){
+					Object[] options = {"Ok"};
+					JOptionPane.showOptionDialog(this,
+				    "The filename is the same as the file you input. Change please.","Option",JOptionPane.OK_OPTION,
+				    JOptionPane.QUESTION_MESSAGE,null,options,null);
+				}else if(output.exists()){
 					//Ask if we wish to overwrite the file
 					Object[] options = {"Overwrite","Don't overwrite"};
 					optionPicked = JOptionPane.showOptionDialog(this,
 				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options,null);
+					
+					if(optionPicked != 1){
+						//Carry out command
+						
+						//avconv command that'll append text to the beginning and end from 
+						//http://stackoverflow.com/questions/6195872/applying-multiple-filters-at-once-with-ffmpeg
+						
+						
+						//Check if the user has entered text in each field
+						boolean startText = false;
+						boolean endText = false;
+						if(!_openText.getText().equals("") && _openClicked){
+							startText = true;
+						}
+						if(!_creditText.getText().equals("") && _creditClicked){
+							endText = true;
+						}
+						
+						//Check that any input was given
+						if(startText || endText){
+							
+							String cmd = "avconv -i " + _file + " -y -strict experimental -vf \"";
+							String oFilter = "";
+							String eFilter = "";
+							
+							//Get the input variables if required
+							if(startText){
+								//Get selected font
+								String oFont = (String) _openFont.getSelectedItem();
+								oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".ttf"; //I know this is cheap but it works
+								
+								//Get font size
+								int oSize = (int) _openSize.getSelectedItem();
+								
+								//Get font colour
+								String oColour = (String) _openColour.getSelectedItem();
+								oColour = oColour.toLowerCase();
+								
+								//Set up the command
+								oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
+										"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,10)'";
+							}
+							if(endText){
+								//Get selected font
+								String eFont = (String) _creditFont.getSelectedItem();
+								eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".ttf"; //I know this is cheap but it works
+								
+								//Get font size
+								int eSize = (int) _creditSize.getSelectedItem();
+								
+								//Get font colour
+								String eColour = (String) _creditColour.getSelectedItem();
+								eColour = eColour.toLowerCase();
+								
+								//Set up the command
+								eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
+										"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t," +
+										(_main.getLength()-10) + ")'";
+							}
+							
+							if(startText && endText){
+								//Both start and end text
+								cmd = cmd + oFilter + ", " + eFilter + "\" " + _outname + ".mp4";
+							}else{
+								//Only one text
+								cmd = cmd + oFilter + eFilter + "\" " + _outname + ".mp4";
+							}
+							
+							//Send the command to bash
+							_btnAddText.setEnabled(false);
+							_progress.setVisible(true);
+							TextWorker worker = new TextWorker(cmd);
+							worker.execute();
+							System.out.println(cmd);
+						}else{
+							//Tell the user that no input was given
+							JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);
+							
+						}
+					}
 				}
 				
-				if(optionPicked != 1){
-					//Carry out command
-					
-					//avconv command that'll append text to the beginning and end from 
-					//http://stackoverflow.com/questions/6195872/applying-multiple-filters-at-once-with-ffmpeg
-					
-					
-					//Check if the user has entered text in each field
-					boolean startText = false;
-					boolean endText = false;
-					if(!_openText.getText().equals("") && _openClicked){
-						startText = true;
-					}
-					if(!_creditText.getText().equals("") && _creditClicked){
-						endText = true;
-					}
-					
-					//Check that any input was given
-					if(startText || endText){
-						
-						String cmd = "avconv -i " + _file + " -y -strict experimental -vf \"";
-						String oFilter = "";
-						String eFilter = "";
-						
-						//Get the input variables if required
-						if(startText){
-							//Get selected font
-							String oFont = (String) _openFont.getSelectedItem();
-							oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".ttf"; //I know this is cheap but it works
-							
-							//Get font size
-							int oSize = (int) _openSize.getSelectedItem();
-							
-							//Get font colour
-							String oColour = (String) _openColour.getSelectedItem();
-							oColour = oColour.toLowerCase();
-							
-							//Set up the command
-							oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
-									"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,10)'";
-						}
-						if(endText){
-							//Get selected font
-							String eFont = (String) _creditFont.getSelectedItem();
-							eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".ttf"; //I know this is cheap but it works
-							
-							//Get font size
-							int eSize = (int) _creditSize.getSelectedItem();
-							
-							//Get font colour
-							String eColour = (String) _creditColour.getSelectedItem();
-							eColour = eColour.toLowerCase();
-							
-							//Set up the command
-							eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
-									"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t," +
-									(_main.getLength()-10) + ")'";
-						}
-						
-						if(startText && endText){
-							//Both start and end text
-							cmd = cmd + oFilter + ", " + eFilter + "\" " + _outname + ".mp4";
-						}else{
-							//Only one text
-							cmd = cmd + oFilter + eFilter + "\" " + _outname + ".mp4";
-						}
-						
-						//Send the command to bash
-						_btnAddText.setEnabled(false);
-						_progress.setVisible(true);
-						TextWorker worker = new TextWorker(cmd);
-						worker.execute();
-						System.out.println(cmd);
-					}else{
-						//Tell the user that no input was given
-						JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);
-					}
-				}
+				
 			}else{
 				//No output name specified
 				JOptionPane.showMessageDialog(null, "Please specify an output name");
 			}
+			_progress.setVisible(false);
 		}
 		else if(e.getSource().equals(_btnSaveButton)){
 			//Save current state of VAMIX to a file

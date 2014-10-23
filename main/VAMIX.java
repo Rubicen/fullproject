@@ -38,8 +38,13 @@ public class VAMIX extends JFrame{
 	
 	public VAMIX(){
 		super("VAMIX");
+		_tabs.setForeground(Color.GRAY);
+		getContentPane().setBackground(Color.DARK_GRAY);
+		getContentPane().setForeground(Color.BLACK);
+		setBackground(Color.DARK_GRAY);
 		try {
 			_subtitles = new SubtitlePanel(_playerPanel);
+			_subtitles.setBackground(Color.GRAY);
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
@@ -56,24 +61,26 @@ public class VAMIX extends JFrame{
 		JLabel lblOutnameHere = new JLabel("Outname here: ");
 		lblOutnameHere.setBounds(458, 359, 133, 15);
 		getContentPane().add(lblOutnameHere);
-		_audioPanel.setBackground(Color.LIGHT_GRAY);
+		_audioPanel.setBackground(Color.GRAY);
 		_audioPanel.setBounds(444, 229, 350, 175);
 		getContentPane().add(_audioPanel);
-		_downloadPanel.setBackground(Color.LIGHT_GRAY);
+		_downloadPanel.setBackground(Color.GRAY);
 		_downloadPanel.setBounds(444, 85, 350, 141);
 		getContentPane().add(_downloadPanel);
-		_playerPanel.setBackground(Color.LIGHT_GRAY);
+		_playerPanel.setBackground(Color.GRAY);
 		_playerPanel.setBounds(5, 0, 435, 404);
 		getContentPane().add(_playerPanel);
-		_openPanel.setBackground(Color.LIGHT_GRAY);
+		_openPanel.setBackground(Color.GRAY);
 		_openPanel.setBounds(444, 0, 350, 84);
 		getContentPane().add(_openPanel);
 		_tabs.setBorder(null);
-		_tabs.setBackground(Color.LIGHT_GRAY);
+		_tabs.setBackground(Color.GRAY);
 		_tabs.setBounds(5, 408, 788, 230);
 		getContentPane().add(_tabs);
+		_textPanel.setBackground(Color.GRAY);
 		_textPanel.setBorder(null);
 		_tabs.add(_textPanel,"Text");
+		_filters.setBackground(Color.GRAY);
 		_tabs.add(_filters,"Filters");
 		_tabs.add(_subtitles,"Subtitles");
 	}

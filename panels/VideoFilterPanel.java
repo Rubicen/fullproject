@@ -24,7 +24,7 @@ import javax.swing.UIManager;
 @SuppressWarnings("serial")
 public class VideoFilterPanel extends VamixPanel implements ActionListener{
 	MagicPaper worker;
-	private JTextField textField;
+	JTextField textField;
 	JLabel _outputNameLabel= new JLabel("Output name: ");
 	JButton _generateButton = new JButton("Generate");
 	String[] flipoptions = {"Horizontal","Vertical"};
@@ -52,61 +52,59 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 		setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(394, 152, 333, 22);
+		textField.setBounds(128, 151, 356, 22);
 		add(textField);
 		textField.setColumns(10);
 		
-		_outputNameLabel.setBounds(291, 154, 102, 15);
+		_outputNameLabel.setBounds(25, 153, 102, 15);
 		add(_outputNameLabel);
 		
 		
-		_generateButton.setBounds(12, 151, 155, 23);
+		_generateButton.setBounds(595, 151, 155, 23);
 		_generateButton.addActionListener(this);
 		add(_generateButton);
 		
-		_comboBoxFlip.setBounds(291, 39, 129, 24);
+		_comboBoxFlip.setBounds(318, 39, 129, 24);
 		add(_comboBoxFlip);
 		
-		_comboBoxRotate.setBounds(580, 39, 129, 24);
+		_comboBoxRotate.setBounds(603, 39, 129, 24);
 		add(_comboBoxRotate);
 		
 		rdbtntrim = new JRadioButton("Trim");
 		rdbtntrim.setBackground(UIManager.getColor("Button.background"));
-		rdbtntrim.setBounds(12, 8, 149, 23);
+		rdbtntrim.setBounds(33, 8, 149, 23);
 		add(rdbtntrim);
 		
 		rdbtnFlip = new JRadioButton("Flip");
 		rdbtnFlip.setBackground(UIManager.getColor("Button.background"));
-		rdbtnFlip.setBounds(326, 8, 70, 23);
+		rdbtnFlip.setBounds(353, 8, 70, 23);
 		add(rdbtnFlip);
-		rdbtnRotate.setBackground(UIManager.getColor("Button.background"));
-		rdbtnRotate.setBounds(613, 8, 114, 23);
-		
-		add(rdbtnRotate);
 		buttonGroup.add(rdbtntrim);
 		buttonGroup.add(rdbtnFlip);
-		buttonGroup.add(rdbtnRotate);
 		
 		SpinnerModel model = new SpinnerNumberModel(0,0,0,1);
 		SpinnerModel model2 = new SpinnerNumberModel(0,0,0,1);
 		spinner1 = new JSpinner();
-		spinner1.setBounds(12, 42, 61, 20);
+		spinner1.setBounds(33, 42, 61, 20);
 		spinner1.setModel(model);
 		add(spinner1);
 		
-		spinner2.setBounds(88, 42, 61, 20);
+		spinner2.setBounds(109, 42, 61, 20);
 		spinner2.setModel(model2);
 		add(spinner2);
 		_generateButton.setEnabled(false);
-		panel.setBounds(4, 4, 157, 74);
+		panel.setBounds(25, 4, 157, 74);
 		
 		add(panel);
-		panel_1.setBounds(274, 4, 157, 74);
+		panel_1.setBounds(301, 4, 157, 74);
 		
 		add(panel_1);
-		panel_2.setBounds(570, 4, 157, 74);
+		panel_2.setBounds(593, 4, 157, 74);
 		
 		add(panel_2);
+		panel_2.add(rdbtnRotate);
+		rdbtnRotate.setBackground(UIManager.getColor("Button.background"));
+		buttonGroup.add(rdbtnRotate);
 	}
 	
 	class MagicPaper extends SwingWorker<Void,Integer> {
@@ -158,6 +156,12 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 				File f = new File(textField.getText()+".mp4");
 				if(f.exists()){
 					Object[] options = {"Overwrite","Don't overwrite"};
+					if(f.getName().equals(textField.getText()+".mp4")){
+						Object[] options2 = {"Ok"};
+						JOptionPane.showOptionDialog(this,
+					    "The file you are entering is the file you are working on, please pick another.","Option",JOptionPane.OK_OPTION,
+					    JOptionPane.QUESTION_MESSAGE,null,options2,null);
+					}
 					int optionPicked = JOptionPane.showOptionDialog(this,
 				    "Overwrite the file named "+textField.getText(),"Option",JOptionPane.YES_NO_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options,null);

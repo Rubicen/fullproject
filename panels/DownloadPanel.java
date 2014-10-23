@@ -143,22 +143,22 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 	 * Constructor method
 	 */
 	public DownloadPanel(){
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(Color.DARK_GRAY);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		_urlPanel.setBackground(Color.LIGHT_GRAY);
+		_urlPanel.setBackground(Color.GRAY);
 		
 		add(_urlPanel);
 		_urlPanel.add(_url);
 		_urlPanel.setPreferredSize(new Dimension(20, 25));
 		_url.setPreferredSize(new Dimension(300, 20));
-		_checkPanel.setBackground(Color.LIGHT_GRAY);
+		_checkPanel.setBackground(Color.GRAY);
 		
 		add(_checkPanel);
-		_openSource.setBackground(Color.LIGHT_GRAY);
+		_openSource.setBackground(Color.GRAY);
 		_checkPanel.add(_openSource);
 		_openSource.addActionListener(this);
 		_openSource.setAlignmentX(JCheckBox.LEFT_ALIGNMENT);
-		_buttonPanel.setBackground(Color.LIGHT_GRAY);
+		_buttonPanel.setBackground(Color.GRAY);
 		
 		add(_buttonPanel);
 		_buttonPanel.add(_dButton);
@@ -167,7 +167,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 		_dButton.setEnabled(false);
 		_cButton.addActionListener(this);
 		_cButton.setEnabled(false);
-		_progressPanel.setBackground(Color.LIGHT_GRAY);
+		_progressPanel.setBackground(Color.GRAY);
 		
 		add(_progressPanel);
 		_progress.setBackground(Color.WHITE);

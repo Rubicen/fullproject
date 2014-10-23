@@ -18,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import javax.swing.JTextField;
 
 
 public class PlayerPanel extends VamixPanel implements ActionListener, ChangeListener{
@@ -46,20 +47,21 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private JButton _mute = new JButton(new ImageIcon(_muteIcon));
 	private JSlider _volume = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
 	private Timer _timer = new Timer(10, this);
-	private Timer _timerForUpdatePlay = new Timer(500,this);
+	private Timer _timerForUpdatePlay = new Timer(100,this);
 	private JSlider _timeOfVideo = new JSlider();
+	private JTextField _textTimeOfVideo;
 	
 	//Starting and setting of all parameters for the swing parts
 	public PlayerPanel(){
-		setBackground(Color.LIGHT_GRAY);
+		setBackground(Color.RED);
 		_timerForUpdatePlay.start();
 		
 		_timerForUpdatePlay.addActionListener(this);
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.black);
 		canvas.setPreferredSize(new Dimension(400,320));
-		_playerPanel.setBounds(12, 2, 400, 320);
-		_playerPanel.setBackground(Color.LIGHT_GRAY);
+		_playerPanel.setBounds(12, 12, 400, 310);
+		_playerPanel.setBackground(Color.BLACK);
 		
 		_playerPanel.setPreferredSize(new Dimension(400,320));
 		_player.setPreferredSize(new Dimension(400,320));
@@ -70,33 +72,33 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		setLayout(null);
 		add(_playerPanel);
 		_backwards.setBorderPainted(false);
-		_backwards.setBackground(Color.LIGHT_GRAY);
+		_backwards.setBackground(Color.GRAY);
 		_backwards.setBounds(12, 349, 32, 32);
 		
 		add(_backwards);
 		
 		
 		_backwards.addActionListener(this);
-		_playPause.setBackground(Color.LIGHT_GRAY);
+		_playPause.setBackground(Color.GRAY);
 		_playPause.setBorderPainted(false);
-		_playPause.setBounds(54, 349, 48, 48);
+		_playPause.setBounds(52, 342, 48, 48);
 		_playPause.setMargin(new Insets(0, 0, 0, 0));
 		add(_playPause);	
 		_playPause.addActionListener(this);
-		_fastForward.setBackground(Color.LIGHT_GRAY);
+		_fastForward.setBackground(Color.GRAY);
 		_fastForward.setBorderPainted(false);
 		_fastForward.setBounds(109, 349, 32, 32);
 
 		add(_fastForward);
 		_fastForward.addActionListener(this);
-		_mute.setBackground(Color.LIGHT_GRAY);
-		_mute.setBounds(199, 349, 32, 32);
+		_mute.setBackground(Color.GRAY);
+		_mute.setBounds(194, 349, 32, 32);
 		_mute.setBorderPainted(false);
 				
 		add(_mute);
 		_mute.addActionListener(this);
-		_stop.setBackground(Color.LIGHT_GRAY);
-		_stop.setBounds(153, 349, 32, 32);
+		_stop.setBackground(Color.GRAY);
+		_stop.setBounds(152, 349, 32, 32);
 		_stop.setBorderPainted(false);
 		
 		add(_stop);
@@ -105,19 +107,34 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		JLabel label = new JLabel("Lower");
 		label.setBounds(236, 366, 44, 15);
 		add(label);
-		_volume.setBackground(Color.LIGHT_GRAY);
-		_volume.setBounds(230, 349, 182, 16);
+		_volume.setBackground(Color.GRAY);
+		_volume.setBounds(230, 349, 100, 16);
 		_volume.setValue(200);
 		add(_volume);
 		_volume.addChangeListener(this);
 		JLabel label_1 = new JLabel("LOUD");
-		label_1.setBounds(373, 366, 39, 15);
+		label_1.setBounds(292, 366, 39, 15);
 		add(label_1);
 		
 		_timeOfVideo.setBounds(12, 321, 400, 16);
 		_timeOfVideo.setMaximum(1000);
 		_timeOfVideo.setEnabled(false);
 		add(_timeOfVideo);
+		
+		_textTimeOfVideo = new JTextField();
+		_textTimeOfVideo.setBackground(Color.GRAY);
+		_textTimeOfVideo.setBounds(342, 346, 70, 19);
+		_textTimeOfVideo.setFocusable(false);
+		add(_textTimeOfVideo);
+		_textTimeOfVideo.setColumns(10);
+		
+		_playPause.setEnabled(false);
+		_backwards.setEnabled(false);
+		_fastForward.setEnabled(false);
+		_mute.setEnabled(false);
+		_stop.setEnabled(false);
+		_volume.setEnabled(false);
+		
 		setVisible(true);
 	}
 	
@@ -132,6 +149,13 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		_playPause.setIcon(new ImageIcon(_playIcon));
 		_player.getMediaPlayer().mute(false);
 		_playPause.doClick();
+		_playPause.setEnabled(true);
+		_backwards.setEnabled(true);
+		_fastForward.setEnabled(true);
+		_mute.setEnabled(true);
+		_stop.setEnabled(true);
+		_volume.setEnabled(true);
+		
 	}
 	
 	//Basic actionperformed check
@@ -184,6 +208,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			
 			//Change the play button back to play
 			_playPause.setIcon(new ImageIcon(_playIcon));
+			_player.getMediaPlayer().setRate(1);
 			
 		}else if(a.getSource().equals(_mute)){
 			//Disable the backwards timer as another event has taken place
@@ -203,6 +228,30 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			
 			//Updates the playbar under the play window to the current position of the video
 		}else if(a.getSource().equals(_timerForUpdatePlay)){
+			String hour,minute,second;
+			long time = _player.getMediaPlayer().getTime()/1000;
+			long hours = time/3600;
+			time = time-3600*hours;
+			long minutes = time/60;
+			time = time-60*minutes;
+			long seconds = time;
+			if(hours<10){
+				hour="0"+Long.toString(hours);
+			}else{
+				hour=Long.toString(hours);
+			}
+			if(minutes<10){
+				minute="0"+Long.toString(minutes);
+			}else{
+				minute=Long.toString(minutes);
+			}
+			if(seconds<10){
+				second="0"+Long.toString(seconds);
+			}else{
+				second=Long.toString(seconds);
+			}
+			_textTimeOfVideo.setText(hour+":"+minute+":"+second);
+			
 			Float f = _player.getMediaPlayer().getPosition()*1000;
 			
 			_timeOfVideo.setValue(f.intValue());
@@ -241,5 +290,4 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	public File getFile(){
 		return _file;
 	}
-	
 }
