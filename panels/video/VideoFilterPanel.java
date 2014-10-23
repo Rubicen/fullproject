@@ -20,8 +20,6 @@ import javax.swing.JSpinner;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import main.VAMIX;
-
 import panels.basic.VamixPanel;
 import panels.player.PlayerPanel;
 
@@ -47,7 +45,6 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 	private final JPanel panel = new JPanel();
 	private final JPanel panel_1 = new JPanel();
 	private final JPanel panel_2 = new JPanel();
-	VAMIX _vamix = new VAMIX();
 	
 	
 	public VideoFilterPanel(PlayerPanel player){

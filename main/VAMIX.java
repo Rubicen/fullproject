@@ -24,6 +24,7 @@ import java.awt.Color;
 @SuppressWarnings("serial")
 public class VAMIX extends JFrame{
 	
+	
 	DownloadPanel _downloadPanel = new DownloadPanel();
 	PlayerPanel _playerPanel = new PlayerPanel();
 	AudioPanel _audioPanel = new AudioPanel(this,_playerPanel);
@@ -122,11 +123,6 @@ public class VAMIX extends JFrame{
 	 */
 	public String getOutName(){
 		return _outName.getText();
-	}
-	
-	public String getFileName(){
-		File file = _playerPanel.getFile();
-		return file.getName();
 	}
 	
 }

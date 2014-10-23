@@ -90,6 +90,7 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		
 		_update = new JButton("Update");
 		_update.setBounds(141, 175, 117, 25);
+		_update.addActionListener(this);
 		add(_update);
 		lblStartTime.setBounds(448, 42, 90, 15);
 		
@@ -158,7 +159,7 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 				_textArea.append(txtStart.getText()+" --> "+txtEnd.getText()+"\n");
 				_textArea.append("<font color=\""+_colourCombo.getSelectedItem()+"\">"+"\n");
 				_textArea.append(subtitleText.getText()+"\n");
-				_textArea.append("<\\font>\n");
+//				_textArea.append("<\\font>\n");
 				_textArea.append("\n");
 			}
 		}else if(arg0.getSource().equals(questionmarkbutton)){
@@ -179,6 +180,8 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		    "loaded video file. If you have issues, refer to the manual for\n" +
 		    "more information.","Instructions and Help",JOptionPane.YES_OPTION,
 		    JOptionPane.QUESTION_MESSAGE,null,options,null);
+		}else if(arg0.getSource().equals(_update)){
+			_player.resetPlayer();
 		}
 		
 	}
