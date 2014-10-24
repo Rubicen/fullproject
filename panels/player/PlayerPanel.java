@@ -21,8 +21,14 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import javax.swing.JTextField;
 
 import panels.basic.VamixPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-
+/**
+ * 
+ * @author logan and sam
+ *	this class is a combined class from the joined section (assignment 3)
+ */
 public class PlayerPanel extends VamixPanel implements ActionListener, ChangeListener{
 
 	private static final long serialVersionUID = 1L;
@@ -43,6 +49,7 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	private JButton _fastForward = new JButton(new ImageIcon(_forwardIcon));
 	private JButton _stop = new JButton(new ImageIcon(_stopIcon));
 	private JButton _backwards = new JButton(new ImageIcon(_backIcon));
+	Boolean timerChanging = false;
 	
 	File _file;
 	
@@ -117,6 +124,8 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		JLabel label_1 = new JLabel("LOUD");
 		label_1.setBounds(292, 366, 39, 15);
 		add(label_1);
+		_timeOfVideo.addChangeListener(this);
+		
 		
 		_timeOfVideo.setBounds(12, 321, 400, 16);
 		_timeOfVideo.setMaximum(1000);
@@ -252,16 +261,26 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			_textTimeOfVideo.setText(hour+":"+minute+":"+second);
 			
 			Float f = _player.getMediaPlayer().getPosition()*1000;
-			
+			timerChanging = true;
 			_timeOfVideo.setValue(f.intValue());
+			timerChanging = false;
 			_timeOfVideo.repaint();
 		}
 	}
 
 	public void stateChanged(ChangeEvent e) {
 		//Volume slider was moved, change volume accordingly
-		JSlider source = (JSlider)e.getSource();
-		_player.getMediaPlayer().setVolume(source.getValue());
+		if(e.getSource().equals(_volume)){
+			JSlider source = (JSlider)e.getSource();
+			_player.getMediaPlayer().setVolume(source.getValue());
+		}else{
+			if(!timerChanging){
+				Float timerPosition = (float) _timeOfVideo.getValue()/1000;
+				_player.getMediaPlayer().setPosition(timerPosition);
+			}
+		}
+		
+		
 	}
 	
 	/**

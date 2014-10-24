@@ -81,24 +81,24 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		protected Void doInBackground() throws Exception {
 			
 			if(called.equals("1")){
-				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -vcodec copy -acodec copy -map 0:0 -map 1:0 "+outname+".mp4");
+				exitValue = bashCommand("avconv -y -i "+audioname+" -i '"+_file+"' -vcodec copy -acodec copy -map 0:0 -map 1:0 '"+outname+".mp4'");
 			}
 			
 			if(called.equals("21")){
-				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+outname+".mp4");
+				exitValue = bashCommand("avconv -y -i '"+_file+"' -an -c:v copy '"+outname+".mp4'");
 				if(exitValue == 0){
-					exitValue = bashCommand("avconv -y -i "+_file+" -f mp3 -ab 192000 -vn "+outname+"_audio.mp3");
+					exitValue = bashCommand("avconv -y -i '"+_file+"' -f mp3 -ab 192000 -vn '"+outname+"_audio.mp3'");
 				}
 				
 			}
 			
 			if(called.equals("22")){
-				exitValue = bashCommand("avconv -y -i "+_file+" -an -c:v copy "+outname+".mp4");
+				exitValue = bashCommand("avconv -y -i '"+_file+"' -an -c:v copy '"+outname+"'.mp4");
 				
 			}
 				
 			if(called.equals("3")){
-				exitValue = bashCommand("avconv -y -i "+audioname+" -i "+_file+" -filter_complex amix=inputs=2:duration=longest:dropout_transition=3 -strict experimental "+outname+".mp4");
+				exitValue = bashCommand("avconv -y -i '"+audioname+"' -i '"+_file+"' -filter_complex amix=inputs=2:duration=longest:dropout_transition=3 -strict experimental '"+outname+".mp4'");
 				
 			}
 			return null;
