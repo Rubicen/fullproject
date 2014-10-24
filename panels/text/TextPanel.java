@@ -31,7 +31,11 @@ import main.VAMIX;
 
 import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
-
+/**
+ * 
+ * @author logan
+ *	Most of the commands in the workers are implemented from sources off of the internet
+ */
 public class TextPanel extends VamixPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;

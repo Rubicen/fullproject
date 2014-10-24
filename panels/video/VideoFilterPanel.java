@@ -23,7 +23,11 @@ import javax.swing.UIManager;
 import panels.basic.VamixPanel;
 import panels.player.PlayerPanel;
 
-
+/**
+ * 
+ * @author logan
+ *	Most of the commands in the workers are implemented from sources off of the internet
+ */
 @SuppressWarnings("serial")
 public class VideoFilterPanel extends VamixPanel implements ActionListener{
 	MagicPaper worker;

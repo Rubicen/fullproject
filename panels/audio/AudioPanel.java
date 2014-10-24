@@ -18,7 +18,11 @@ import panels.player.PlayerPanel;
 
 import main.VAMIX;
 
-
+/**
+ * 
+ * @author logan
+ *	Most of the commands in the workers are implemented from sources off of the internet
+ */
 @SuppressWarnings("serial")
 public class AudioPanel extends VamixPanel implements ActionListener{
 	
@@ -165,6 +169,8 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 						JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
 					}
 				}
+			}else{
+				JOptionPane.showMessageDialog(this,"Please enter a audio file to replace the audio with.");
 			}
 			
 				
@@ -252,7 +258,11 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 						}
 						
 					}
+				}else{
+					JOptionPane.showMessageDialog(this,"Please enter a audio file to overlay the audio with.");
 				}
+			}else{
+				JOptionPane.showMessageDialog(this,"This file has no audio to overlay. \nChoose a file with audio streams or replace audio to add the audio in.");
 			}
 		}
 	}
