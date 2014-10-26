@@ -23,7 +23,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import java.awt.Color;
 
-
+/**
+ * 
+ * @author logan and sam
+ *
+ */
 public class DownloadPanel extends VamixPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
@@ -186,7 +190,7 @@ public class DownloadPanel extends VamixPanel implements ActionListener{
 		});
 	}
 
-	@Override
+	//actionperformed for the downloadpanel
 	public void actionPerformed(ActionEvent a) {
 		if(a.getSource().equals(openSourceCheck) && openSourceCheck.isSelected() && booCanDownload){
 			//Checked open source, enable download button

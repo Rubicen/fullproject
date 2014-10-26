@@ -33,7 +33,7 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 /**
  * 
- * @author logan
+ * @author logan and sam
  *	Most of the commands in the workers are implemented from sources off of the internet
  */
 public class TextPanel extends VamixPanel implements ActionListener{
@@ -356,7 +356,6 @@ public class TextPanel extends VamixPanel implements ActionListener{
 							progressBar.setVisible(true);
 							TextWorker worker = new TextWorker(cmd);
 							worker.execute();
-							System.out.println(cmd);
 						}else{
 							//Tell the user that no input was given
 							JOptionPane.showMessageDialog(this, "No text input.", "ERROR", JOptionPane.ERROR_MESSAGE);

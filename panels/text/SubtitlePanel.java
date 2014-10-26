@@ -138,11 +138,14 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 	}
 	
 	
-	
+	//actionPerformed for any buttons on the panel
 	public void actionPerformed(ActionEvent arg0) {
+		
+		//if save button is pressed
 		if(arg0.getSource().equals(saveButton)){
 			try {
-				
+				//if file exists already, then write to it replacing with whats in
+				//the text area
 				if(!f.equals(null)){
 					FileWriter write = new FileWriter(f);
 					write.append(textArea.getText());
@@ -151,9 +154,13 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		
+		//if generate button is pressed
 		}else if(arg0.getSource().equals(generateButton)){
+			//if there is no subtitle to be added, display a pane saying enter text
 			if(subtitleText.getText().equals(null)||subtitleText.getText().equals("")){
-				//do nothing
+				JOptionPane.showMessageDialog(null,"Please enter text into the subtitle text area before generating");
+			//if there is text to add to the subtitle file
 			}else{
 				textArea.append(numberValueSpinner.getValue()+"\n");
 				textArea.append(txtStart.getText()+" --> "+txtEnd.getText()+"\n");
@@ -161,6 +168,8 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 				textArea.append(subtitleText.getText()+"\n");
 				textArea.append("\n");
 			}
+		
+		//if the help button is hit, display the message dialog box
 		}else if(arg0.getSource().equals(questionMarkButton)){
 			Object[] options = {"Ok"};
 			@SuppressWarnings("unused")
@@ -190,7 +199,7 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 	@Override
 	public void newInput(File file, Boolean boo) {
 		
-		
+		//boo is true if it is a video file
 		if(boo){
 			setAllEnabled();
 			txtLong.setText(""+player.getLength()+"s long");
@@ -201,6 +210,7 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 				name = nametemp[0];
 				f = new File(name+".srt");
 				String text;
+				//if the .srt already exists, load it into the text area
 				if(f.exists()){
 					try{
 						FileReader read = new FileReader(f);
@@ -221,6 +231,10 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		}
 		
 	}
+	
+	/**
+	 * sets all of the buttons in subtitlepanel to active, triggered by inputing a video file
+	 */
 	public void setAllEnabled(){
 		saveButton.setEnabled(true);
 		textArea.setEnabled(true);
@@ -228,6 +242,9 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		updateButton.setEnabled(true);
 	}
 	
+	/**
+	 * sets all of the buttons in subtitlepanel to inactive, triggered by inputing a video file
+	 */
 	public void setAllDisabled(){
 		saveButton.setEnabled(false);
 		textArea.setEnabled(false);

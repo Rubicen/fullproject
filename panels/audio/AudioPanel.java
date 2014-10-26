@@ -84,10 +84,12 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		//Depending on input string, the swingworker completes the correct operation
 		protected Void doInBackground() throws Exception {
 			
+			//replace buttons avconv command
 			if(called.equals("1")){
 				exitValue = bashCommand("avconv -y -i "+audioname+" -i '"+file+"' -vcodec copy -acodec copy -map 0:0 -map 1:0 '"+outname+".mp4'");
 			}
 			
+			//strip with audio output avconv command
 			if(called.equals("21")){
 				exitValue = bashCommand("avconv -y -i '"+file+"' -an -c:v copy '"+outname+".mp4'");
 				if(exitValue == 0){
@@ -96,11 +98,13 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 				
 			}
 			
+			//strip without audio output avconv command
 			if(called.equals("22")){
 				exitValue = bashCommand("avconv -y -i '"+file+"' -an -c:v copy '"+outname+"'.mp4");
 				
 			}
 				
+			//overlay avconv command
 			if(called.equals("3")){
 				exitValue = bashCommand("avconv -y -i '"+audioname+"' -i '"+file+"' -filter_complex amix=inputs=2:duration=longest:dropout_transition=3 -strict experimental '"+outname+".mp4'");
 				
@@ -282,6 +286,13 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		
 	}
 	
+	/**
+	 * Creates the swingworker for audiopanel
+	 * main, the option selected and the audio location are inputs
+	 * @param vam
+	 * @param option
+	 * @param audio
+	 */
 	public void swingMaker(VAMIX vam,String option,String audio){
 		replaceButton.setEnabled(false);
 		stripButton.setEnabled(false);
@@ -293,6 +304,10 @@ public class AudioPanel extends VamixPanel implements ActionListener{
 		job.execute();
 	}
 	
+	/**
+	 * Checks if the video input has audio streams
+	 * @return
+	 */
 	public Boolean hasAudio(){
 		if(bashCommand("avprobe "+file+" -show_streams | grep -i \"audio\"")==0){
 			return true;

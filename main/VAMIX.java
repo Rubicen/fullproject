@@ -37,6 +37,7 @@ public class VAMIX extends JFrame{
 	SubtitlePanel subtitlePanel;
 	OpenPanel openPanel = new OpenPanel(this);
 	
+	//creates the VAMIX pieces
 	public VAMIX(){
 		super("VAMIX");
 		tabs.setForeground(Color.BLACK);

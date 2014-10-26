@@ -122,6 +122,7 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 		buttonGroup.add(rdbtnRotate);
 	}
 	
+	//Swingworker for the videofilterpanel, does all the options, selected by a button on UI
 	class VideoFilterWorker extends SwingWorker<Void,Integer> {
 		String choice;
 		public VideoFilterWorker(String option){
@@ -129,17 +130,21 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 		}
 		@Override
 		protected Void doInBackground() throws Exception {
+			
+			//trim selector was selected
 			if(choice.equals("trim")){
 				int dur = (int) (Float.parseFloat(spinner2.getValue().toString())-Float.parseFloat(spinner1.getValue().toString()));
 				bashCommand("avconv -y -ss "+spinner1.getValue()+" -i "+player.getFile().getAbsolutePath()+" -t "+dur+" -vcodec copy -acodec copy "+textField.getText()+".mp4");
-				System.out.println("avconv -y -ss "+spinner1.getValue()+" -i "+player.getFile().getAbsolutePath()+" -t "+spinner2.getValue()+" -vcodec copy -acodec copy "+textField.getText()+".mp4");
+							
+			//flip selector was selected
 			}else if(choice.equals("flip")){
 				if(comboBoxFlip.getSelectedItem().equals("Horizontal")){
 					bashCommand("avconv -y -i "+player.getFile().getAbsolutePath()+" -c:v libx264 -c:a copy -vf \"hflip\" "+textField.getText()+".mp4");
 				}else if(comboBoxFlip.getSelectedItem().equals("Vertical")){
 					bashCommand("avconv -y -i "+player.getFile().getAbsolutePath()+" -c:v libx264 -c:a copy -vf \"vflip\" "+textField.getText()+".mp4");
 				}
-				
+			
+			//rotate selector was selected	
 			}else if(choice.equals("rotate")){
 				if(comboBoxRotate.getSelectedItem().equals("90")){
 					bashCommand("avconv -y -i "+player.getFile().getAbsolutePath()+" -c:a copy -q 1 -r 23.967 -vf \"transpose=1\" "+textField.getText()+".mp4");
@@ -162,23 +167,37 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 		}
 	}
 	public void actionPerformed(ActionEvent e) {
+		
+		//if the generate button was selected
 		if(e.getSource().equals(generateButton)){
+			
+			//if the textfield is empty for the output name
 			if(textField.getText().equals(null)||textField.getText().equals("")){
-			}else{
+			}
+			
+			//if the text field contains text for the output name
+			else{
 				File f = new File(textField.getText()+".mp4");
+				
+				//if the output file already exists
 				if(f.exists()){
 					Object[] options = {"Overwrite","Don't overwrite"};
-					System.out.println(player.getFile().getName());
+										
+					//If the file you are trying to overwrite is the one you are trying to work on, go here
 					if(player.getFile().getName().equals(textField.getText()+".mp4")){
 						Object[] options2 = {"Ok"};
 						JOptionPane.showOptionDialog(this,
 					    "The file name you are entering is the name of the \nfile you are working on, please pick another.","Option",JOptionPane.OK_OPTION,
 					    JOptionPane.QUESTION_MESSAGE,null,options2,null);
-					}else{
+					}
+					
+					//If the file is able to be overwritten
+					else{
 						int optionPicked = JOptionPane.showOptionDialog(this,
 					    "Overwrite the file named "+textField.getText()+"?","Option",JOptionPane.YES_NO_OPTION,
 					    JOptionPane.QUESTION_MESSAGE,null,options,null);
-						System.out.println("fuck");
+						
+						//if chosen to overwrite
 						if(optionPicked == 0){
 							if(rdbtntrim.isSelected()){
 								generateButton.setEnabled(false);
@@ -189,21 +208,22 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 								worker = new VideoFilterWorker("rotate");
 								worker.execute();
 							}else if(rdbtnFlip.isSelected()){
-								System.out.println("fuck2");
 								generateButton.setEnabled(false);
 								worker = new VideoFilterWorker("flip");
 								worker.execute();
 							}else{
 								JOptionPane.showMessageDialog(this,"You have not selected an option. \nSelect an option to continue");
 							}
+						//if the file is able to be overwritten and chosen not to overwrite
 						}else if(optionPicked == 1){
 							JOptionPane.showMessageDialog(this,"File name taken. Change the outname");
 						}
 					}
+				//if the file didn't exist already
 				}else{
 					
+					
 					if(rdbtntrim.isSelected()){
-						System.out.println("here");
 						if(spinner2.getValue().equals(spinner1.getValue())||Float.parseFloat(spinner2.getValue().toString())<Float.parseFloat(spinner1.getValue().toString())){
 							JOptionPane.showMessageDialog(this,"The spinner values are not acceptable, change them please.");
 						}else{
@@ -230,14 +250,14 @@ public class VideoFilterPanel extends VamixPanel implements ActionListener{
 
 	@Override
 	public void newInput(File file, Boolean boo) {
-		
+		//if the file is video
 		if(boo){
-			System.out.println(player.getLength());
 			SpinnerModel model = new SpinnerNumberModel(0,0,player.getLength(),1);
 			SpinnerModel model2 = new SpinnerNumberModel(0,0,player.getLength(),1);
 			spinner1.setModel(model);
 			spinner2.setModel(model2);
 			generateButton.setEnabled(true);
+		//if the file is not video
 		}else{
 			generateButton.setEnabled(false);
 			SpinnerModel model = new SpinnerNumberModel(0,0,0,1);

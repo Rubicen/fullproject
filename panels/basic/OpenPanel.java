@@ -12,7 +12,11 @@ import javax.swing.JTextField;
 
 import main.VAMIX;
 
-
+/**
+ * 
+ * @author logan and sam
+ *
+ */
 public class OpenPanel extends VamixPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;

@@ -300,10 +300,17 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 		timerForUpdatePlay.stop();
 	}
 	
+	/**
+	 * resets the player, used by subtitlepanel to reset the subtitles to the new file
+	 */
 	public void resetPlayer(){
 		player.getMediaPlayer().playMedia(file.getAbsolutePath());
 	}
 	
+	/**
+	 * simple getter for the video file
+	 * @return
+	 */
 	public File getFile(){
 		return file;
 	}
