@@ -1,4 +1,4 @@
-#This readme is to comilation of help for lhor612 and sbut576
+#This readme is to compilation of help for lhor612 and sbut576
 #and is a general help guide
 
 --------------------------------------------------------------------
@@ -7,8 +7,7 @@ Contents
 1.Startup
 2.Opening files
 3.Downloading files
-4.Editing the audio
-5.Editing in text
+4.General
 --------------------------------------------------------------------
 
 --------------------------------------------------------------------
@@ -19,7 +18,7 @@ Upon getting VAMIX, you must run it using the console. Navigate to the directory
 
 >java -jar VAMIX_lhor612_sbut576.jar
 
-Once running, it may take a short time to begin on slower machines.
+Once run, it may take a short time to begin on slower machines.
 
 --------------------------------------------------------------------
 2.Opening files
@@ -52,50 +51,9 @@ FAILURE:
 If the VAMIX system fails, it will give a general message describing how the download failed. This information can be used to resolve the problem and try the download again.
 
 --------------------------------------------------------------------
-Editing the audio
+4.General
 --------------------------------------------------------------------
 
-To edit audio, you use the panel with audio selection on it. It also contains the outname for both the text addition panel *(see below for information on the text editing panel)*. To begin using this panel, enter the audio you wish to use to manipulate, or utilise the strip command on the video(with audio) that you entered.
-There is a strip, replace and a overlay command, listed below:
-
-STRIP:
-The strip command does not require an audio file input in the audio panel. This command will only work on video files with an audio channel. This command will allow you to mute the audio, and if you click "Yes" on the pop-up box that occurs, will also output an audio file with similar appropriate name to your VAMIX.jar's directory, named using the outname box which must be filled in to allow button clicking enabling. 
-
-REPLACE:
-The replace command requires an audio input to be put into the panel, and will replace the audio on the file selected, saving the new audio and video to a file named using the outname box's input, which must be enabled to allow button clicking.
-
-OVERLAY:
-The overlay command allows you to overlay the current audio on the cideo with another audio. This requires the audio box to be entered using the file selector, and the video input in the input panel *(see above for information on the input panel)* which requires audio to be on it to occur. 
-
-Issues that may occur:
-If you enter a file that is not correct, you will get an error message telling you that you must select an audio file. The buttons each can reject input if the files are not correct, and are not enabled unless a video file has been added through input panel *(see above for input panel information)* which will allow the buttons to be used. The buttons also will let you know if the outname you have selected is one existing, asking you if you wish to overwrite the file or not, selecting no being to cancel the operation, yes being to overwrite and make the command operate. 
-
-The other option comes from the strip command where you may select an option between creating an audio file as well or not. This will not remove the audio from the origin file, but will create 2 new files (1 the muted video, one the audio of that video) which are placed in the same directory as that of the VAMIX.jar. 
-
---------------------------------------------------------------------
-Editing the text
---------------------------------------------------------------------
-
-To add text to a video, you use the panel at the bottom of the application. To begin using this panel, open the video you wish to add text to using the open function and edit the options to fit your needs.
-
-There are two identical sections in the text editing panel, one for adding opening text and the other for adding closing text. Opening text will be overlayed for the first 10 seconds of video (as this is roughly the time required to read the text if the maximum amount is entered) and closing text will be overlayed for the last 10 seconds of video. Opening and closing text have the following options:
-
-TEXT: The text area where text can be entered. A maximum of 80 characters may be entered, as much more text on the largest font setting could be much too large for the screen.
-
-FONT: The font of text that'll be overlayed.
-
-SIZE: The size of the font.
-
-COLOUR: The colour of the text.
-
-Once you're happy with your text options there are two buttons that can then be pressed:
-
-PREVIEW: Grabs the first 6 seconds of your video file then overlays the starting text on the first 3 seconds and the ending text on the last 3 seconds. Can take a little time to complete on slower machines but is much faster compared to rendering the whole video. Will create two hidden folders that are used for the preview. If you require to you can delete these files, otherwise no more files are created.
-
-ADD TEXT: Adds the opening text to the first 10 seconds and closing text to the last 10 seconds of the video. This can be a large task and may take a long time to complete.
-
-
-
-
+For information on use of the VAMIX system, please refer to the User Manual contained in the original .zip folder. The information on the different panels and functions, and what to do if things go wrong is in that file.
 
 
