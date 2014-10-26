@@ -21,8 +21,6 @@ import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 import javax.swing.JTextField;
 
 import panels.basic.VamixPanel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * 
@@ -33,117 +31,117 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 
 	private static final long serialVersionUID = 1L;
 	
-	private URL _playIcon = Thread.currentThread().getContextClassLoader().getResource("PlayButton.png");
-	private URL _pauseIcon = Thread.currentThread().getContextClassLoader().getResource("PauseButton.png");
-	private URL _forwardIcon = Thread.currentThread().getContextClassLoader().getResource("ForwardButton.png");
-	private URL _stopIcon = Thread.currentThread().getContextClassLoader().getResource("StopIcon.png");
-	private URL _backIcon = Thread.currentThread().getContextClassLoader().getResource("BackButton.png");
-	private URL _unmuteIcon = Thread.currentThread().getContextClassLoader().getResource("UnmuteIcon.png");
-	private URL _muteIcon = Thread.currentThread().getContextClassLoader().getResource("MuteButton.png");
+	private URL playIcon = Thread.currentThread().getContextClassLoader().getResource("PlayButton.png");
+	private URL pauseIcon = Thread.currentThread().getContextClassLoader().getResource("PauseButton.png");
+	private URL forwardIcon = Thread.currentThread().getContextClassLoader().getResource("ForwardButton.png");
+	private URL stopIcon = Thread.currentThread().getContextClassLoader().getResource("StopIcon.png");
+	private URL backIcon = Thread.currentThread().getContextClassLoader().getResource("BackButton.png");
+	private URL unmuteIcon = Thread.currentThread().getContextClassLoader().getResource("UnmuteIcon.png");
+	private URL muteIcon = Thread.currentThread().getContextClassLoader().getResource("MuteButton.png");
 	
-	private EmbeddedMediaPlayerComponent _player = new EmbeddedMediaPlayerComponent();
-	private JPanel _playerPanel = new JPanel();
+	private EmbeddedMediaPlayerComponent player = new EmbeddedMediaPlayerComponent();
+	private JPanel playerPanel = new JPanel();
 	
 	
-	private JButton _playPause = new JButton(new ImageIcon(_playIcon));
-	private JButton _fastForward = new JButton(new ImageIcon(_forwardIcon));
-	private JButton _stop = new JButton(new ImageIcon(_stopIcon));
-	private JButton _backwards = new JButton(new ImageIcon(_backIcon));
+	private JButton playPause = new JButton(new ImageIcon(playIcon));
+	private JButton fastForward = new JButton(new ImageIcon(forwardIcon));
+	private JButton stop = new JButton(new ImageIcon(stopIcon));
+	private JButton backwards = new JButton(new ImageIcon(backIcon));
 	Boolean timerChanging = false;
 	
-	File _file;
+	File file;
 	
-	private JButton _mute = new JButton(new ImageIcon(_muteIcon));
-	private JSlider _volume = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
-	private Timer _timer = new Timer(10, this);
-	private Timer _timerForUpdatePlay = new Timer(100,this);
-	private JSlider _timeOfVideo = new JSlider();
-	private JTextField _textTimeOfVideo;
+	private JButton mute = new JButton(new ImageIcon(muteIcon));
+	private JSlider volumeSlider = new JSlider(JSlider.HORIZONTAL, 0, 200, 100);
+	private Timer timer = new Timer(10, this);
+	private Timer timerForUpdatePlay = new Timer(100,this);
+	private JSlider timeOfVideo = new JSlider();
+	private JTextField textTimeOfVideo;
 	
 	//Starting and setting of all parameters for the swing parts
 	public PlayerPanel(){
 		setBackground(Color.RED);
-		_timerForUpdatePlay.start();
+		timerForUpdatePlay.start();
 		
-		_timerForUpdatePlay.addActionListener(this);
+		timerForUpdatePlay.addActionListener(this);
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.black);
 		canvas.setPreferredSize(new Dimension(400,320));
-		_playerPanel.setBounds(12, 12, 400, 310);
-		_playerPanel.setBackground(Color.BLACK);
+		playerPanel.setBounds(12, 12, 400, 310);
+		playerPanel.setBackground(Color.BLACK);
 		
-		_playerPanel.setPreferredSize(new Dimension(400,320));
-		_player.setPreferredSize(new Dimension(400,320));
-		_playerPanel.add(_player);
+		playerPanel.setPreferredSize(new Dimension(400,320));
+		player.setPreferredSize(new Dimension(400,320));
+		playerPanel.add(player);
 		
-		_playerPanel.add(canvas);
-		_playerPanel.setVisible(true);
+		playerPanel.add(canvas);
+		playerPanel.setVisible(true);
 		setLayout(null);
-		add(_playerPanel);
-		_backwards.setBorderPainted(false);
-		_backwards.setBackground(Color.GRAY);
-		_backwards.setBounds(12, 349, 32, 32);
+		add(playerPanel);
+		backwards.setBorderPainted(false);
+		backwards.setBackground(Color.GRAY);
+		backwards.setBounds(12, 349, 32, 32);
 		
-		add(_backwards);
+		add(backwards);
 		
 		
-		_backwards.addActionListener(this);
-		_playPause.setBackground(Color.GRAY);
-		_playPause.setBorderPainted(false);
-		_playPause.setBounds(52, 342, 48, 48);
-		_playPause.setMargin(new Insets(0, 0, 0, 0));
-		add(_playPause);	
-		_playPause.addActionListener(this);
-		_fastForward.setBackground(Color.GRAY);
-		_fastForward.setBorderPainted(false);
-		_fastForward.setBounds(109, 349, 32, 32);
+		backwards.addActionListener(this);
+		playPause.setBackground(Color.GRAY);
+		playPause.setBorderPainted(false);
+		playPause.setBounds(52, 342, 48, 48);
+		playPause.setMargin(new Insets(0, 0, 0, 0));
+		add(playPause);	
+		playPause.addActionListener(this);
+		fastForward.setBackground(Color.GRAY);
+		fastForward.setBorderPainted(false);
+		fastForward.setBounds(109, 349, 32, 32);
 
-		add(_fastForward);
-		_fastForward.addActionListener(this);
-		_mute.setBackground(Color.GRAY);
-		_mute.setBounds(194, 349, 32, 32);
-		_mute.setBorderPainted(false);
+		add(fastForward);
+		fastForward.addActionListener(this);
+		mute.setBackground(Color.GRAY);
+		mute.setBounds(194, 349, 32, 32);
+		mute.setBorderPainted(false);
 				
-		add(_mute);
-		_mute.addActionListener(this);
-		_stop.setBackground(Color.GRAY);
-		_stop.setBounds(152, 349, 32, 32);
-		_stop.setBorderPainted(false);
+		add(mute);
+		mute.addActionListener(this);
+		stop.setBackground(Color.GRAY);
+		stop.setBounds(152, 349, 32, 32);
+		stop.setBorderPainted(false);
 		
-		add(_stop);
-		_stop.addActionListener(this);
+		add(stop);
+		stop.addActionListener(this);
 		
 		JLabel label = new JLabel("Lower");
 		label.setBounds(236, 366, 44, 15);
 		add(label);
-		_volume.setBackground(Color.GRAY);
-		_volume.setBounds(230, 349, 100, 16);
-		_volume.setValue(200);
-		add(_volume);
-		_volume.addChangeListener(this);
+		volumeSlider.setBackground(Color.GRAY);
+		volumeSlider.setBounds(230, 349, 100, 16);
+		volumeSlider.setValue(200);
+		add(volumeSlider);
+		volumeSlider.addChangeListener(this);
 		JLabel label_1 = new JLabel("LOUD");
 		label_1.setBounds(292, 366, 39, 15);
 		add(label_1);
-		_timeOfVideo.addChangeListener(this);
+		timeOfVideo.addChangeListener(this);
 		
 		
-		_timeOfVideo.setBounds(12, 321, 400, 16);
-		_timeOfVideo.setMaximum(1000);
-		add(_timeOfVideo);
+		timeOfVideo.setBounds(12, 321, 400, 16);
+		timeOfVideo.setMaximum(1000);
+		add(timeOfVideo);
 		
-		_textTimeOfVideo = new JTextField();
-		_textTimeOfVideo.setBackground(Color.GRAY);
-		_textTimeOfVideo.setBounds(342, 346, 70, 19);
-		_textTimeOfVideo.setFocusable(false);
-		add(_textTimeOfVideo);
-		_textTimeOfVideo.setColumns(10);
+		textTimeOfVideo = new JTextField();
+		textTimeOfVideo.setBackground(Color.GRAY);
+		textTimeOfVideo.setBounds(342, 346, 70, 19);
+		textTimeOfVideo.setFocusable(false);
+		add(textTimeOfVideo);
+		textTimeOfVideo.setColumns(10);
 		
-		_playPause.setEnabled(false);
-		_backwards.setEnabled(false);
-		_fastForward.setEnabled(false);
-		_mute.setEnabled(false);
-		_stop.setEnabled(false);
-		_volume.setEnabled(false);
+		playPause.setEnabled(false);
+		backwards.setEnabled(false);
+		fastForward.setEnabled(false);
+		mute.setEnabled(false);
+		stop.setEnabled(false);
+		volumeSlider.setEnabled(false);
 		
 		setVisible(true);
 	}
@@ -152,92 +150,92 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	/**
 	 * sets the player to the file input, and a boolean which is not used here
 	 */
-	public void newInput(File file,Boolean boo) {
-		_player.getMediaPlayer().mute(false);
-		_file = file;
-		_player.getMediaPlayer().playMedia(file.getAbsolutePath());
-		_player.getMediaPlayer().mute(false);
-		_playPause.setEnabled(true);
-		_backwards.setEnabled(true);
-		_fastForward.setEnabled(true);
-		_mute.setEnabled(true);
-		_stop.setEnabled(true);
-		_volume.setEnabled(true);
-		_playPause.doClick();
+	public void newInput(File f,Boolean boo) {
+		player.getMediaPlayer().mute(false);
+		file = f;
+		player.getMediaPlayer().playMedia(file.getAbsolutePath());
+		player.getMediaPlayer().mute(false);
+		playPause.setEnabled(true);
+		backwards.setEnabled(true);
+		fastForward.setEnabled(true);
+		mute.setEnabled(true);
+		stop.setEnabled(true);
+		volumeSlider.setEnabled(true);
+		playPause.doClick();
 	}
 	
 	//Basic actionperformed check
 	public void actionPerformed(ActionEvent a) {
 		//Check which button was pressed
-		if(a.getSource().equals(_playPause)){
+		if(a.getSource().equals(playPause)){
 			//Disable the backwards timer as another event has taken place
-			_timer.stop();
+			timer.stop();
 			
 			//Check if the pause or play button was pressed
-			if(!_player.getMediaPlayer().isPlaying()){
+			if(!player.getMediaPlayer().isPlaying()){
 				//Play button pressed
-				_player.getMediaPlayer().play();
-				_playPause.setIcon(new ImageIcon(_pauseIcon));
-			}else if(_player.getMediaPlayer().getRate() != 1){
+				player.getMediaPlayer().play();
+				playPause.setIcon(new ImageIcon(pauseIcon));
+			}else if(player.getMediaPlayer().getRate() != 1){
 				//Set the play rate back to standard
-				_player.getMediaPlayer().setRate(1);
-				_playPause.setIcon(new ImageIcon(_pauseIcon));
+				player.getMediaPlayer().setRate(1);
+				playPause.setIcon(new ImageIcon(pauseIcon));
 			}else{
 				//Pause button pressed
-				_player.getMediaPlayer().pause();
-				_playPause.setIcon(new ImageIcon(_playIcon));
+				player.getMediaPlayer().pause();
+				playPause.setIcon(new ImageIcon(playIcon));
 			}
 			
-		}else if(a.getSource().equals(_backwards)){
+		}else if(a.getSource().equals(backwards)){
 			//Begin the timer that will trigger backwards jumps and pause the video
-			_timer.start();
-			_player.getMediaPlayer().pause();
+			timer.start();
+			player.getMediaPlayer().pause();
 			
 			//Change play button back to default
-			_playPause.setIcon(new ImageIcon(_playIcon));
-			_player.getMediaPlayer().setRate(1);
+			playPause.setIcon(new ImageIcon(playIcon));
+			player.getMediaPlayer().setRate(1);
 			
-		}else if(a.getSource().equals(_fastForward)){
+		}else if(a.getSource().equals(fastForward)){
 			//Disable the backwards timer as another event has taken place
-			_timer.stop();
+			timer.stop();
 			
 			//Set rate to fast forward and start playing if it isn't
-			_player.getMediaPlayer().play();
-			_player.getMediaPlayer().setRate(4);
+			player.getMediaPlayer().play();
+			player.getMediaPlayer().setRate(4);
 			
 			//Change the play button back to play
-			_playPause.setIcon(new ImageIcon(_playIcon));
+			playPause.setIcon(new ImageIcon(playIcon));
 			
-		}else if(a.getSource().equals(_stop)){
+		}else if(a.getSource().equals(stop)){
 			//Disable the backwards timer as another event has taken place
-			_timer.stop();
+			timer.stop();
 			
-			_player.getMediaPlayer().stop();
+			player.getMediaPlayer().stop();
 			
 			//Change the play button back to play
-			_playPause.setIcon(new ImageIcon(_playIcon));
-			_player.getMediaPlayer().setRate(1);
+			playPause.setIcon(new ImageIcon(playIcon));
+			player.getMediaPlayer().setRate(1);
 			
-		}else if(a.getSource().equals(_mute)){
+		}else if(a.getSource().equals(mute)){
 			//Disable the backwards timer as another event has taken place
-			_timer.stop();
+			timer.stop();
 			
-			if(!_player.getMediaPlayer().isMute()){
-				_player.getMediaPlayer().mute(true);
-				_mute.setIcon(new ImageIcon(_unmuteIcon));
+			if(!player.getMediaPlayer().isMute()){
+				player.getMediaPlayer().mute(true);
+				mute.setIcon(new ImageIcon(unmuteIcon));
 			}else{
-				_player.getMediaPlayer().mute(false);
-				_mute.setIcon(new ImageIcon(_muteIcon));
+				player.getMediaPlayer().mute(false);
+				mute.setIcon(new ImageIcon(muteIcon));
 			}
 			
 			//allows the rewinding
-		}else if(a.getSource().equals(_timer)){
-			_player.getMediaPlayer().skip(-100);
+		}else if(a.getSource().equals(timer)){
+			player.getMediaPlayer().skip(-100);
 			
 			//Updates the playbar under the play window to the current position of the video
-		}else if(a.getSource().equals(_timerForUpdatePlay)){
+		}else if(a.getSource().equals(timerForUpdatePlay)){
 			String hour,minute,second;
-			long time = _player.getMediaPlayer().getTime()/1000;
+			long time = player.getMediaPlayer().getTime()/1000;
 			long hours = time/3600;
 			time = time-3600*hours;
 			long minutes = time/60;
@@ -258,25 +256,25 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 			}else{
 				second=Long.toString(seconds);
 			}
-			_textTimeOfVideo.setText(hour+":"+minute+":"+second);
+			textTimeOfVideo.setText(hour+":"+minute+":"+second);
 			
-			Float f = _player.getMediaPlayer().getPosition()*1000;
+			Float f = player.getMediaPlayer().getPosition()*1000;
 			timerChanging = true;
-			_timeOfVideo.setValue(f.intValue());
+			timeOfVideo.setValue(f.intValue());
 			timerChanging = false;
-			_timeOfVideo.repaint();
+			timeOfVideo.repaint();
 		}
 	}
 
 	public void stateChanged(ChangeEvent e) {
 		//Volume slider was moved, change volume accordingly
-		if(e.getSource().equals(_volume)){
+		if(e.getSource().equals(volumeSlider)){
 			JSlider source = (JSlider)e.getSource();
-			_player.getMediaPlayer().setVolume(source.getValue());
+			player.getMediaPlayer().setVolume(source.getValue());
 		}else{
 			if(!timerChanging){
-				Float timerPosition = (float) _timeOfVideo.getValue()/1000;
-				_player.getMediaPlayer().setPosition(timerPosition);
+				Float timerPosition = (float) timeOfVideo.getValue()/1000;
+				player.getMediaPlayer().setPosition(timerPosition);
 			}
 		}
 		
@@ -288,25 +286,25 @@ public class PlayerPanel extends VamixPanel implements ActionListener, ChangeLis
 	 * @return
 	 */
 	public long getLength(){
-		return _player.getMediaPlayer().getLength()/1000;
+		return player.getMediaPlayer().getLength()/1000;
 	}
 	
 	/**
 	 * destroys all active non-automatically closing parts of playerpanel
 	 */
 	public void destroy(){
-		_player.getMediaPlayer().mute(false);
-		_playPause.doClick();
-		_player.getMediaPlayer().stop();
-		_player.getMediaPlayer().release();
-		_timerForUpdatePlay.stop();
+		player.getMediaPlayer().mute(false);
+		playPause.doClick();
+		player.getMediaPlayer().stop();
+		player.getMediaPlayer().release();
+		timerForUpdatePlay.stop();
 	}
 	
 	public void resetPlayer(){
-		_player.getMediaPlayer().playMedia(_file.getAbsolutePath());
+		player.getMediaPlayer().playMedia(file.getAbsolutePath());
 	}
 	
 	public File getFile(){
-		return _file;
+		return file;
 	}
 }

@@ -40,131 +40,131 @@ public class TextPanel extends VamixPanel implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	private File _file;
+	private File file;
 	
-	private VAMIX _main;
+	private VAMIX main;
 	
 	//Lists containing font options
-	private String[] _fonts = {"Mono", "MonoBold", "Sans", "SansBold", "Serif", "SerifBold"};
-	private String[] _fontColours = {"White", "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Violet"};
-	private Integer[] _fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60, 66, 72};
+	private String[] fonts = {"Mono", "MonoBold", "Sans", "SansBold", "Serif", "SerifBold"};
+	private String[] fontColours = {"White", "Black", "Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Violet"};
+	private Integer[] fontSizes = {16, 18, 20, 22, 24, 28, 32, 36, 40, 44, 48, 54, 60, 66, 72};
 	
-	private JLabel _openLabel = new JLabel("Opening Text - Max 80 characters");
-	private JTextArea _openText = new JTextArea("Enter Text Here");
-	
-	
-	private JLabel _creditLabel = new JLabel("Closing Text - Max 80 characters");
-	private JTextArea _creditText = new JTextArea("Enter Text Here");
+	private JLabel openLabel = new JLabel("Opening Text - Max 80 characters");
+	private JTextArea openText = new JTextArea("Enter Text Here");
 	
 	
-	private boolean _openClicked = false;
-	private boolean _creditClicked = false;
-	private final JComboBox<String> _openFont = new JComboBox<String>(_fonts);
-	private final JComboBox<Integer> _openSize = new JComboBox<Integer>(_fontSizes);
-	private final JComboBox<String> _openColour = new JComboBox<String>(_fontColours);
-	private final JComboBox<String> _creditFont = new JComboBox<String>(_fonts);
-	private final JComboBox<Integer> _creditSize = new JComboBox<Integer>(_fontSizes);
-	private final JComboBox<String> _creditColour = new JComboBox<String>(_fontColours);
-	private final JButton _btnLoadState = new JButton("Load State");
-	private final JButton _btnAddText = new JButton("Add text");
-	private final JButton _btnSaveButton = new JButton("Save State");
-	private final JButton _btnPreview = new JButton("Preview");
-	private final JProgressBar _progress = new JProgressBar();
-	private final JTextField _outname = new JTextField();
-	private EmbeddedMediaPlayerComponent mp;
+	private JLabel creditLabel = new JLabel("Closing Text - Max 80 characters");
+	private JTextArea creditText = new JTextArea("Enter Text Here");
 	
-	JFrame _previewFrame;
+	
+	private boolean booOpenClicked = false;
+	private boolean booCreditClicked = false;
+	private final JComboBox<String> openFontCombo = new JComboBox<String>(fonts);
+	private final JComboBox<Integer> openSizeCombo = new JComboBox<Integer>(fontSizes);
+	private final JComboBox<String> openColourCombo = new JComboBox<String>(fontColours);
+	private final JComboBox<String> creditFontCombo = new JComboBox<String>(fonts);
+	private final JComboBox<Integer> creditSizeCombo = new JComboBox<Integer>(fontSizes);
+	private final JComboBox<String> creditColourCombo = new JComboBox<String>(fontColours);
+	private final JButton btnLoadState = new JButton("Load State");
+	private final JButton btnAddText = new JButton("Add text");
+	private final JButton btnSaveButton = new JButton("Save State");
+	private final JButton btnPreview = new JButton("Preview");
+	private final JProgressBar progressBar = new JProgressBar();
+	private final JTextField outnameTextField = new JTextField();
+	private EmbeddedMediaPlayerComponent mediaComponent;
+	
+	JFrame previewFrame;
 
-	public TextPanel(VAMIX main){
-		_progress.setBounds(300,158,200,19);
-		_progress.setIndeterminate(true);
-		_progress.setVisible(false);
-		add(_progress);
-		_btnPreview.setEnabled(false);
-		_btnAddText.setEnabled(false);
+	public TextPanel(VAMIX m){
+		progressBar.setBounds(300,158,200,19);
+		progressBar.setIndeterminate(true);
+		progressBar.setVisible(false);
+		add(progressBar);
+		btnPreview.setEnabled(false);
+		btnAddText.setEnabled(false);
 		setBackground(Color.LIGHT_GRAY);
 		//Set main
-		_main = main;
-		_openText.setBounds(12, 26, 257, 124);
+		main = m;
+		openText.setBounds(12, 26, 257, 124);
 		
 		//Adding opening text options
-		_openText.setPreferredSize(new Dimension(600,19));
-		_openText.setLineWrap(true);
+		openText.setPreferredSize(new Dimension(600,19));
+		openText.setLineWrap(true);
 		setLayout(null);
-		_openLabel.setBounds(12, 5, 250, 15);
-		add(_openLabel);
-		add(_openText);
+		openLabel.setBounds(12, 5, 250, 15);
+		add(openLabel);
+		add(openText);
 		//Logic that makes the enter text message vanish when clicked
-		_openText.addMouseListener(new MouseAdapter(){
+		openText.addMouseListener(new MouseAdapter(){
 			@Override
             public void mouseClicked(MouseEvent e){
-				if(!_openClicked){
-					_openText.setText("");
-					_openClicked = true;
+				if(!booOpenClicked){
+					openText.setText("");
+					booOpenClicked = true;
 				}
             }
 		});
-		_openText.setDocument(new JTextFieldLimit(80));
-		_creditText.setBounds(387, 26, 268, 124);
+		openText.setDocument(new JTextFieldLimit(80));
+		creditText.setBounds(387, 26, 268, 124);
 		
 		//Adding closing text options
-		_creditText.setPreferredSize(new Dimension(600,19));
-		_creditText.setLineWrap(true);
-		_creditText.setDocument(new JTextFieldLimit(80));
-		_creditLabel.setBounds(388, 5, 250, 15);
-		add(_creditLabel);
-		add(_creditText);
+		creditText.setPreferredSize(new Dimension(600,19));
+		creditText.setLineWrap(true);
+		creditText.setDocument(new JTextFieldLimit(80));
+		creditLabel.setBounds(388, 5, 250, 15);
+		add(creditLabel);
+		add(creditText);
 		
-		_openFont.setBounds(281, 26, 94, 24);
-		add(_openFont);
-		_openSize.setBounds(281, 64, 94, 24);
+		openFontCombo.setBounds(281, 26, 94, 24);
+		add(openFontCombo);
+		openSizeCombo.setBounds(281, 64, 94, 24);
 		
-		add(_openSize);
-		_openColour.setBounds(281, 101, 94, 24);
+		add(openSizeCombo);
+		openColourCombo.setBounds(281, 101, 94, 24);
 		
-		add(_openColour);
-		_creditFont.setBounds(667, 26, 94, 24);
+		add(openColourCombo);
+		creditFontCombo.setBounds(667, 26, 94, 24);
 		
-		add(_creditFont);
-		_creditSize.setBounds(667, 64, 94, 24);
+		add(creditFontCombo);
+		creditSizeCombo.setBounds(667, 64, 94, 24);
 		
-		add(_creditSize);
-		_creditColour.setBounds(667, 101, 94, 24);
+		add(creditSizeCombo);
+		creditColourCombo.setBounds(667, 101, 94, 24);
 		
-		add(_creditColour);
-		
-		
-		_btnSaveButton.setBounds(12, 154, 117, 25);
-		add(_btnSaveButton);
-		_btnSaveButton.addActionListener(this);
-		_btnLoadState.setBounds(152, 154, 117, 25);
-		
-		add(_btnLoadState);
-		_btnLoadState.addActionListener(this);
-		_btnAddText.setBounds(644, 154, 117, 25);
-		
-		add(_btnAddText);
-		_btnAddText.addActionListener(this);
+		add(creditColourCombo);
 		
 		
-		_btnPreview.setBounds(515, 154, 117, 25);
-		add(_btnPreview);
-		_btnPreview.addActionListener(this);
+		btnSaveButton.setBounds(12, 154, 117, 25);
+		add(btnSaveButton);
+		btnSaveButton.addActionListener(this);
+		btnLoadState.setBounds(152, 154, 117, 25);
+		
+		add(btnLoadState);
+		btnLoadState.addActionListener(this);
+		btnAddText.setBounds(644, 154, 117, 25);
+		
+		add(btnAddText);
+		btnAddText.addActionListener(this);
+		
+		
+		btnPreview.setBounds(515, 154, 117, 25);
+		add(btnPreview);
+		btnPreview.addActionListener(this);
 		
 		JLabel outnamelabel = new JLabel("Outname: ");
 		outnamelabel.setBounds(430,182,180,20);
 		outnamelabel.setBackground(Color.LIGHT_GRAY);
 		add(outnamelabel);
-		_outname.setBounds(515,182,245,18);
-		add(_outname);
+		outnameTextField.setBounds(515,182,245,18);
+		add(outnameTextField);
 		
 		//Logic that makes the enter text message vanish when clicked
-		_creditText.addMouseListener(new MouseAdapter(){
+		creditText.addMouseListener(new MouseAdapter(){
 			@Override
             public void mouseClicked(MouseEvent e){
-				if(!_creditClicked){
-					_creditText.setText("");
-					_creditClicked = true;
+				if(!booCreditClicked){
+					creditText.setText("");
+					booCreditClicked = true;
 				}
             }
 		});	
@@ -186,8 +186,8 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		}
 		
 		protected void done(){
-			_progress.setVisible(false);
-			_btnAddText.setEnabled(true);
+			progressBar.setVisible(false);
+			btnAddText.setEnabled(true);
 			try {
 				if(get() == 0){
 					//Executed successfully
@@ -219,60 +219,60 @@ public class TextPanel extends VamixPanel implements ActionListener{
 		//returns the textpanels needed cmd information
 		protected Integer doInBackground() throws Exception {
 			
-			bashCommand("avconv -y -ss 00:00:00 -i " + _file + " -codec copy -t 00:00:06 .temp.mp4");
+			bashCommand("avconv -y -ss 00:00:00 -i " + file + " -codec copy -t 00:00:06 .temp.mp4");
 			int result = bashCommand(cmd);
 			return result;
 		}
 		
 		protected void done(){
 			//Enable the button again
-			_progress.setVisible(false);
-			_btnPreview.setEnabled(true);
+			progressBar.setVisible(false);
+			btnPreview.setEnabled(true);
 			
-			_previewFrame = new JFrame();
+			previewFrame = new JFrame();
 			
 			//Display the preview video on a new frame
-			_previewFrame.setBounds(100,100,420,300);
-			mp = new EmbeddedMediaPlayerComponent();
-			mp.setBounds(0,0,420,300);
-			_previewFrame.add(mp);
-			_previewFrame.setVisible(true);			
-			mp.getMediaPlayer().playMedia(".preview.mp4");
+			previewFrame.setBounds(100,100,420,300);
+			mediaComponent = new EmbeddedMediaPlayerComponent();
+			mediaComponent.setBounds(0,0,420,300);
+			previewFrame.add(mediaComponent);
+			previewFrame.setVisible(true);			
+			mediaComponent.getMediaPlayer().playMedia(".preview.mp4");
 			
 		}
 	}
 	
-	public void newInput(File file,Boolean boo) {
+	public void newInput(File f,Boolean boo) {
 		//Set the current file to the _file field
 		if(boo){
-			_btnPreview.setEnabled(true);
-			_btnAddText.setEnabled(true);
+			btnPreview.setEnabled(true);
+			btnAddText.setEnabled(true);
 		}else{
-			_btnPreview.setEnabled(false);
-			_btnAddText.setEnabled(false);
+			btnPreview.setEnabled(false);
+			btnAddText.setEnabled(false);
 		}
-		_file = file;
+		file = f;
 	}
 	
 	/**
 	 * Closes the preview panel if it's open
 	 */
 	public void destroy(){
-		mp.getMediaPlayer().stop();
-		mp.release();		
+		mediaComponent.getMediaPlayer().stop();
+		mediaComponent.release();		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource().equals(_btnAddText)){
+		if(e.getSource().equals(btnAddText)){
 			
-			if(!_outname.getText().equals("")){
-				_progress.setVisible(true);
+			if(!outnameTextField.getText().equals("")){
+				progressBar.setVisible(true);
 				//Check if the given output name exists already
-				File output = new File(_outname.getText() + ".mp3");
+				File output = new File(outnameTextField.getText() + ".mp3");
 				int optionPicked = 0;
-				if(output.getName().equals(_file.getName())){
+				if(output.getName().equals(file.getName())){
 					Object[] options = {"Ok"};
 					JOptionPane.showOptionDialog(this,
 				    "The filename is the same as the file you input. Change please.","Option",JOptionPane.OK_OPTION,
@@ -281,7 +281,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					//Ask if we wish to overwrite the file
 					Object[] options = {"Overwrite","Don't overwrite"};
 					optionPicked = JOptionPane.showOptionDialog(this,
-				    "Do you wish to also save audio?","Option",JOptionPane.YES_NO_OPTION,
+				    "Do you wish to overwrite existing file?","Option",JOptionPane.YES_NO_OPTION,
 				    JOptionPane.QUESTION_MESSAGE,null,options,null);
 					
 					if(optionPicked != 1){
@@ -294,66 +294,66 @@ public class TextPanel extends VamixPanel implements ActionListener{
 						//Check if the user has entered text in each field
 						boolean startText = false;
 						boolean endText = false;
-						if(!_openText.getText().equals("") && _openClicked){
+						if(!openText.getText().equals("") && booOpenClicked){
 							startText = true;
 						}
-						if(!_creditText.getText().equals("") && _creditClicked){
+						if(!creditText.getText().equals("") && booCreditClicked){
 							endText = true;
 						}
 						
 						//Check that any input was given
 						if(startText || endText){
 							
-							String cmd = "avconv -i " + _file + " -y -strict experimental -vf \"";
+							String cmd = "avconv -i " + file + " -y -strict experimental -vf \"";
 							String oFilter = "";
 							String eFilter = "";
 							
 							//Get the input variables if required
 							if(startText){
 								//Get selected font
-								String oFont = (String) _openFont.getSelectedItem();
+								String oFont = (String) openFontCombo.getSelectedItem();
 								oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".ttf"; //I know this is cheap but it works
 								
 								//Get font size
-								int oSize = (int) _openSize.getSelectedItem();
+								int oSize = (int) openSizeCombo.getSelectedItem();
 								
 								//Get font colour
-								String oColour = (String) _openColour.getSelectedItem();
+								String oColour = (String) openColourCombo.getSelectedItem();
 								oColour = oColour.toLowerCase();
 								
 								//Set up the command
-								oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
+								oFilter = "drawtext=fontfile='" + oFont + "':text='" + openText.getText() + 
 										"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,10)'";
 							}
 							if(endText){
 								//Get selected font
-								String eFont = (String) _creditFont.getSelectedItem();
+								String eFont = (String) creditFontCombo.getSelectedItem();
 								eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".ttf"; //I know this is cheap but it works
 								
 								//Get font size
-								int eSize = (int) _creditSize.getSelectedItem();
+								int eSize = (int) creditSizeCombo.getSelectedItem();
 								
 								//Get font colour
-								String eColour = (String) _creditColour.getSelectedItem();
+								String eColour = (String) creditColourCombo.getSelectedItem();
 								eColour = eColour.toLowerCase();
 								
 								//Set up the command
-								eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
+								eFilter = "drawtext=fontfile='" + eFont + "':text='" + creditText.getText() + 
 										"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t," +
-										(_main.getLength()-10) + ")'";
+										(main.getLength()-10) + ")'";
 							}
 							
 							if(startText && endText){
 								//Both start and end text
-								cmd = cmd + oFilter + ", " + eFilter + "\" " + _outname + ".mp4";
+								cmd = cmd + oFilter + ", " + eFilter + "\" " + outnameTextField + ".mp4";
 							}else{
 								//Only one text
-								cmd = cmd + oFilter + eFilter + "\" " + _outname + ".mp4";
+								cmd = cmd + oFilter + eFilter + "\" " + outnameTextField + ".mp4";
 							}
 							
 							//Send the command to bash
-							_btnAddText.setEnabled(false);
-							_progress.setVisible(true);
+							btnAddText.setEnabled(false);
+							progressBar.setVisible(true);
 							TextWorker worker = new TextWorker(cmd);
 							worker.execute();
 							System.out.println(cmd);
@@ -370,19 +370,19 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				//No output name specified
 				JOptionPane.showMessageDialog(null, "Please specify an output name");
 			}
-			_progress.setVisible(false);
+			progressBar.setVisible(false);
 		}
-		else if(e.getSource().equals(_btnSaveButton)){
+		else if(e.getSource().equals(btnSaveButton)){
 			//Save current state of VAMIX to a file
 			String projName = JOptionPane.showInputDialog("Save file as?");
-			String state = "oText=" + _openText.getText() + "\n" + 
-			"oFont=" + _openFont.getSelectedIndex() + "\n" + 
-			"oSize=" + _openSize.getSelectedIndex() + "\n" +
-			"oColr=" + _openColour.getSelectedIndex() + "\n" +
-			"cText=" + _creditText.getText() + "\n" +
-			"cFont=" + _creditFont.getSelectedIndex() + "\n" + 
-			"cSize=" + _creditSize.getSelectedIndex() + "\n" +
-			"cColr=" + _creditColour.getSelectedIndex();
+			String state = "oText=" + openText.getText() + "\n" + 
+			"oFont=" + openFontCombo.getSelectedIndex() + "\n" + 
+			"oSize=" + openSizeCombo.getSelectedIndex() + "\n" +
+			"oColr=" + openColourCombo.getSelectedIndex() + "\n" +
+			"cText=" + creditText.getText() + "\n" +
+			"cFont=" + creditFontCombo.getSelectedIndex() + "\n" + 
+			"cSize=" + creditSizeCombo.getSelectedIndex() + "\n" +
+			"cColr=" + creditColourCombo.getSelectedIndex();
 			
 			//Write the current state to a file, logic from 
 			//http://stackoverflow.com/questions/2885173/java-how-to-create-and-write-to-a-file
@@ -400,7 +400,7 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			writer.close();
 		}
 		
-		else if(e.getSource().equals(_btnLoadState)){
+		else if(e.getSource().equals(btnLoadState)){
 			JFileChooser fc = new JFileChooser();
 			fc.showOpenDialog(this);
 			
@@ -419,45 +419,45 @@ public class TextPanel extends VamixPanel implements ActionListener{
 					case("oText"):
 						if(line.length() < 7){
 							//Text field was empty
-							_openText.setText("");
+							openText.setText("");
 						}else{
-							_openText.setText(line.substring(6));
-							_openClicked = true;
+							openText.setText(line.substring(6));
+							booOpenClicked = true;
 						}
 					break;
 					
 					case("oFont"):
-						_openFont.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						openFontCombo.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
 					break;
 					
 					case("oSize"):
-						_openSize.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						openSizeCombo.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
 					break;
 				
 					case("oColr"):
-						_openColour.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						openColourCombo.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
 					break;
 					
 					case("cText"):
 						if(line.length() < 7){
 							//Text field was empty
-							_creditText.setText("");
+							creditText.setText("");
 						}else{
-							_creditText.setText(line.substring(6));
-							_creditClicked = true;
+							creditText.setText(line.substring(6));
+							booCreditClicked = true;
 						}
 					break;
 					
 					case("cFont"):
-						_creditFont.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						creditFontCombo.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
 					break;
 					
 					case("cSize"):
-						_creditSize.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						creditSizeCombo.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
 					break;
 					
 					case("cColr"):
-						_creditColour.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
+						creditColourCombo.setSelectedIndex(Integer.parseInt(line.substring(6, 7)));
 					break;
 					}
 					
@@ -474,18 +474,18 @@ public class TextPanel extends VamixPanel implements ActionListener{
 			}
 		}
 		
-		else if(e.getSource().equals(_btnPreview)){
+		else if(e.getSource().equals(btnPreview)){
 			//Disable preview button
-			_btnPreview.setEnabled(false);
-			_progress.setVisible(true);
+			btnPreview.setEnabled(false);
+			progressBar.setVisible(true);
 			
 			//Check if the user has entered text in each field
 			boolean startText = false;
 			boolean endText = false;
-			if(!_openText.getText().equals("") && _openClicked){
+			if(!openText.getText().equals("") && booOpenClicked){
 				startText = true;
 			}
-			if(!_creditText.getText().equals("") && _creditClicked){
+			if(!creditText.getText().equals("") && booCreditClicked){
 				endText = true;
 			}
 			
@@ -499,34 +499,34 @@ public class TextPanel extends VamixPanel implements ActionListener{
 				//Get the input variables if required
 				if(startText){
 					//Get selected font
-					String oFont = (String) _openFont.getSelectedItem();
+					String oFont = (String) openFontCombo.getSelectedItem();
 					oFont = "/usr/share/fonts/truetype/freefont/Free" + oFont + ".ttf"; //I know this is cheap but it works
 					
 					//Get font size
-					int oSize = (int) _openSize.getSelectedItem();
+					int oSize = (int) openSizeCombo.getSelectedItem();
 					
 					//Get font colour
-					String oColour = (String) _openColour.getSelectedItem();
+					String oColour = (String) openColourCombo.getSelectedItem();
 					oColour = oColour.toLowerCase();
 					
 					//Set up the command
-					oFilter = "drawtext=fontfile='" + oFont + "':text='" + _openText.getText() + 
+					oFilter = "drawtext=fontfile='" + oFont + "':text='" + openText.getText() + 
 							"':fontsize=" + oSize + ":fontcolor=" + oColour + ":draw='lt(t,3)'";
 				}
 				if(endText){
 					//Get selected font
-					String eFont = (String) _creditFont.getSelectedItem();
+					String eFont = (String) creditFontCombo.getSelectedItem();
 					eFont = "/usr/share/fonts/truetype/freefont/Free" + eFont + ".ttf"; //I know this is cheap but it works
 					
 					//Get font size
-					int eSize = (int) _creditSize.getSelectedItem();
+					int eSize = (int) creditSizeCombo.getSelectedItem();
 					
 					//Get font colour
-					String eColour = (String) _creditColour.getSelectedItem();
+					String eColour = (String) creditColourCombo.getSelectedItem();
 					eColour = eColour.toLowerCase();
 					
 					//Set up the command
-					eFilter = "drawtext=fontfile='" + eFont + "':text='" + _creditText.getText() + 
+					eFilter = "drawtext=fontfile='" + eFont + "':text='" + creditText.getText() + 
 							"':fontsize=" + eSize + ":fontcolor=" + eColour + ":draw='gt(t,3)'";
 				}
 				

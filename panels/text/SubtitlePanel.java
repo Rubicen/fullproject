@@ -29,11 +29,11 @@ import panels.player.PlayerPanel;
 @SuppressWarnings("serial")
 public class SubtitlePanel extends VamixPanel implements ActionListener{
 	
-	JTextArea _textArea = new JTextArea();
-	JScrollPane _scrollPane = new JScrollPane(_textArea);
-	JButton _save = new JButton("Save");
-	String _name;
-	String _fileName;
+	JTextArea textArea = new JTextArea();
+	JScrollPane scrollPane = new JScrollPane(textArea);
+	JButton saveButton = new JButton("Save");
+	String name;
+	String fileName;
 	MaskFormatter mask = new MaskFormatter("##:##:##,###");
 	File f;
 	private final JFormattedTextField txtStart;
@@ -43,16 +43,16 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 	private final JLabel lblEndTime = new JLabel("End time");
 	private final JLabel lblColour = new JLabel("Colour: ");
 	private JTextField subtitleText;
-	JButton _generate;
-	JComboBox<?> _colourCombo;
-	JButton _update;
-	private final JButton questionmarkbutton = new JButton("?");
-	private final JSpinner numbervalue = new JSpinner();
-	PlayerPanel _player = new PlayerPanel();
+	JButton generateButton;
+	JComboBox<?> colourCombo;
+	JButton updateButton;
+	private final JButton questionMarkButton = new JButton("?");
+	private final JSpinner numberValueSpinner = new JSpinner();
+	PlayerPanel player = new PlayerPanel();
 	private JTextField txtLong;
 	
-	public SubtitlePanel(PlayerPanel player) throws ParseException{
-		_player = player;
+	public SubtitlePanel(PlayerPanel p) throws ParseException{
+		player = p;
 		mask.setPlaceholderCharacter('0');
 		txtStart = new JFormattedTextField(mask);
 		txtEnd = new JFormattedTextField(mask);
@@ -63,18 +63,18 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		setBackground(Color.LIGHT_GRAY);
 		setPreferredSize(new Dimension(794, 200));
 		setLayout(null);
-		_scrollPane.setBackground(UIManager.getColor("Button.background"));
-		_scrollPane.setBounds(12, 14, 400, 154);
-		_scrollPane.setPreferredSize(new Dimension(600,180));
-		add(_scrollPane);
+		scrollPane.setBackground(UIManager.getColor("Button.background"));
+		scrollPane.setBounds(12, 14, 400, 154);
+		scrollPane.setPreferredSize(new Dimension(600,180));
+		add(scrollPane);
 				
-		_save.setBounds(12, 175, 117, 25);
-		_save.addActionListener(this);
-		add(_save);
+		saveButton.setBounds(12, 175, 117, 25);
+		saveButton.addActionListener(this);
+		add(saveButton);
 		
 		SpinnerModel model = new SpinnerNumberModel(0,0,99999,1);
-		numbervalue.setModel(model);
-		add(numbervalue);
+		numberValueSpinner.setModel(model);
+		add(numberValueSpinner);
 		
 		JLabel lblNumber = new JLabel("Number:");
 		lblNumber.setBounds(448, 15, 70, 15);
@@ -84,14 +84,14 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		
 		add(txtEnd);
 		
-		_generate = new JButton("Generate");
-		_generate.setBounds(628, 175, 117, 25);
-		add(_generate);
+		generateButton = new JButton("Generate");
+		generateButton.setBounds(628, 175, 117, 25);
+		add(generateButton);
 		
-		_update = new JButton("Update");
-		_update.setBounds(141, 175, 117, 25);
-		_update.addActionListener(this);
-		add(_update);
+		updateButton = new JButton("Update");
+		updateButton.setBounds(141, 175, 117, 25);
+		updateButton.addActionListener(this);
+		add(updateButton);
 		lblStartTime.setBounds(448, 42, 90, 15);
 		
 		add(lblStartTime);
@@ -99,9 +99,9 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		
 		add(lblEndTime);
 		
-		_colourCombo = new JComboBox<Object>(colours);
-		_colourCombo.setBounds(518, 87, 90, 24);
-		add(_colourCombo);
+		colourCombo = new JComboBox<Object>(colours);
+		colourCombo.setBounds(518, 87, 90, 24);
+		add(colourCombo);
 		lblColour.setBounds(448, 92, 70, 15);
 		
 		add(lblColour);
@@ -115,14 +115,14 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		lblSubtitle.setBounds(448, 119, 70, 15);
 		add(lblSubtitle);
 		
-		_generate.addActionListener(this);
-		questionmarkbutton.setBounds(700, 10, 48, 25);
+		generateButton.addActionListener(this);
+		questionMarkButton.setBounds(700, 10, 48, 25);
 		
-		add(questionmarkbutton);
-		questionmarkbutton.addActionListener(this);
-		numbervalue.setBounds(521, 13, 64, 20);
+		add(questionMarkButton);
+		questionMarkButton.addActionListener(this);
+		numberValueSpinner.setBounds(521, 13, 64, 20);
 		
-		add(numbervalue);
+		add(numberValueSpinner);
 		
 		txtLong = new JTextField();
 		txtLong.setBounds(298, 175, 114, 19);
@@ -131,38 +131,37 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		txtLong.setFocusable(false);
 		
 	
-		_save.setEnabled(false);
-		_textArea.setEnabled(false);
-		_generate.setEnabled(false);
-		_update.setEnabled(false);
+		saveButton.setEnabled(false);
+		textArea.setEnabled(false);
+		generateButton.setEnabled(false);
+		updateButton.setEnabled(false);
 	}
 	
 	
 	
 	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource().equals(_save)){
+		if(arg0.getSource().equals(saveButton)){
 			try {
 				
 				if(!f.equals(null)){
 					FileWriter write = new FileWriter(f);
-					write.append(_textArea.getText());
+					write.append(textArea.getText());
 					write.close();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}else if(arg0.getSource().equals(_generate)){
+		}else if(arg0.getSource().equals(generateButton)){
 			if(subtitleText.getText().equals(null)||subtitleText.getText().equals("")){
 				//do nothing
 			}else{
-				_textArea.append(numbervalue.getValue()+"\n");
-				_textArea.append(txtStart.getText()+" --> "+txtEnd.getText()+"\n");
-				_textArea.append("<font color=\""+_colourCombo.getSelectedItem()+"\">"+"\n");
-				_textArea.append(subtitleText.getText()+"\n");
-//				_textArea.append("<\\font>\n");
-				_textArea.append("\n");
+				textArea.append(numberValueSpinner.getValue()+"\n");
+				textArea.append(txtStart.getText()+" --> "+txtEnd.getText()+"\n");
+				textArea.append("<font color=\""+colourCombo.getSelectedItem()+"\">"+"\n");
+				textArea.append(subtitleText.getText()+"\n");
+				textArea.append("\n");
 			}
-		}else if(arg0.getSource().equals(questionmarkbutton)){
+		}else if(arg0.getSource().equals(questionMarkButton)){
 			Object[] options = {"Ok"};
 			@SuppressWarnings("unused")
 			int optionPicked = JOptionPane.showOptionDialog(null,
@@ -180,8 +179,8 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		    "loaded video file. If you have issues, refer to the manual for\n" +
 		    "more information.","Instructions and Help",JOptionPane.YES_OPTION,
 		    JOptionPane.QUESTION_MESSAGE,null,options,null);
-		}else if(arg0.getSource().equals(_update)){
-			_player.resetPlayer();
+		}else if(arg0.getSource().equals(updateButton)){
+			player.resetPlayer();
 		}
 		
 	}
@@ -194,13 +193,13 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		
 		if(boo){
 			setAllEnabled();
-			txtLong.setText(""+_player.getLength()+"s long");
+			txtLong.setText(""+player.getLength()+"s long");
 			String tempname = file.getPath();
-			_fileName = file.getPath().split("\\.(?=[^\\.]+$)")[0];
+			fileName = file.getPath().split("\\.(?=[^\\.]+$)")[0];
 			if(tempname.contains(".")){
 				String[] nametemp = tempname.split("\\.(?=[^\\.]+$)");
-				_name = nametemp[0];
-				f = new File(_name+".srt");
+				name = nametemp[0];
+				f = new File(name+".srt");
 				String text;
 				if(f.exists()){
 					try{
@@ -210,7 +209,7 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 						read.read(chars);
 						text = new String(chars);
 						read.close();				
-						_textArea.setText(text);
+						textArea.setText(text);
 					}catch(IOException e){
 						e.printStackTrace();
 					}
@@ -223,16 +222,16 @@ public class SubtitlePanel extends VamixPanel implements ActionListener{
 		
 	}
 	public void setAllEnabled(){
-		_save.setEnabled(true);
-		_textArea.setEnabled(true);
-		_generate.setEnabled(true);
-		_update.setEnabled(true);
+		saveButton.setEnabled(true);
+		textArea.setEnabled(true);
+		generateButton.setEnabled(true);
+		updateButton.setEnabled(true);
 	}
 	
 	public void setAllDisabled(){
-		_save.setEnabled(false);
-		_textArea.setEnabled(false);
-		_generate.setEnabled(false);
-		_update.setEnabled(false);
+		saveButton.setEnabled(false);
+		textArea.setEnabled(false);
+		generateButton.setEnabled(false);
+		updateButton.setEnabled(false);
 	}
 }
